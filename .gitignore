@@ -37,7 +37,7 @@ Thumbs.db
 # qtcreator generated files
 *.pro.user*
 
-# xemacs temporary files
+# xemacs temporary files (WTF)
 *.flc
 
 # Vim temporary files
@@ -62,7 +62,7 @@ Thumbs.db
 *.Debug
 *.Release
 
-# Python byte code
+# Python byte code (nope please)
 *.pyc
 
 # Binaries
@@ -71,3 +71,7 @@ Thumbs.db
 *.exe
 
 PhysiK.*
+
+#generated documentation file
+html
+index.html

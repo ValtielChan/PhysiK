@@ -1,0 +1,134 @@
+body, 
+.directory tr.even,
+.memberdecls td,
+.fieldtable tr
+{
+    background-color:#ddd;
+}
+div.header,
+div.headertitle,
+.memberdecls td,
+.directory td.entry
+{
+    transition: color 0.5s;
+    background-color:#ddd;
+    color:#977;
+}
+.directory tr:hover td.entry,
+.memberdecls tr:hover td,
+.memberdecls tr[class*=memitem] td{
+  color:black;
+}
+div.qindex,.memdoc{
+    background-color:#fee;
+}
+pre.fragment{
+    border:none;
+    background-color:#ddd;
+    color:#44d;
+}
+.fragment{
+  min-width:701px;
+}
+.textblock > h3,
+div.summary{
+  display:none!important;
+}
+
+
+div.navtab > table> tbody > tr{
+  display: table-cell;
+  float: left;
+}
+
+body > div.contents > table > tbody > tr > td:nth-child(1) > div.navtab{
+  width:100%;
+  float: left;
+  display: table-cell;
+  background-image: url('tab_b.png');
+  list-style: none;
+  margin-bottom: 9px;
+}
+
+a.qindexHL{
+  background-image: url('tab_a.png');
+  background-repeat: repeat-x;
+  color: #fff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 1.0);
+}
+
+.qindex:hover{
+  background-image: url("tab_h.png");
+background-repeat: repeat-x;
+color: #FFF;
+text-shadow: 0px 1px 1px #000;
+text-decoration: none;
+}
+
+.qindex,.qindexHL {
+  background-color: transparent!important;
+  border: none!important;
+  line-height: 36px;
+  /*pb marge negative*/
+  margin-top: -5px;
+  margin-left: -10px;
+  margin-bottom: -6px;
+
+  display: block;
+  padding: 0 20px;
+  font-weight: bold;
+  background-image: url('tab_s.png');
+  background-repeat: no-repeat;
+  background-position: right;
+  color: #5D2828;
+  text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  outline: none;
+  
+}
+
+div.contents > table:not([class]) > tbody > tr > td:not([class]):nth-child(1){
+  display: inline-block;
+  width: 100%;
+}
+
+body > div.contents > table > tbody > tr > td.mempage{
+  width:100%;
+  display:block;
+}
+
+
+.navtab table tbody{
+  display: inline-block;
+}
+
+.contents > table{
+  width:100%;
+}
+.tablist li.current:hover a{
+  text-decoration:underline;
+}
+.memTemplParams,
+.memtemplate{
+  display:grid;
+  line-height: 10px;
+  color: #977!important;
+  /*#A24646*/
+}
+
+div.headertitle{
+  margin-top:0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+div.header{
+  border-bottom:none;
+}
+
+h2.groupheader{
+  margin-top: 0;
+}
+.memItemLeft{
+  min-width:220px;
+}

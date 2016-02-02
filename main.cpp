@@ -1,8 +1,6 @@
 #include <iostream>
-
-int main() {
-
-    std::cout << "Hello World !" << std::endl;
-
-    return 0;
+int main(void)
+{
+	std::cout<<"everythink is fine"<<std::endl;
+	return 0;
 }
