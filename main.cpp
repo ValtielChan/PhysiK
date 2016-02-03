@@ -1,6 +1,7 @@
-#include <iostream>
+#include <cstdio>
+
 int main(void)
 {
-	std::cout<<"everythink is fine"<<std::endl;
+	printf("Hello PhysiK World !");
 	return 0;
 }
