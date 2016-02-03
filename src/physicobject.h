@@ -5,6 +5,9 @@ namespace PhysiK {
 
 	class vec3;
 
+	/**
+	 * @brief Internal representation of an object
+	 */
 	class PhysicObject
 	{
 		private:
@@ -19,6 +22,9 @@ namespace PhysiK {
 
 		public:
 
+			/**
+			 * @brief return a pointer to the position of the vertex for the user
+			 */
 			vec3 * getData();
 
 			/**

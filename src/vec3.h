@@ -3,9 +3,19 @@
 
 namespace PhysiK {
 
+	/**
+	 * @brief A vertex
+	 */
 	class vec3
 	{
+
+		private:
+
+			unsigned int positions[3];
+
 		public:
+
+			vec3(const unsigned int fst, const unsigned int snd, const unsigned int thr);
 
 			/**
 			 * @brief hash the parameter
@@ -13,6 +23,11 @@ namespace PhysiK {
 			 * @return
 			 */
 			unsigned int operator()(const vec3& victim) const;
+
+			const unsigned int& operator[](const unsigned int offset) const;
+
+			unsigned int& operator[](const unsigned int offset);
+
 	};
 
 }

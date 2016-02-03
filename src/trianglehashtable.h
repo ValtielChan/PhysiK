@@ -10,6 +10,9 @@ namespace PhysiK {
 	class PhysicObject;
 	class Intersection;
 
+	/**
+	 * @brief Efficient data structure to generate intersection
+	 */
 	class TriangleHashTable
 	{
 
@@ -19,6 +22,10 @@ namespace PhysiK {
 
 		public:
 
+			/**
+			 * @brief guess what
+			 * @param intersections vector where to store the intersections
+			 */
 			void generateIntersection(std::vector<Intersection>& intersections);
 
 	};
