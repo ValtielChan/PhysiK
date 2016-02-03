@@ -3,6 +3,8 @@ TEMPLATE = lib
 CONFIG += staticlib
 CONFIG += c++11
 
+QMAKE_CXXFLAGS += -std=c++11
+
 QT -= core gui
 
 SOURCES += main.cpp \
