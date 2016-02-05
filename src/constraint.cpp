@@ -30,3 +30,18 @@ float PhysiK::Constraint::lambda(){
 	}
 	return eval()/sum;
 }
+
+PhysiK::DistanceConstraint::DistanceConstraint(PhysiK::vec3 pos1, PhysiK::vec3 pos2)
+{
+    positions.push_back(pos1);
+    positions.push_back(pos2);
+}
+
+float PhysiK::DistanceConstraint::eval()
+{
+    float xDiff = positions[0].x - positions[1].x;
+    float yDiff = positions[0].y - positions[1].y;
+    float zDiff = positions[0].z - positions[1].z;
+
+    return sqrt(xDiff*xDiff + yDiff*yDiff + zDiff*zDiff);
+}
