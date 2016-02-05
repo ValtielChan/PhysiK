@@ -6,7 +6,7 @@
 
 namespace PhysiK {
 
-	class Body;
+    class Body;
 	class ParticleGroup;
 	class PhysicObject;
 
@@ -18,19 +18,19 @@ namespace PhysiK {
 	{
 		private:
 
-			std::vector<PhysicObject *> PhysicObjecs;
+            std::vector<PhysicObject *> PhysicObjecs;
 
-			TriangleHashTable TNT;//kaboum
+            TriangleHashTable TNT;
 
-			Solver fortyTwo;//the solution
+            Solver solver;
 
-		public:
+        public:
 
 			/**
 			 * @brief add a body and generate the constraint to make a rigid body
 			 * @param body the body to add
 			 */
-			void addRigidBody(Body * body);
+            void addRigidBody(Body * body);
 
 			/**
 			 * @brief add a body and generate the constraint to make a soft body

@@ -9,7 +9,7 @@ namespace PhysiK {
 	/**
 	 * @brief Add topological information to a body
 	 */
-	class Body : PhysicObject
+    class Body : public PhysicObject
 	{
 		private:
 
@@ -19,7 +19,8 @@ namespace PhysiK {
 
 		public:
 
-			//the constructor miss
+            Body();
+            ~Body();
 
 			/**
 			 * @brief return a pointer to the triangle for the user
