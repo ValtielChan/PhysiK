@@ -1,4 +1,4 @@
 /**
  *@mainpage projet PhysiK
- * da funking masterpiece
+ * da fucking masterpiece
  */ 

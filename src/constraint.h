@@ -12,6 +12,9 @@ namespace PhysiK {
 	 */
 	class Constraint
 	{
+
+			friend class Solver;
+
 		private:
 
 			/**
@@ -24,19 +27,19 @@ namespace PhysiK {
 			/**
 			 * @brief Compute the value of the constraint to minimize
 			 */
-			virtual float eval();
+			virtual float eval() = 0;
 
 			/**
 			 * @brief Compute the value of the gradient
 			 * @param vertex the vertex where to compute the gradient
 			 */
-			virtual float grad(vec3 * vertex);
+			virtual vec3 grad(const vec3 * vertex);
 
 			/**
 			 * @brief Compute the value of lambda
-			 * @param vertex the vertex where to compute the lambda value
+			 * @warning there is a second definition of lambda with a sigma on the paper
 			 */
-			virtual float lambda(vec3 * vertex);
+			virtual float lambda();
 
 	};
 

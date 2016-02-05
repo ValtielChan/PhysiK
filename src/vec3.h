@@ -4,29 +4,39 @@
 namespace PhysiK {
 
 	/**
-	 * @brief A vertex
+	 * @brief A vertex with an omega value
 	 */
 	class vec3
 	{
 
-		private:
-
-			float positions[3];
-
 		public:
 
-			vec3(const float fst, const float snd, const float thr);
+			float x,y,z;
+			float omega;
+
+			vec3(const float fst = 0, const float snd = 0, const float thr = 0, const float omega = 0);
 
 			/**
 			 * @brief hash the parameter
 			 * @param victim the victim
-			 * @return
 			 */
 			unsigned int operator()(const vec3& victim) const;
 
 			const float& operator[](const unsigned int offset) const;
 
 			float& operator[](const unsigned int offset);
+
+			vec3 operator*(const float snd) const;
+
+			vec3 operator+(const vec3 snd) const;
+
+			vec3 operator/(const float snd) const;
+
+			vec3 operator-(const vec3 snd) const;
+
+			float length() const;
+
+			float setPos(const vec3 snd);
 
 	};
 
