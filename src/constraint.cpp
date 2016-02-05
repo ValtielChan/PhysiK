@@ -1,5 +1,6 @@
 #include "constraint.h"
 #include "vec3.h"
+#include <math.h>
 
 PhysiK::vec3 PhysiK::Constraint::grad(const vec3 *input){
 	const float epsilon = 0.1f;
@@ -31,7 +32,7 @@ float PhysiK::Constraint::lambda(){
 	return eval()/sum;
 }
 
-PhysiK::DistanceConstraint::DistanceConstraint(PhysiK::vec3 pos1, PhysiK::vec3 pos2)
+PhysiK::DistanceConstraint::DistanceConstraint(vec3 *pos1, vec3 *pos2)
 {
     positions.push_back(pos1);
     positions.push_back(pos2);
@@ -39,9 +40,9 @@ PhysiK::DistanceConstraint::DistanceConstraint(PhysiK::vec3 pos1, PhysiK::vec3 p
 
 float PhysiK::DistanceConstraint::eval()
 {
-    float xDiff = positions[0].x - positions[1].x;
-    float yDiff = positions[0].y - positions[1].y;
-    float zDiff = positions[0].z - positions[1].z;
+    float xDiff = positions[0]->x - positions[1]->x;
+    float yDiff = positions[0]->y - positions[1]->y;
+    float zDiff = positions[0]->z - positions[1]->z;
 
     return sqrt(xDiff*xDiff + yDiff*yDiff + zDiff*zDiff);
 }
