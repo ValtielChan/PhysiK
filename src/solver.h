@@ -22,7 +22,7 @@ namespace PhysiK {
 			/**
 			 * @brief Try to find a system where the value of the constraint are minimised
 			 */
-			void solve();
+			void solve(unsigned int nbIterations);
 
 			/**
 			 * @brief add a permanent constraint

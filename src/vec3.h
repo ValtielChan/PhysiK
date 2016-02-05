@@ -11,11 +11,11 @@ namespace PhysiK {
 
 		private:
 
-			unsigned int positions[3];
+			float positions[3];
 
 		public:
 
-			vec3(const unsigned int fst, const unsigned int snd, const unsigned int thr);
+			vec3(const float fst, const float snd, const float thr);
 
 			/**
 			 * @brief hash the parameter
@@ -24,9 +24,9 @@ namespace PhysiK {
 			 */
 			unsigned int operator()(const vec3& victim) const;
 
-			const unsigned int& operator[](const unsigned int offset) const;
+			const float& operator[](const unsigned int offset) const;
 
-			unsigned int& operator[](const unsigned int offset);
+			float& operator[](const unsigned int offset);
 
 	};
 

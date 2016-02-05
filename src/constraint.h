@@ -8,7 +8,7 @@ namespace PhysiK {
 
 
 	/**
-	 * @brief Compute the constraint (see 1st repport) to apply to the list of vertex
+	 * @brief Compute the constraint (see 1st report) to apply to the list of vertices
 	 */
 	class Constraint
 	{

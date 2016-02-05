@@ -11,7 +11,7 @@ namespace PhysiK {
 	class PhysicObject;
 
 	/**
-	 * @brief This class allow to add soft and hard bodies, particles, and compute
+	 * @brief This class allow to add soft and rigid bodies, particles, and compute
 	 * the main loop
 	 */
 	class ParticleSystem
