@@ -1,5 +1,5 @@
 #include "solver.h"
-#include "vec3.h"
+#include "particle.h"
 #include "constraint.h"
 
 void PhysiK::Solver::solve(unsigned int nbIterations){
@@ -15,11 +15,13 @@ void PhysiK::Solver::solve(unsigned int nbIterations){
 
 			float lambda = constraint->lambda();//ctrl-click to see warning please
 
-			for(vec3 * position: constraint->positions)
-				displacement.push_back(constraint->grad(position) * - lambda * position->omega);
+            for(Particle * position: constraint->positions)
+				displacement.push_back(constraint->grad(&(position->pos)) * - lambda * position->omega);
 
 			for(std::size_t i = 0 ; i < constraint->positions.size() ; i++)
-				constraint->positions[i]->setPos(displacement[i]);
+				constraint->positions[i]->pos=displacement[i];
+
+			displacement.clear();
 
 		}
 	}

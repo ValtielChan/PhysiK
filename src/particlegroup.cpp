@@ -1,22 +1,24 @@
 #include "particlegroup.h"
+#include "particle.h"
 
 PhysiK::ParticleGroup::ParticleGroup(int particleAmount, char* dataPtr, int dataStride,
               float particleRadius, float particleMass) :
     PhysicObject(),
-    nbParticles(particleAmount),
     mass(particleMass),
     radius(particleRadius)
 {
+    nbParticles = particleAmount;
     float omega = 1/mass;
-    PhysiK::PhysicObject::positions = new vec3[nbParticles];
+    PhysiK::PhysicObject::positions = new Particle[nbParticles];
     PhysiK::PhysicObject::oldPositions = new vec3[nbParticles];
     PhysiK::PhysicObject::velocities = new vec3[nbParticles];
-    for(in i=0; i<nbParticles; ++i)
+    for(int i=0; i<nbParticles; ++i)
     {
         float* ptr = (float*)dataPtr;
-        positions[i] = PhysiK::vec3(ptr[0], ptr[1], ptr[2], omega);
-        oldPositions[i] = positions[i];
-        velocities[i] = PhysiK::vec3(0, 0, 0, 0);
+        PhysiK::vec3 pos(ptr[0], ptr[1], ptr[2]);
+        positions[i] = PhysiK::Particle(pos, omega);
+        oldPositions[i] = pos;
+        velocities[i] = PhysiK::vec3(0, 0, 0);
         dataPtr += dataStride;
     }
 }

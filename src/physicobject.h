@@ -4,18 +4,19 @@
 namespace PhysiK {
 
 	class vec3;
+	class Particle;
 
 	/**
 	 * @brief Internal representation of an object
 	 */
 	class PhysicObject
-	{
+    {
         protected:
             PhysicObject();
 
 			unsigned int nbParticles;
 
-			vec3 * positions;
+			Particle * positions;
 
 			vec3 * oldPositions;
 
@@ -24,9 +25,9 @@ namespace PhysiK {
 		public:
 
 			/**
-			 * @brief return a pointer to the position of the vertex for the user
-			 */
-            vec3 * getPositions();
+             * @brief return a pointer to the position of the vertices for the user
+             */
+            Particle * getPositions();
 
 			/**
 			 * @brief make it virtual
@@ -36,6 +37,6 @@ namespace PhysiK {
 
 	};
 
-}
+	}
 
 #endif // PHYSICOBJECT_H

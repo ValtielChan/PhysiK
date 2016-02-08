@@ -1,6 +1,6 @@
 #include "physicobject.h"
 
-PhysiK::vec3 *PhysiK::PhysicObject::getPositions()
+PhysiK::Particle *PhysiK::PhysicObject::getPositions()
 {
-    return positions;
+	return positions;
 }
