@@ -36,12 +36,22 @@ void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 {
     PhysiK::PhysicObject *temp = body;
     physicObjecs.push_back(temp);
+
+    // Wait for soft constraints
 }
 
 void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
 {
-    /*::PhysicObject *temp = particle;
-    physicObjecs.push_back(temp);*/
+    PhysiK::PhysicObject *temp = particle;
+    physicObjecs.push_back(temp);
+
+    // Only basic collision constraints for now
+    Particle* bodyParticles = particle->getPositions();
+    int nbParticles = particle->nbParticles;
+
+    for(int i = 0; i < nbParticles; ++i)
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f, 1.f), 0.f));
+
 }
 
 void PhysiK::ParticleSystem::genIntersectionConstraint()

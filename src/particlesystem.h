@@ -5,6 +5,7 @@
 #include "solver.h"
 
 #include "body.h"
+#include "particlegroup.h"
 #include "particle.h"
 #include "constraint.h"
 #include "triangle.h"
@@ -43,7 +44,7 @@ namespace PhysiK {
 			void addSoftBody(Body * body);
 
 			/**
-			 * @brief add a particle system
+             * @brief add a particle group
 			 */
 			void addParticleGroup(ParticleGroup * particle);
 
