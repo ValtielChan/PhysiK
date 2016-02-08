@@ -1,11 +1,12 @@
 #ifndef CONSTRAINT_H
 #define CONSTRAINT_H
 #include <vector>
+#include "vec3.h"
 
 namespace PhysiK {
 
 	class vec3;
-    class Particle;
+	class Particle;
 
 	/**
 	 * @brief Compute the constraint (see 1st report) to apply to the list of vertices
@@ -20,7 +21,7 @@ namespace PhysiK {
 			/**
 			 * @brief the list of vertex
 			 */
-            std::vector<Particle *> positions;
+			std::vector<Particle *> positions;
 
 		public:
 
@@ -46,11 +47,36 @@ namespace PhysiK {
 	class DistanceConstraint : public Constraint
 	{
 		public:
-            DistanceConstraint(Particle *pos1, Particle *pos2);
+			DistanceConstraint(Particle *pos1, Particle *pos2);
 			float eval();
 	};
 
-	}
+	class CollisionConstraint : public Constraint{
+		private:
+			/**
+			 * @brief the normal of the plan
+			 * @warning the upper of the plan is in the direction of the normal
+			 */
+			vec3 normal;
+			/**
+			 * @brief displacement of the plan from the origin
+			 * compute it with pos.x * x + pos.y * y + pos.z*z where (x,y,z) is a point of the plan
+			 */
+			float delta;
+		public:
+			/**
+			 * @brief construct a CollisionConstraint with the equation of the plan
+			 */
+			CollisionConstraint(Particle *pos, vec3 normal, float delta);
+			/**
+			 * @brief construct a CollisionConstraint with a triangle.
+			 * the triangle is defined clock-wise (maybe) with tree vertices(pt1, pt2, pt3)
+			 */
+			CollisionConstraint(Particle *pos, vec3 pt1, vec3 pt2, vec3 pt3);
+			float eval();
+	};
+
+}
 
 
 #endif // CONSTRAINT_H

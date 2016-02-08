@@ -46,6 +46,19 @@ PhysiK::vec3 PhysiK::vec3::operator -(const vec3 value) const{
 	return to_return;
 }
 
+float PhysiK::vec3::length() const{
+	return std::sqrt(x*x+y*y+z*z);
+}
+
+PhysiK::vec3 PhysiK::vec3::cross(vec3 snd) const{
+	return vec3(
+				this->y*snd.z-this->z*snd.y,
+				this->z*snd.x-this->x*snd.z,
+				this->x*snd.y-this->y*snd.x
+				);
+}
+
+
 unsigned int PhysiK::vec3::operator ()(const vec3& v) const{
 	//hash basique en attendant de trouver mieux
 	float x=v.x,y=v.y,z=v.z;

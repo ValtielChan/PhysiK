@@ -15,7 +15,7 @@ void PhysiK::Solver::solve(unsigned int nbIterations){
 
 			float lambda = constraint->lambda();//ctrl-click to see warning please
 
-            for(Particle * position: constraint->positions)
+			for(Particle * position: constraint->positions)
 				displacement.push_back(constraint->grad(&(position->pos)) * - lambda * position->omega);
 
 			for(std::size_t i = 0 ; i < constraint->positions.size() ; i++)

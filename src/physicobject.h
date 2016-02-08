@@ -10,9 +10,9 @@ namespace PhysiK {
 	 * @brief Internal representation of an object
 	 */
 	class PhysicObject
-    {
-        protected:
-            PhysicObject();
+	{
+		protected:
+			PhysicObject();
 
 			unsigned int nbParticles;
 
@@ -25,9 +25,9 @@ namespace PhysiK {
 		public:
 
 			/**
-             * @brief return a pointer to the position of the vertices for the user
-             */
-            Particle * getPositions();
+			 * @brief return a pointer to the position of the vertices for the user
+			 */
+			Particle * getPositions();
 
 			/**
 			 * @brief make it virtual
