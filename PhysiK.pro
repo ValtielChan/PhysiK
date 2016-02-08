@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     src/particlesystem.cpp \
     src/trianglehashtable.cpp \
     src/solver.cpp \
-    src/intersection.cpp
+    src/intersection.cpp \
+    src/particle.cpp
 
 HEADERS += \
     src/triangle.h \
@@ -29,4 +30,5 @@ HEADERS += \
     src/particlesystem.h \
     src/trianglehashtable.h \
     src/solver.h \
-    src/intersection.h
+    src/intersection.h \
+    src/particle.h

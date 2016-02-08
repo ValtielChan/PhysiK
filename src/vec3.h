@@ -4,7 +4,7 @@
 namespace PhysiK {
 
 	/**
-	 * @brief A vertex with an omega value
+	 * @brief A vertex
 	 */
 	class vec3
 	{
@@ -12,15 +12,13 @@ namespace PhysiK {
 		public:
 
 			float x,y,z;
-			float omega;
 
-			vec3(const float fst = 0, const float snd = 0, const float thr = 0, const float omega = 0);
+			vec3(const float fst = 0, const float snd = 0, const float thr = 0);
 
 			/**
 			 * @brief hash the parameter
-			 * @param victim the victim
 			 */
-			unsigned int operator()(const vec3& victim) const;
+			unsigned int operator()(const vec3& to_hash) const;
 
 			const float& operator[](const unsigned int offset) const;
 
@@ -35,8 +33,6 @@ namespace PhysiK {
 			vec3 operator-(const vec3 snd) const;
 
 			float length() const;
-
-			float setPos(const vec3 snd);
 
 	};
 

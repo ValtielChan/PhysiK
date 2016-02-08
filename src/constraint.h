@@ -5,6 +5,7 @@
 namespace PhysiK {
 
 	class vec3;
+	class Particule;
 
 	/**
 	 * @brief Compute the constraint (see 1st report) to apply to the list of vertices
@@ -19,7 +20,7 @@ namespace PhysiK {
 			/**
 			 * @brief the list of vertex
 			 */
-			std::vector<vec3 *> positions;
+			std::vector<Particule *> positions;
 
 		public:
 
@@ -45,7 +46,7 @@ namespace PhysiK {
 	class DistanceConstraint : public Constraint
 	{
 		public:
-			DistanceConstraint(vec3 *pos1, vec3 *pos2);
+			DistanceConstraint(Particule *pos1, Particule *pos2);
 			float eval();
 	};
 

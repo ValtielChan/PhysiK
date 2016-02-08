@@ -4,6 +4,7 @@
 namespace PhysiK {
 
 	class vec3;
+	class Particle;
 
 	/**
 	 * @brief Internal representation of an object
@@ -14,7 +15,7 @@ namespace PhysiK {
 
 			unsigned int nbParticle;
 
-			vec3 * positions;
+			Particle * positions;
 
 			vec3 * oldPositions;
 

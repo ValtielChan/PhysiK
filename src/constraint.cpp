@@ -1,5 +1,5 @@
 #include "constraint.h"
-#include "vec3.h"
+#include "particle.h"
 #include <math.h>
 
 PhysiK::vec3 PhysiK::Constraint::grad(const vec3 *input){
@@ -25,24 +25,18 @@ PhysiK::vec3 PhysiK::Constraint::grad(const vec3 *input){
 
 float PhysiK::Constraint::lambda(){
 	float sum = 0.0f;
-	for(vec3 * vertex : positions){
-		float norm = grad(vertex).length();
+	for(Particule * vertex : positions){
+		float norm = grad(&(vertex->pos)).length();
 		sum += vertex->omega*norm*norm;
 	}
 	return eval()/sum;
 }
 
-PhysiK::DistanceConstraint::DistanceConstraint(vec3 *pos1, vec3 *pos2)
-{
-    positions.push_back(pos1);
-    positions.push_back(pos2);
+PhysiK::DistanceConstraint::DistanceConstraint(Particule *pos1, Particule *pos2){
+	positions.push_back(pos1);
+	positions.push_back(pos2);
 }
 
-float PhysiK::DistanceConstraint::eval()
-{
-    float xDiff = positions[0]->x - positions[1]->x;
-    float yDiff = positions[0]->y - positions[1]->y;
-    float zDiff = positions[0]->z - positions[1]->z;
-
-    return sqrt(xDiff*xDiff + yDiff*yDiff + zDiff*zDiff);
+float PhysiK::DistanceConstraint::eval(){
+	return (positions[0]->pos-positions[0]->pos).length();
 }
