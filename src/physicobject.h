@@ -11,8 +11,9 @@ namespace PhysiK {
 	class PhysicObject
 	{
         protected:
+            PhysicObject();
 
-			unsigned int nbParticle;
+			unsigned int nbParticles;
 
 			vec3 * positions;
 
@@ -25,7 +26,7 @@ namespace PhysiK {
 			/**
 			 * @brief return a pointer to the position of the vertex for the user
 			 */
-			vec3 * getData();
+            vec3 * getPositions();
 
 			/**
 			 * @brief make it virtual
