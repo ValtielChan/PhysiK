@@ -9,25 +9,12 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
     // Constraint building
     // Set of distance constraints for RigidBody
 
-    // Barycenter computing (lourd, à voir si on garde)
-    Particle* bodyParticles = body->getPositions();
-    int nbParticles = body->nbParticles;
-
-    float xSum = 0.f, ySum = 0.f, zSum = 0.f;
-    for(int i = 0; i < nbParticles; ++i){
-
-        xSum += bodyParticles[i].pos.x;
-        ySum += bodyParticles[i].pos.y;
-        zSum += bodyParticles[i].pos.z;
-    }
-
-    xSum /= nbParticles;
-    ySum /= nbParticles;
-    zSum /= nbParticles;
-
-    body->barycenter = Particle(vec3(xSum, ySum, zSum));
+    // Temp
+    // On pourrait le faire directement dans le constructeur des PhysicObject
+    body->computeBarycenter();
 
     // Add distance constraint between each triangles vertex and barycenter
+    Particle* bodyParticles = body->getPositions();
     const Triangle* bodyTriangles = body->getTriangles();
     int nbTriangles = body->nbTriangles;
 
@@ -37,6 +24,11 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
         solver.pushConstraint(new DistanceConstraint(&bodyParticles[cur[1]], &body->barycenter));
         solver.pushConstraint(new DistanceConstraint(&bodyParticles[cur[2]], &body->barycenter));
         solver.pushConstraint(new DistanceConstraint(&bodyParticles[cur[3]], &body->barycenter));
+
+        //Simple collision constraints
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[1]], vec3(0.f, 0.f, 1.f), 0.f));
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[2]], vec3(0.f, 0.f, 1.f), 0.f));
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[3]], vec3(0.f, 0.f, 1.f), 0.f));
     }
 }
 

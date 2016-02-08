@@ -14,13 +14,14 @@ namespace PhysiK {
 	class PhysicObject
 	{
 		protected:
-			PhysicObject();
+
+            PhysicObject();
 
 			Particle * positions;
 
 			vec3 * oldPositions;
 
-			vec3 * velocities;
+            vec3 * velocities;
 
 		public:
 
@@ -31,6 +32,11 @@ namespace PhysiK {
 			 * @brief return a pointer to the position of the vertices for the user
 			 */
 			Particle * getPositions();
+
+            /**
+             * @brief compute de barycenter of all particles *_*
+             */
+            void computeBarycenter();
 
 			/**
 			 * @brief make it virtual
