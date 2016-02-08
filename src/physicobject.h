@@ -1,6 +1,8 @@
 #ifndef PHYSICOBJECT_H
 #define PHYSICOBJECT_H
 
+#include "particle.h"
+
 namespace PhysiK {
 
 	class vec3;
@@ -14,8 +16,6 @@ namespace PhysiK {
         protected:
             PhysicObject();
 
-			unsigned int nbParticles;
-
 			Particle * positions;
 
 			vec3 * oldPositions;
@@ -23,6 +23,9 @@ namespace PhysiK {
 			vec3 * velocities;
 
 		public:
+
+            unsigned int nbParticles;
+            Particle barycenter;
 
 			/**
              * @brief return a pointer to the position of the vertices for the user
