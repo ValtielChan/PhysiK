@@ -26,7 +26,7 @@ namespace PhysiK {
 			/**
 			 * @brief return a pointer to the position of the vertex for the user
 			 */
-			vec3 * getData();
+			Particle * getData();
 
 			/**
 			 * @brief make it virtual
