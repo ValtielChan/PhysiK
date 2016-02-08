@@ -24,7 +24,7 @@ namespace PhysiK {
 	{
 		private:
 
-            std::vector<PhysicObject *> physicObjecs;
+			std::vector<PhysicObject *> physicObjecs;
 
 			TriangleHashTable TNT;
 
@@ -44,7 +44,7 @@ namespace PhysiK {
 			void addSoftBody(Body * body);
 
 			/**
-             * @brief add a particle group
+			 * @brief add a particle group
 			 */
 			void addParticleGroup(ParticleGroup * particle);
 

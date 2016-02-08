@@ -1,22 +1,31 @@
 #ifndef INTERSECTION_H
 #define INTERSECTION_H
+#include "vec3.h"
 
 namespace PhysiK {
 
-	class PhysicObject;
-	class vec3;
+	class Constraint;
+	class Body;
+	class Particle;
 
 	class Intersection
 	{
 		private:
 
-			PhysicObject *colider;
+			Body *colider;
 
 			unsigned int triangle;
 
-			vec3 * particule;
+			Particle * particule;
 
 		public:
+
+			Intersection(Body * colider, unsigned int triangle)
+				:colider(colider),triangle(triangle){}
+
+			bool intersect(vec3 oldPostion) const;
+
+			Constraint * getConstraint() const;
 
 	};
 

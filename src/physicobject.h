@@ -33,10 +33,10 @@ namespace PhysiK {
 			 */
 			Particle * getPositions();
 
-            /**
-             * @brief compute de barycenter of all particles *_*
-             */
-            void computeBarycenter();
+			/**
+			 * @brief compute de barycenter of all particles *_*
+			 */
+			void computeBarycenter();
 
 			/**
 			 * @brief make it virtual

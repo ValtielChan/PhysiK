@@ -36,6 +36,8 @@ namespace PhysiK {
 
 			vec3 cross(vec3 snd) const;
 
+			float dot(vec3 snd) const;
+
 	};
 
 }

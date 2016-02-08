@@ -65,7 +65,7 @@ namespace PhysiK {
 			float delta;
 		public:
 			/**
-			 * @brief construct a CollisionConstraint with the equation of the plan
+			 * @brief construct a CollisionConstraint with the plan equation
 			 */
 			CollisionConstraint(Particle *pos, vec3 normal, float delta);
 			/**

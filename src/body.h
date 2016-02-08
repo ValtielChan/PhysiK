@@ -11,7 +11,7 @@ namespace PhysiK {
 	 */
 	class Body : public PhysicObject
 	{
-        private:
+		private:
 
 			Triangle * triangles;
 
@@ -20,7 +20,7 @@ namespace PhysiK {
 			Body();
 			~Body();
 
-            unsigned int nbTriangles;
+			unsigned int nbTriangles;
 
 			/**
 			 * @brief return a pointer to the triangle for the user

@@ -58,6 +58,12 @@ PhysiK::vec3 PhysiK::vec3::cross(vec3 snd) const{
 				);
 }
 
+float PhysiK::vec3::dot(vec3 snd) const{
+	return
+			 this->x*snd.x
+			+this->y*snd.y
+			+this->z*snd.z;
+}
 
 unsigned int PhysiK::vec3::operator ()(const vec3& v) const{
 	//hash basique en attendant de trouver mieux
