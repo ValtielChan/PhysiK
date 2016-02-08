@@ -4,6 +4,11 @@
 #include "trianglehashtable.h"
 #include "solver.h"
 
+#include "body.h"
+#include "particle.h"
+#include "constraint.h"
+#include "triangle.h"
+
 namespace PhysiK {
 
 	class Body;
@@ -18,7 +23,7 @@ namespace PhysiK {
 	{
 		private:
 
-			std::vector<PhysicObject *> PhysicObjecs;
+            std::vector<PhysicObject *> physicObjecs;
 
 			TriangleHashTable TNT;
 

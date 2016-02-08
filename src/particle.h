@@ -17,7 +17,7 @@ namespace PhysiK {
 			 * @brief Construct a Particle with a postion and a weight
 			 * @param omega equal to 1/mass
 			 */
-			Particle(vec3 particule, float omega) : pos(particule), omega(omega) {}
+			Particle(vec3 particule, float omega = 1) : pos(particule), omega(omega) {}
 
 			/**
 			 * @brief Default constructor
