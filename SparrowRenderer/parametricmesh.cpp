@@ -7,6 +7,8 @@
 
 Sphere::Sphere(Material* mat, int n)
 {
+    setMaterial(mat);
+
     // icosahedron :
 
     // top cap

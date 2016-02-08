@@ -9,17 +9,14 @@ DESTDIR = $$lib_dir
 
 QT -= core gui
 
-CFLAGS += -Wcomment
-
 DEFINES += GLEW_STATIC
 
 INCLUDEPATH += ../
 
-win32 : SOURCES += glew.c \
-
 SOURCES += crappymodule.cpp \
 	forwardmodule.cpp \
 	framebuffer.cpp \
+	glew.c \
 	light.cpp \
 	mesh.cpp \
 	meshbuilder.cpp \
