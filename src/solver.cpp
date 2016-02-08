@@ -21,6 +21,8 @@ void PhysiK::Solver::solve(unsigned int nbIterations){
 			for(std::size_t i = 0 ; i < constraint->positions.size() ; i++)
 				constraint->positions[i]->setPos(displacement[i]);
 
+			displacement.clear();
+
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace PhysiK {
 
 			friend class Solver;
 
-        protected:
+		protected:
 
 			/**
 			 * @brief the list of vertex
@@ -41,15 +41,15 @@ namespace PhysiK {
 			virtual float lambda();
 	};
 
-    // Concrete constraints (To put in separate files maybe)
-    class DistanceConstraint : public Constraint
-    {
-    public:
-        DistanceConstraint(vec3 *pos1, vec3 *pos2);
-        float eval();
-    };
+	// Concrete constraints (To put in separate files maybe)
+	class DistanceConstraint : public Constraint
+	{
+		public:
+			DistanceConstraint(vec3 *pos1, vec3 *pos2);
+			float eval();
+	};
 
-}
+	}
 
 
 #endif // CONSTRAINT_H

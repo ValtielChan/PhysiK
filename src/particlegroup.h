@@ -7,7 +7,7 @@ namespace PhysiK {
 	/**
 	 * @brief Represents a set of particle (and set a size to them)
 	 */
-    class ParticleGroup : public PhysicObject
+	class ParticleGroup : public PhysicObject
 	{
 
 		private:
@@ -18,6 +18,6 @@ namespace PhysiK {
 
 	};
 
-}
+	}
 
 #endif // PARTICLEGROUP_H

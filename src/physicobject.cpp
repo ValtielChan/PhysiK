@@ -2,5 +2,5 @@
 
 PhysiK::vec3 *PhysiK::PhysicObject::getData()
 {
-    return positions;
+	return positions;
 }

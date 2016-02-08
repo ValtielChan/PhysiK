@@ -10,7 +10,7 @@ namespace PhysiK {
 	 */
 	class PhysicObject
 	{
-        protected:
+		protected:
 
 			unsigned int nbParticle;
 
@@ -35,6 +35,6 @@ namespace PhysiK {
 
 	};
 
-}
+	}
 
 #endif // PHYSICOBJECT_H
