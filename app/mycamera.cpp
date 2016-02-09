@@ -22,5 +22,5 @@ void MyCamera::mouseMove(float dx, float dy)
 
 void MyCamera::reset()
 {
-     m_view = glm::lookAt(glm::vec3(5, 5, -4), glm::vec3(5, 5, 10), glm::vec3(0, 1, 0));
+     m_view = glm::lookAt(glm::vec3(5, 5, -5), glm::vec3(5, 5, 10), glm::vec3(0, 1, 0));
 }

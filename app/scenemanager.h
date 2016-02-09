@@ -17,6 +17,7 @@ public:
     void resetScene();
 
     void addParticleGroup(std::vector<glm::vec3> particles);
+    void addParticle(glm::vec3 position);
     void addNode(GeometryNode* node);
 
     Scene* getScene() {return &scene;}

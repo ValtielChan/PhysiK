@@ -39,6 +39,10 @@ protected:
 
 public:
     DrawWidget(QWidget *parent = 0);
+
+public slots:
+    void addMesh();
+    void addParticles(int n);
 };
 
 #endif // DRAWWIDGET_H
