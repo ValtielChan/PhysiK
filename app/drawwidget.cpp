@@ -135,3 +135,8 @@ void DrawWidget::mouseReleaseEvent(QMouseEvent* event)
 {
     grabbed = false;
 }
+
+void DrawWidget::wheelEvent(QWheelEvent *event)
+{
+    camera.mouseScroll(event->delta());
+}
