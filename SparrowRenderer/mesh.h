@@ -56,7 +56,7 @@ protected:
 
 public:
     Mesh();
-    ~Mesh();
+    virtual ~Mesh();
 
     void initGL(bool isDynamic = false);
     void draw(Shader* shader = NULL, bool drawNormals = true, bool drawTexCoord = true, bool drawTangents = true);

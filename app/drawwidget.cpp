@@ -71,7 +71,8 @@ void DrawWidget::addMesh()
         m->initGL();
         sceneManager.addNode(node);
     }
-    forward->compileShaders(sceneManager.getScene());
+    if(renderer.isModernOpenGLAvailable())
+        forward->compileShaders(sceneManager.getScene());
 }
 
 void DrawWidget::addParticles()

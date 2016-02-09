@@ -40,7 +40,7 @@ template <class T>
 class ArraySceneIterator : public SceneIterator<T>
 {
     std::vector<T> &vec;
-    int id;
+    unsigned int id;
 public:
     ArraySceneIterator(std::vector<T> &myVec, int myId=0) : vec(myVec), id(myId) {}
     virtual SceneIterator<T>& operator++() {++id; return *this;}

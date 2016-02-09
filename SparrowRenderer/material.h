@@ -29,6 +29,7 @@ class Material
 public:
     virtual void bindAttributes(Shader*) = 0;
     virtual unsigned int getFlags() = 0;
+    virtual ~Material(){}
 };
 
 #endif // MATERIAL_H

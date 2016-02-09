@@ -15,10 +15,10 @@ class MyCamera : public Camera
 public:
     MyCamera(float myFov = 90.f, float myNear = 0.1f, float myFar = 10000.f);
 
-    virtual glm::mat4 getProjectionMatrix() {return m_projection;}
-    virtual glm::mat4 getViewMatrix() {return m_view;}
+    glm::mat4 getProjectionMatrix() {return m_projection;}
+    glm::mat4 getViewMatrix() {return m_view;}
 
-    virtual void resize(int width, int height);
+    void resize(int width, int height);
 
     void mouseMove(float dx, float dy);
     void reset();

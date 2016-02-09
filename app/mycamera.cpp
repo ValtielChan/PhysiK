@@ -16,8 +16,8 @@ void MyCamera::resize(int width, int height)
 
 void MyCamera::mouseMove(float dx, float dy)
 {
-    glm::rotate(m_view, dx/100.f, glm::vec3(0, 0, 1));
-    glm::rotate(m_view, dy/100.f, glm::vec3(1, 0, 0));
+    m_view = glm::rotate(m_view, dx/100.f, glm::vec3(0, 0, 1));
+    m_view = glm::rotate(m_view, dy/100.f, glm::vec3(1, 0, 0));
 }
 
 void MyCamera::reset()
