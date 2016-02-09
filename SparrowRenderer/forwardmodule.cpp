@@ -13,7 +13,8 @@ const char* const ForwardModule::flagStr[] =
     "AMBIENT_TEXTURE",
     "SPECULAR_TEXTURE",
     "NORMAL_MAP",
-    "ALPHA_MASK"
+    "ALPHA_MASK",
+    "INSTANCING"
 };
 
 void ForwardModule::renderGL(Camera* myCamera, Scene* scene)
@@ -143,7 +144,10 @@ void ForwardModule::compileShaders(Scene* scene)
         geometryIt->isValid(); geometryIt->next())
     {
         Mesh* m = geometryIt->getItem()->mesh;
-        geometryFlags[m->material->getFlags()] = true;
+        unsigned int flags = m->material->getFlags();
+        if(m->hasInstances())
+            flags |= INSTANCING_FLAG;
+        geometryFlags[flags] = true;
     }
     for(int i=0; i<nb_geometry_flags; ++i)
     {
@@ -188,6 +192,8 @@ void ForwardModule::compileShaders(Scene* scene)
             defines.push_back(flagStr[SPECULAR_TEXTURE]);
         if(i & ALPHA_MASK_FLAG)
             defines.push_back(flagStr[ALPHA_MASK]);
+        if(i & INSTANCING_FLAG)
+            defines.push_back(flagStr[INSTANCING]);
 
         int boundary = defines.size();
         for(int j : lightFlagList)

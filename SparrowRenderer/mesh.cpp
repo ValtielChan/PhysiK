@@ -129,7 +129,7 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
         glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
         glAssert(glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
         glAssert(glEnableVertexAttribArray(5));
-        glVertexAttribDivisor(5, 1);
+        glAssert(glVertexAttribDivisor(5, 1));
         glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDICES_BUFFER]));
         glAssert(glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL, instances_offsets.size()));
     }

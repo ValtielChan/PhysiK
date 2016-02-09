@@ -3,11 +3,13 @@
 #include <QMouseEvent>
 #include <SparrowRenderer/crappymodule.h>
 #include <SparrowRenderer/forwardmodule.h>
+#include "wavefrontmesh.h"
 #include <QCoreApplication>
+#include <QFileDialog>
 #include "qtutils.h"
 
 DrawWidget::DrawWidget(QWidget *parent) :
-    QOpenGLWidget(parent)
+    QGLWidget(parent)
 {
     renderer.setClearColor(glm::vec3(0.2f, 0.4f, 0.3f));
     renderer.setCamera(&camera);
@@ -57,20 +59,48 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
 {
     switch(event->key())
     {
-    case Qt::Key_A :
-    {
-        std::vector<glm::vec3> particles;
-        for(int i=0; i<10; ++i)
-            particles.push_back(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
-        sceneManager.addParticleGroup(particles);
-        forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
-        printf("added 20 particles\n");
-    }
-    break;
-    case Qt::Key_R :
-        camera.reset();
-        printf("reseted camera positionning\n");
-    break;
+        case Qt::Key_A :
+        {
+            int n = 5;
+            std::vector<glm::vec3> particles;
+            for(int i=0; i<n; ++i)
+                particles.push_back(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
+            sceneManager.addParticleGroup(particles);
+            forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
+            printf("added %d particles\n", n);
+        }
+        case Qt::Key_Z :
+        {
+            int n = 1;
+            std::vector<glm::vec3> particles;
+            for(int i=0; i<n; ++i)
+                particles.push_back(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
+            sceneManager.addParticleGroup(particles);
+            forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
+            printf("added %d particles\n", n);
+        }
+        break;
+        case Qt::Key_E :
+        {
+            WavefrontMesh meshLoader;
+            QString filename = QFileDialog::getOpenFileName(this, tr("Open Wavefront object"),
+                                                            QCoreApplication::applicationDirPath().append("/.."),
+                                                            tr("Wavefront Object (*.obj)"));
+            std::vector<Mesh*> meshes = meshLoader.loadMesh(filename);
+            for(Mesh *m : meshes)
+            {
+                GeometryNode* node = new GeometryNode();
+                node->mesh = m;
+                m->initGL();
+                sceneManager.addNode(node);
+            }
+            forward->compileShaders(sceneManager.getScene());
+        }
+        break;
+        case Qt::Key_R :
+            camera.reset();
+            printf("reseted camera positionning\n");
+        break;
     }
 }
 

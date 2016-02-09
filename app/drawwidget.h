@@ -4,7 +4,7 @@
 // this needs to be included first for GLEW to be working
 #include <SparrowRenderer/sparrowrenderer.h>
 
-#include <QOpenGLWidget>
+#include <QGLWidget>
 #include <QTimer>
 
 #include "mycamera.h"
@@ -12,7 +12,7 @@
 
 class ForwardModule;
 
-class DrawWidget : public QOpenGLWidget
+class DrawWidget : public QGLWidget
 {
     Q_OBJECT
 

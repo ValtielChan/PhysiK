@@ -4,7 +4,7 @@
 MyCamera::MyCamera(float myFov, float myNear, float myFar) :
     m_fov(myFov), m_near(myNear), m_far(myFar)
 {
-    m_view = glm::lookAt(glm::vec3(-2), glm::vec3(10), glm::vec3(0, 1, 0));
+    reset();
     resize(800, 600);
 }
 
@@ -18,4 +18,9 @@ void MyCamera::mouseMove(float dx, float dy)
 {
     glm::rotate(m_view, dx/100.f, glm::vec3(0, 0, 1));
     glm::rotate(m_view, dy/100.f, glm::vec3(1, 0, 0));
+}
+
+void MyCamera::reset()
+{
+     m_view = glm::lookAt(glm::vec3(5, 5, -4), glm::vec3(5, 5, 10), glm::vec3(0, 1, 0));
 }

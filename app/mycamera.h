@@ -21,7 +21,7 @@ public:
     virtual void resize(int width, int height);
 
     void mouseMove(float dx, float dy);
-    void reset() {m_view = glm::mat4();}
+    void reset();
 };
 
 #endif // MYCAMERA_H

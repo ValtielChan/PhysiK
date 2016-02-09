@@ -3,6 +3,8 @@
 #include <SparrowRenderer/parametricmesh.h>
 #include <SparrowRenderer/phongmaterial.h>
 
+#include <glm/ext.hpp>
+
 SceneManager::SceneManager()
 {
     Light* sun = new Light();
@@ -33,7 +35,7 @@ void SceneManager::resetScene()
 
 void SceneManager::addParticleGroup(std::vector<glm::vec3> particles)
 {
-    if(particles.size() > 1)
+    if(particles.size() > 0)
     {
         PhongMaterial *mat = new PhongMaterial();
         mat->ambient = glm::vec3(0.1f);
@@ -44,11 +46,18 @@ void SceneManager::addParticleGroup(std::vector<glm::vec3> particles)
         GeometryNode* node = new GeometryNode();
         Sphere* sphere = new Sphere(mat, 1);
         sphere->texCoords.clear();
-        sphere->instances_offsets = particles;
+        if(particles.size() > 1)
+            sphere->instances_offsets = particles;
+        else
+            node->modelMatrix = glm::translate(glm::mat4(), particles[0]);
         sphere->initGL();
         node->mesh = sphere;
 
-        node->modelMatrix = glm::mat4(); // must not move
         scene.addMesh(node);
     }
+}
+
+void SceneManager::addNode(GeometryNode* node)
+{
+    scene.addMesh(node);
 }

@@ -8,6 +8,7 @@ enum {
     SPECULAR_TEXTURE,
     NORMAL_MAP,
     ALPHA_MASK,
+    INSTANCING,
     NB_FLAGS
 };
 
@@ -18,6 +19,7 @@ enum {
     SPECULAR_TEXTURE_FLAG = 1 << SPECULAR_TEXTURE,
     NORMAL_MAP_FLAG = 1 << NORMAL_MAP,
     ALPHA_MASK_FLAG = 1 << ALPHA_MASK,
+    INSTANCING_FLAG = 1 << INSTANCING
 };
 
 class Shader;

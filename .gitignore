@@ -67,12 +67,13 @@ Thumbs.db
 
 # Binaries
 # --------
+bin
+lib
 *.dll
 *.exe
 
 #PhysiK.*
 
 #generated documentation file
-bin
 html
 index.html

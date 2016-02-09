@@ -36,7 +36,6 @@ public:
     virtual void bindAttributes(Shader* myShader = NULL);
 
     virtual unsigned int getFlags();
-    Shader* getShader() {return shader;}
 
     /**
      * deprecated, you should use setDiffuseTexture instead
@@ -48,9 +47,6 @@ public:
     void setSpecularTexture(Texture* myTexture);
     void setNormalMap(Texture* myNormalMap);
     void setAlphaMask(Texture* myAlphaMask);
-
-private:
-    Shader* shader;
 };
 
 #endif // PHONGMATERIAL_H

@@ -49,6 +49,7 @@ class TextureLoader : public QThread
     std::vector<EditorImage*> images;
     int current;
     bool canceled;
+    QString path;
 
 protected:
     virtual void run();
@@ -62,6 +63,7 @@ public:
     }
     void cancel() {canceled = true;}
     void gl_finish();
+    void setTexturePath(QString myPath) {path = myPath;}
 
 signals:
     void progressChanged(QString, int);

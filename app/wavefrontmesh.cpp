@@ -19,7 +19,7 @@ void TextureLoader::run()
     while(images.size() < todos.size())
     {
         ToLoad &todo = todos[images.size()];
-        QString texturePath = QCoreApplication::applicationDirPath().append("/../data/textures/").append(todo.filename);
+        QString texturePath = path + "/" + todo.filename;
         if(QFile(texturePath).exists())
             images.push_back(QtUtils::loadImage(texturePath));
         else
@@ -55,9 +55,10 @@ std::vector<Mesh*> WavefrontMesh::loadMesh(QString wavefrontFilename, bool noDia
 {
     std::vector<Mesh*> meshes;
     MeshLoader* loader = new MeshLoader(wavefrontFilename);
+    QFileInfo fileInfo(wavefrontFilename);
+    loader->textureLoader.setTexturePath(fileInfo.absolutePath());
     if(!noDialog)
     {
-        QFileInfo fileInfo(wavefrontFilename);
         setWindowTitle(QString("Loading %1").arg(fileInfo.fileName()));
         connect(loader, SIGNAL(progressChanged(int)), meshProgressBar, SLOT(setValue(int)));
         connect(loader, SIGNAL(finished()), this, SLOT(accept()));
