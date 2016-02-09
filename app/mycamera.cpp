@@ -30,7 +30,7 @@ void MyCamera::mouseMove(float dx, float dy)
 
 void MyCamera::reset()
 {
-    m_center = glm::vec3(-5);
+    m_center = glm::vec3(0);
     m_rotation = glm::vec2(0, 0);
     m_dist = 10;
     computeView();
