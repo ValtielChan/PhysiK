@@ -35,3 +35,8 @@ HEADERS += \
     solver.h \
     intersection.h \
     particle.h
+
+header_files.files = $$HEADERS
+header_files.path = $$PREFIX
+INSTALLS += header_files
+
