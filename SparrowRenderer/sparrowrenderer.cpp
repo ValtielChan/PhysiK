@@ -8,7 +8,7 @@
 #include "framebuffer.h"
 #include "module.h"
 #include <chrono>
-
+#include <string.h>
 // main methods
 
 bool SparrowRenderer::modernOpenglAvailable = false;
@@ -26,7 +26,8 @@ void SparrowRenderer::initGL(int w, int h, bool forceCrappy)
         GLEW_ARB_draw_buffers     &&
         GLEW_ARB_framebuffer_object &&
         glewIsSupported("GL_VERSION_3_3") &&
-        GLEW_VERSION_3_3)
+        GLEW_VERSION_3_3 &&
+        strcmp("3.30",(const char *)glGetString(GL_SHADING_LANGUAGE_VERSION))<=0)
     {
         modernOpenglAvailable = true;
         printf("Modern OpenGL available.\n");

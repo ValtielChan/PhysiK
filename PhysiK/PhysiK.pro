@@ -37,6 +37,6 @@ HEADERS += \
     particle.h
 
 header_files.files = $$HEADERS
-header_files.path = $$PREFIX
+header_files.path = $$lib_dir/include
 INSTALLS += header_files
 
