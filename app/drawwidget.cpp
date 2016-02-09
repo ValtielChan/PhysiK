@@ -7,6 +7,7 @@
 #include <QCoreApplication>
 #include <QFileDialog>
 #include <QInputDialog>
+#include "particledialog.h"
 #include "qtutils.h"
 
 DrawWidget::DrawWidget(QWidget *parent) :
@@ -75,26 +76,27 @@ void DrawWidget::addMesh()
 
 void DrawWidget::addParticles()
 {
-    static int last_n = 5;
     bool ok;
-    int n = QInputDialog::getInt(this, "Adding Particles", "How many particles ?", last_n, 1, 10000, 1, &ok);
+    static ParticleDialog *dialog = NULL;
+    if(dialog == NULL)
+        dialog = new ParticleDialog(this);
+    ok = (dialog->exec() == QDialog::Accepted);
     if(ok)
     {
-        last_n = n;
+        ParticleProperties properties = dialog->getParticleProperties();
         if(renderer.isModernOpenGLAvailable())
         {
             std::vector<glm::vec3> particles;
-            for(int i=0; i<n; ++i)
+            for(int i=0; i<properties.amount; ++i)
                 particles.push_back(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
-            sceneManager.addParticleGroup(particles);
+            sceneManager.addParticleGroup(particles, properties);
             forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
         }
         else
         {
-            for(int i=0; i<n; ++i)
-                sceneManager.addParticle(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
+            for(int i=0; i<properties.amount; ++i)
+                sceneManager.addParticle(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f, properties);
         }
-        printf("added %d particles\n", n);
     }
 }
 

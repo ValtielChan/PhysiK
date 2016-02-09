@@ -9,7 +9,7 @@ SceneManager::SceneManager()
 {
     particle = NULL;
     Light* sun = new Light();
-    sun->initDirectionnalLight(glm::vec3(3, -10, -2));
+    sun->initDirectionnalLight(glm::vec3(2, -5, 8));
     scene.addLight(sun);
 }
 
@@ -19,8 +19,6 @@ SceneManager::~SceneManager()
     delete(scene.getLights()->getItem());
     // delete meshes
     resetScene();
-    delete particle->material;
-    delete particle;
 }
 
 void SceneManager::resetScene()
@@ -29,28 +27,25 @@ void SceneManager::resetScene()
         geometryIt->isValid(); geometryIt->next())
     {
         GeometryNode *node = geometryIt->getItem();
-        if(node->mesh != particle)
-        {
-            delete node->mesh->material;
-            delete node->mesh;
-        }
+        delete node->mesh->material;
+        delete node->mesh;
         delete node;
     }
     scene.clearEntities();
 }
 
-void SceneManager::addParticleGroup(std::vector<glm::vec3> particles)
+void SceneManager::addParticleGroup(std::vector<glm::vec3> particles, ParticleProperties properties)
 {
     if(particles.size() > 1)
     {
         PhongMaterial *mat = new PhongMaterial();
         mat->ambient = glm::vec3(0.1f);
-        mat->diffuse = glm::vec3(0.f, 0.f, 0.8f);
+        mat->diffuse = glm::vec3(properties.r, properties.g, properties.b);
         mat->specular = glm::vec3(1.f);
         mat->shininess = 20;
 
         GeometryNode* node = new GeometryNode();
-        Sphere* sphere = new Sphere(mat, 1);
+        Sphere* sphere = new Sphere(mat, 1, properties.radius);
         sphere->texCoords.clear();
         sphere->instances_offsets = particles;
         sphere->initGL();
@@ -59,28 +54,23 @@ void SceneManager::addParticleGroup(std::vector<glm::vec3> particles)
         scene.addMesh(node);
     }
     else
-        addParticle(particles[0]);
+        addParticle(particles[0], properties);
 }
 
-void SceneManager::addParticle(glm::vec3 position)
+void SceneManager::addParticle(glm::vec3 position, ParticleProperties properties)
 {
-    if(particle == NULL)
-    {
-        PhongMaterial *mat = new PhongMaterial();
-        mat->ambient = glm::vec3(0.1f);
-        mat->diffuse = glm::vec3(0.f, 0.f, 0.8f);
-        mat->specular = glm::vec3(1.f);
-        mat->shininess = 20;
+    PhongMaterial *mat = new PhongMaterial();
+    mat->ambient = glm::vec3(0.1f);
+    mat->diffuse = glm::vec3(properties.r, properties.g, properties.b);
+    mat->specular = glm::vec3(1.f);
+    mat->shininess = 10;
 
-        Sphere* sphere = new Sphere(mat, 1);
-        sphere->texCoords.clear();
-        sphere->initGL();
-
-        particle = sphere;
-    }
+    Sphere* sphere = new Sphere(mat, 1, properties.radius);
+    sphere->texCoords.clear();
+    sphere->initGL();
 
     GeometryNode* node = new GeometryNode();
-    node->mesh = particle;
+    node->mesh = sphere;
     node->modelMatrix = glm::translate(glm::mat4(), position);
     scene.addMesh(node);
 }

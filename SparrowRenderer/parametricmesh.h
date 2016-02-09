@@ -20,11 +20,13 @@ private:
     };
 
     Edge* edges;
+    float radius;
+
     int getEdge(int a, int b);
     void createVertex(float u, float v);
     void subdivide();
 public:
-	Sphere(Material* mat, int n = 0);
+    Sphere(Material* mat, int n = 0, float myRadius = 1.f);
 };
 
 class GridMesh : public MeshBuilder

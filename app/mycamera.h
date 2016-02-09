@@ -13,7 +13,7 @@ class MyCamera : public Camera
     float m_far;
 
 public:
-    MyCamera(float myFov = 90.f, float myNear = 0.1f, float myFar = 100.f);
+    MyCamera(float myFov = 90.f, float myNear = 0.1f, float myFar = 10000.f);
 
     virtual glm::mat4 getProjectionMatrix() {return m_projection;}
     virtual glm::mat4 getViewMatrix() {return m_view;}
