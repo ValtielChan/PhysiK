@@ -31,7 +31,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="DrawWidget" name="openGLWidget"/>
+     <widget class="DrawWidget" name="drawWidget"/>
     </item>
    </layout>
   </widget>
@@ -44,7 +44,38 @@
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMenu">
+    <property name="title">
+     <string>Menu</string>
+    </property>
+    <addaction name="actionParticles"/>
+    <addaction name="actionRigidBody"/>
+    <addaction name="actionSoftBody"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuMenu"/>
   </widget>
+  <action name="actionParticles">
+   <property name="text">
+    <string>Particles</string>
+   </property>
+  </action>
+  <action name="actionRigidBody">
+   <property name="text">
+    <string>RigidBody</string>
+   </property>
+  </action>
+  <action name="actionSoftBody">
+   <property name="text">
+    <string>SoftBody</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -52,8 +83,77 @@
    <class>DrawWidget</class>
    <extends>QOpenGLWidget</extends>
    <header>drawwidget.h</header>
+   <slots>
+    <slot>addParticles()</slot>
+    <slot>addMesh()</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionExit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>173</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionParticles</sender>
+   <signal>triggered()</signal>
+   <receiver>drawWidget</receiver>
+   <slot>addParticles()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRigidBody</sender>
+   <signal>triggered()</signal>
+   <receiver>drawWidget</receiver>
+   <slot>addMesh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSoftBody</sender>
+   <signal>triggered()</signal>
+   <receiver>drawWidget</receiver>
+   <slot>addMesh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

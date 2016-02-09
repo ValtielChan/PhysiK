@@ -6,6 +6,7 @@
 #include "wavefrontmesh.h"
 #include <QCoreApplication>
 #include <QFileDialog>
+#include <QInputDialog>
 #include "qtutils.h"
 
 DrawWidget::DrawWidget(QWidget *parent) :
@@ -72,22 +73,29 @@ void DrawWidget::addMesh()
     forward->compileShaders(sceneManager.getScene());
 }
 
-void DrawWidget::addParticles(int n)
+void DrawWidget::addParticles()
 {
-    if(renderer.isModernOpenGLAvailable())
+    static int last_n = 5;
+    bool ok;
+    int n = QInputDialog::getInt(this, "Adding Particles", "How many particles ?", last_n, 1, 10000, 1, &ok);
+    if(ok)
     {
-        std::vector<glm::vec3> particles;
-        for(int i=0; i<n; ++i)
-            particles.push_back(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
-        sceneManager.addParticleGroup(particles);
-        forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
+        last_n = n;
+        if(renderer.isModernOpenGLAvailable())
+        {
+            std::vector<glm::vec3> particles;
+            for(int i=0; i<n; ++i)
+                particles.push_back(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
+            sceneManager.addParticleGroup(particles);
+            forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
+        }
+        else
+        {
+            for(int i=0; i<n; ++i)
+                sceneManager.addParticle(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
+        }
+        printf("added %d particles\n", n);
     }
-    else
-    {
-        for(int i=0; i<n; ++i)
-            sceneManager.addParticle(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
-    }
-    printf("added %d particles\n", n);
 }
 
 void DrawWidget::keyPressEvent(QKeyEvent *event)
@@ -95,10 +103,10 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
     switch(event->key())
     {
         case Qt::Key_A :
-            addParticles(5);
+            addParticles();
         break;
         case Qt::Key_Z :
-            addParticles(1);
+            sceneManager.resetScene();
         break;
         case Qt::Key_E :
             addMesh();

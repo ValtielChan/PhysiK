@@ -42,7 +42,7 @@ public:
 
 public slots:
     void addMesh();
-    void addParticles(int n);
+    void addParticles();
 };
 
 #endif // DRAWWIDGET_H
