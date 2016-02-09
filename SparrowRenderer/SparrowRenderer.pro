@@ -9,7 +9,7 @@ DESTDIR = $$lib_dir
 
 QT -= core gui
 
-DEFINES += GLEW_STATIC
+DEFINES += GLEW_NO_GLU GLEW_BUILD GLEW_STATIC
 
 INCLUDEPATH += ../
 
@@ -48,6 +48,7 @@ HEADERS += camera.h \
 	shadersource.h \
 	sparrowrenderer.h \
 	texture.h \
-	wglew.h
+        wglew.h \
+        glxew.h
 	
 	

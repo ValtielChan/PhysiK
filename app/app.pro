@@ -19,7 +19,6 @@ DEFINES += GLEW_STATIC
 LIBPATH += $$lib_dir
 
 LIBS += -lPhysiK -lSparrowRenderer
-unix : LIBS += -lGL
 win32 : LIBS += -lopengl32
 
 INCLUDEPATH += ../
