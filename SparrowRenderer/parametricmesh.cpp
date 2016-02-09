@@ -5,7 +5,8 @@
 #define M_PI 3.14159265358979323846
 #define MAGIC_RATIO 0.37139f
 
-Sphere::Sphere(Material* mat, int n)
+Sphere::Sphere(Material* mat, int n, float myRadius) :
+    radius(myRadius)
 {
     setMaterial(mat);
 
@@ -38,6 +39,9 @@ Sphere::Sphere(Material* mat, int n)
     // geodesic subdivisions :
     for(int i=0; i<n; i++)
         subdivide();
+
+    for(glm::vec3 &vertex : positions)
+        vertex *= radius;
 }
 
 int Sphere::getEdge(int a, int b)

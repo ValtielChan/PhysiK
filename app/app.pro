@@ -29,13 +29,15 @@ SOURCES += main.cpp\
     mycamera.cpp \
     qtutils.cpp \
     wavefrontmesh.cpp \
-    scenemanager.cpp
+    scenemanager.cpp \
+    particledialog.cpp
 
 HEADERS  += mainwindow.h \
     drawwidget.h \
     mycamera.h \
     qtutils.h \
     wavefrontmesh.h \
-    scenemanager.h
+    scenemanager.h \
+    particledialog.h
 
 FORMS    += mainwindow.ui
