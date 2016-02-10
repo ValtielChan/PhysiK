@@ -24,8 +24,9 @@ void PhysiK::ParticleHashTable::generateIntersection(std::vector<IntersectionPar
 		m_vector& test = plop.second;
 		for(m_pair& pair1 : test){
 			for(m_pair& pair2 : test){
+				Particle& particule1 = pair1.first->getPositions()[pair1.second];
 				Particle& particule2 = pair2.first->getPositions()[pair2.second];
-				IntersectionParticuleParticule to_test(pair1.first,pair1.second,&particule2,pair2.first->radius);
+				IntersectionParticuleParticule to_test(&particule1,&particule2,pair1.first->radius+pair2.first->radius);
 				if(to_test.intersect())
 					intersections.push_back(to_test);
 			}

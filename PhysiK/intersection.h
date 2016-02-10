@@ -33,15 +33,14 @@ namespace PhysiK {
 
 		private:
 
-			ParticleGroup * colider;
-			unsigned int particuleColider;
-			Particle * particule;
+			Particle * particule1;
+			Particle * particule2;
 			float radius;
 
 		public:
 
-			IntersectionParticuleParticule(ParticleGroup * colider, unsigned int particuleColider,Particle * particule,float radius)
-				:colider(colider),particuleColider(particuleColider),particule(particule),radius(radius){}
+			IntersectionParticuleParticule(Particle * particule1,Particle * particule2,float radius)
+				:particule1(particule1),particule2(particule2),radius(radius){}
 			bool intersect()const;
 			Constraint * getConstraint() const;
 

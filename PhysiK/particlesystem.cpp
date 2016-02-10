@@ -69,11 +69,13 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 {
 
 	PHT.clear();
-	for(PhysicObject * object : physicObjecs){
-		ParticleGroup * particules = dynamic_cast<ParticleGroup *>(object);
-		if(particules)
+	for(PhysicObject * object : physicObjecs)
+		if(ParticleGroup * particules = dynamic_cast<ParticleGroup *>(object))
 			PHT.addObject(particules);
-	}
+
+	for(PhysicObject * object : physicObjecs)
+		if(Body * body = dynamic_cast<Body *>(object))
+			THT.addObject(body);
 
     // find particle to particle intersections
 
