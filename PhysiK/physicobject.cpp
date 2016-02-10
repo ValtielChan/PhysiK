@@ -15,7 +15,7 @@ void PhysiK::PhysicObject::computeBarycenter()
     ySum /= nbParticles;
     zSum /= nbParticles;
 
-    barycenter = Particle(vec3(xSum, ySum, zSum));
+	barycenter = vec3(xSum, ySum, zSum);
 }
 
 PhysiK::Particle *PhysiK::PhysicObject::getPositions()

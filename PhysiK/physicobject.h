@@ -26,7 +26,7 @@ namespace PhysiK {
 		public:
 
 			unsigned int nbParticles;
-			Particle barycenter;
+			vec3 barycenter;
 
 			/**
 			 * @brief return a pointer to the position of the vertices for the user

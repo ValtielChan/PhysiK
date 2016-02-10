@@ -76,6 +76,17 @@ namespace PhysiK {
 			float eval();
 	};
 
+	/*class VolumeConstraint : public Constraint{
+		private:
+			float volume;
+			vec3 center;
+		public:
+			VolumeConstraint(vec3 center);
+			float volume();
+			float eval();
+	};*/
+
+
 }
 
 
