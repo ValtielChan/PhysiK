@@ -52,6 +52,8 @@
     <addaction name="actionRigidBody"/>
     <addaction name="actionSoftBody"/>
     <addaction name="separator"/>
+    <addaction name="actionReset_Scene"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuMenu"/>
@@ -76,6 +78,11 @@
     <string>Exit</string>
    </property>
   </action>
+  <action name="actionReset_Scene">
+   <property name="text">
+    <string>Reset Scene</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -86,6 +93,7 @@
    <slots>
     <slot>addParticles()</slot>
     <slot>addMesh()</slot>
+    <slot>resetScene()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -144,6 +152,22 @@
    <signal>triggered()</signal>
    <receiver>drawWidget</receiver>
    <slot>addMesh()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionReset_Scene</sender>
+   <signal>triggered()</signal>
+   <receiver>drawWidget</receiver>
+   <slot>resetScene()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

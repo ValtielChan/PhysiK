@@ -10,7 +10,8 @@
 Mesh::Mesh() :
     material(NULL),
     vao(0),
-    nb_buffers(0)
+    nb_buffers(0),
+    primitive_type(GL_TRIANGLES)
 {}
 
 Mesh::~Mesh()
@@ -131,12 +132,12 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
         glAssert(glEnableVertexAttribArray(5));
         glAssert(glVertexAttribDivisor(5, 1));
         glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDICES_BUFFER]));
-        glAssert(glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL, instances_offsets.size()));
+        glAssert(glDrawElementsInstanced(primitive_type, indices.size(), GL_UNSIGNED_INT, NULL, instances_offsets.size()));
     }
     else
     {
         glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDICES_BUFFER]));
-        glAssert(glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, NULL));
+        glAssert(glDrawElements(primitive_type, indices.size(), GL_UNSIGNED_INT, NULL));
     }
     glAssert(glBindVertexArray(0));
     if(crappy)

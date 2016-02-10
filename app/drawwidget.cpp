@@ -27,6 +27,7 @@ void DrawWidget::initializeGL()
     renderer.initGL(width(), height(), false);
     resizeGL(width(), height());
     initPipeline();
+    resetScene();
     setFocus(); // enables keyboard events
 }
 
@@ -96,16 +97,23 @@ void DrawWidget::addParticles()
         {
             std::vector<glm::vec3> particles;
             for(int i=0; i<properties.amount; ++i)
-                particles.push_back(getRandomPos()*10.f);
+                particles.push_back(getRandomPos()*10.f + glm::vec3(0, 6, 0));
             sceneManager.addParticleGroup(particles, properties);
             forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
         }
         else
         {
             for(int i=0; i<properties.amount; ++i)
-                sceneManager.addParticle(getRandomPos()*10.f, properties);
+                sceneManager.addParticle(getRandomPos()*10.f + glm::vec3(0, 6, 0), properties);
         }
     }
+}
+
+void DrawWidget::resetScene()
+{
+    sceneManager.resetScene();
+    if(renderer.isModernOpenGLAvailable())
+        forward->compileShaders(sceneManager.getScene());
 }
 
 void DrawWidget::keyPressEvent(QKeyEvent *event)
@@ -116,12 +124,15 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
             addParticles();
         break;
         case Qt::Key_Z :
-            sceneManager.resetScene();
+            addMesh();
         break;
         case Qt::Key_E :
             addMesh();
         break;
         case Qt::Key_R :
+            resetScene();
+        break;
+        case Qt::Key_T :
             camera.reset();
         break;
     }

@@ -30,7 +30,7 @@ void MyCamera::mouseMove(float dx, float dy)
 
 void MyCamera::reset()
 {
-    m_center = glm::vec3(0);
+    m_center = glm::vec3(0, 5, 0);
     m_rotation = glm::vec2(0, 0);
     m_dist = 10;
     computeView();
@@ -42,7 +42,7 @@ void MyCamera::computeView()
     m_view = glm::translate(glm::mat4(), glm::vec3(0, 0, -m_dist));
     m_view = glm::rotate(m_view, m_rotation.y, glm::vec3(1, 0, 0));
     m_view = glm::rotate(m_view, m_rotation.x, glm::vec3(0, 1, 0));
-    m_view = glm::translate(m_view, m_center);
+    m_view = glm::translate(m_view, -m_center);
 }
 
 void MyCamera::mouseScroll(int nbScrolls)

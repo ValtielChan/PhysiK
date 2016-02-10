@@ -47,6 +47,7 @@ public:
 public slots:
     void addMesh();
     void addParticles();
+    void resetScene();
 };
 
 #endif // DRAWWIDGET_H

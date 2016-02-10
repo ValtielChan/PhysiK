@@ -53,6 +53,7 @@ protected:
     GLuint vao;
     int nb_buffers;
     GLuint vbo[NB_BUFFERS];
+    GLenum primitive_type;
 
 public:
     Mesh();
@@ -61,6 +62,13 @@ public:
     void initGL(bool isDynamic = false);
     void draw(Shader* shader = NULL, bool drawNormals = true, bool drawTexCoord = true, bool drawTangents = true);
     void destroyGL();
+
+    /**
+     * this class is intended to be used with the default GL_TRIANGLES primitive,
+     * the methods mergeVertices, computeNormals, and computeTangents will probably have
+     * unpredictable behavior with other primitive types.
+     */
+    void setPrimitiveType(GLenum type) {primitive_type = type;}
 
     // merge same vertices
     void mergeVertices();

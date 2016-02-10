@@ -18,7 +18,8 @@ struct ParticleProperties
 class SceneManager
 {
     ArrayScene scene;
-    Mesh* particle;
+
+    Mesh* createGrid(int n = 10, float size = 10);
 
 public:
     SceneManager();
