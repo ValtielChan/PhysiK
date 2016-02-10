@@ -21,14 +21,16 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
     for(int i = 0; i < nbTriangles; ++i){
 
         Triangle cur = bodyTriangles[i];
-        solver.pushConstraint(new DistanceConstraint(&bodyParticles[cur[1]], &body->barycenter));
-        solver.pushConstraint(new DistanceConstraint(&bodyParticles[cur[2]], &body->barycenter));
-        solver.pushConstraint(new DistanceConstraint(&bodyParticles[cur[3]], &body->barycenter));
 
-        //Simple collision constraints
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[1]], vec3(0.f, 0.f, 1.f), 0.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[2]], vec3(0.f, 0.f, 1.f), 0.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[3]], vec3(0.f, 0.f, 1.f), 0.f));
+        for(int j=0 ;  j<3 ; j++){
+            //piramide constraint
+            solver.pushConstraint(new DistanceConstraint (&bodyParticles[cur[j]], &body->barycenter));
+            //trianlge constraint
+            solver.pushConstraint(new DistanceConstraint (&bodyParticles[cur[j]], &bodyParticles[cur[(j+1)%3]]));
+            //default constraint
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[j]], vec3(0.f, 0.f, 1.f), 0.f));
+        }
+
     }
 }
 
