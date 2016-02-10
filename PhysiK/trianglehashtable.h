@@ -37,13 +37,15 @@ namespace PhysiK {
 	};
 
 	class TriangleHashTable : public HashTable<Body>{
-		void generateIntersection(std::vector<IntersectionParticuleTriangle> &intersections);
-		void addObject(Body * body);
+		public:
+			void generateIntersection(std::vector<IntersectionParticuleTriangle> &intersections);
+			void addObject(Body * body);
 	};
 
 	class ParticleHashTable : public HashTable<ParticleGroup>{
-		void generateIntersection(std::vector<IntersectionParticuleParticule> &intersections);
-		void addObject(ParticleGroup* body);
+		public:
+			void generateIntersection(std::vector<IntersectionParticuleParticule> &intersections);
+			void addObject(ParticleGroup* body);
 	};
 
 }

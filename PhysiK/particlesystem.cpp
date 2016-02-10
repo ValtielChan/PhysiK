@@ -4,6 +4,7 @@
 #include "particlegroup.h"
 #include "constraint.h"
 #include "triangle.h"
+#include "intersection.h"
 
 void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 {
@@ -67,8 +68,19 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
 void PhysiK::ParticleSystem::genIntersectionConstraints()
 {
 
+	PHT.clear();
+	for(PhysicObject * object : physicObjecs){
+		ParticleGroup * particules = dynamic_cast<ParticleGroup *>(object);
+		if(particules)
+			PHT.addObject(particules);
+	}
 
     // find particle to particle intersections
+
+	std::vector<IntersectionParticuleParticule> intersections1;
+	PHT.generateIntersection(intersections1);
+	for(IntersectionParticuleParticule& intersection: intersections1)
+		solver.pushTemporaryConstraint(intersection.getConstraint());
 
     // find particle to plane intersections
 
