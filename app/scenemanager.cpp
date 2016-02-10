@@ -9,7 +9,7 @@ SceneManager::SceneManager()
 {
     particle = NULL;
     Light* sun = new Light();
-    sun->initDirectionnalLight(glm::vec3(2, -5, 8));
+    sun->initDirectionnalLight(glm::vec3(2, -5, -8));
     scene.addLight(sun);
 }
 

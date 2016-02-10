@@ -22,20 +22,24 @@ class DrawWidget : public QGLWidget
     SceneManager sceneManager;
     ForwardModule *forward;
 
+    QPoint lastMousePos;
+    bool grabbed;
+
+    void initPipeline();
+    glm::vec3 getRandomPos();
+
 protected:
     // Output
     virtual void initializeGL();
     virtual void paintGL();
     virtual void resizeGL(int w, int h);
-    void initPipeline();
 
     // Input
-    QPoint lastMousePos;
-    bool grabbed;
     void keyPressEvent(QKeyEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+    void wheelEvent(QWheelEvent *event);
 
 public:
     DrawWidget(QWidget *parent = 0);

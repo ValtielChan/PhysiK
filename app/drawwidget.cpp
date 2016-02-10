@@ -9,6 +9,7 @@
 #include <QInputDialog>
 #include "particledialog.h"
 #include "qtutils.h"
+#include <ctime>
 
 DrawWidget::DrawWidget(QWidget *parent) :
     QGLWidget(parent)
@@ -18,6 +19,7 @@ DrawWidget::DrawWidget(QWidget *parent) :
     renderer.setScene(sceneManager.getScene());
     connect(&glRefreshTimer, SIGNAL(timeout()), this, SLOT(repaint()));
     glRefreshTimer.start(25);
+    std::srand(std::time(NULL));
 }
 
 void DrawWidget::initializeGL()
@@ -57,6 +59,11 @@ void DrawWidget::initPipeline()
         renderer.addModule(new CrappyModule(), "crappy");
 }
 
+glm::vec3 DrawWidget::getRandomPos()
+{
+    return glm::vec3(rand()%10000, rand()%10000, rand()%10000)/10000.f - 0.5f;
+}
+
 void DrawWidget::addMesh()
 {
     WavefrontMesh meshLoader;
@@ -89,14 +96,14 @@ void DrawWidget::addParticles()
         {
             std::vector<glm::vec3> particles;
             for(int i=0; i<properties.amount; ++i)
-                particles.push_back(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f);
+                particles.push_back(getRandomPos()*10.f);
             sceneManager.addParticleGroup(particles, properties);
             forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
         }
         else
         {
             for(int i=0; i<properties.amount; ++i)
-                sceneManager.addParticle(glm::vec3(rand()%100, rand()%100, rand()%100)/10.f, properties);
+                sceneManager.addParticle(getRandomPos()*10.f, properties);
         }
     }
 }
@@ -135,4 +142,9 @@ void DrawWidget::mousePressEvent(QMouseEvent* event)
 void DrawWidget::mouseReleaseEvent(QMouseEvent* event)
 {
     grabbed = false;
+}
+
+void DrawWidget::wheelEvent(QWheelEvent *event)
+{
+    camera.mouseScroll(event->delta());
 }
