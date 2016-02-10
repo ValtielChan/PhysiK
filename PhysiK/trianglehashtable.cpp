@@ -10,9 +10,9 @@ void PhysiK::ParticleHashTable::addObject(ParticleGroup * group){
 		for(float dx = 0; dx<group->radius;dx+=vec3::VortexSize){
 			for(float dy = 0; dy<group->radius;dy+=vec3::VortexSize){
 				for(float dz = 0; dz<group->radius;dz+=vec3::VortexSize){
-					vec3& p = group->getPositions()[i].pos;
-					vec3 pos = vec3(p.x+dx,p.y+dy,p.z+dz);
-					Vortex[pos].push_back(std::make_pair(group,i));
+					vec3 p = group->getPositions()[i].pos;
+					vec3 pos = vec3(p.x+dx,p.y+dy,p.z+dz)();
+					Vortex[pos.toVortex()].push_back(std::make_pair(group,i));
 				}
 			}
 		}

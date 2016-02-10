@@ -84,17 +84,17 @@ float PhysiK::vec3::dot(vec3 snd) const{
 			+this->z*snd.z;
 }
 
+PhysiK::vec3 PhysiK::vec3::toVortex(){
+	return vec3(int(x/vec3::VortexSize),int(y/vec3::VortexSize),int(z/vec3::VortexSize));
+}
+
 unsigned int PhysiK::vec3::operator()(const vec3& v) const{
-	int x = v.x/vec3::VortexSize;
-	int y = v.y/vec3::VortexSize;
-	int z = v.z/vec3::VortexSize;
 
 	const unsigned int limit = std::pow(UINT_MAX,1.f/3.f)-1;
 
-	unsigned int x2 = x % limit;
-	unsigned int y2 = y % limit;
-	unsigned int z2 = z % limit;
+	unsigned int x = int(v.x) % limit;
+	unsigned int y = int(v.y) % limit;
+	unsigned int z = int(v.z) % limit;
 
-	return x2+y2*limit+z2*limit*limit;
-
+	return x+y*limit+z*limit*limit;
 }
