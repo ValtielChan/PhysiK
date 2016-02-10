@@ -4,11 +4,11 @@
 #include "trianglehashtable.h"
 #include "solver.h"
 
-#include "body.h"
-#include "particlegroup.h"
 #include "particle.h"
-#include "constraint.h"
-#include "triangle.h"
+
+#define DEFAULT_GRAVITY 9.81f
+#define DEFAULT_DAMPING 0.9f
+#define DEFAULT_NB_ITERATIONS 10
 
 namespace PhysiK {
 
@@ -26,11 +26,21 @@ namespace PhysiK {
 
 			std::vector<PhysicObject *> physicObjecs;
 
-			TriangleHashTable TNT;
+			TriangleHashTable THT;
 
 			Solver solver;
 
+			float gravity;
+			float damping;
+			int nbIterations;
+
 		public:
+
+			ParticleSystem() :
+				gravity(DEFAULT_GRAVITY),
+				damping(DEFAULT_DAMPING),
+				nbIterations(DEFAULT_NB_ITERATIONS)
+			{}
 
 			/**
 			 * @brief add a body and generate the constraint to make a rigid body
@@ -51,7 +61,12 @@ namespace PhysiK {
 			/**
 			 * @brief generate intersections for the next iteration of the loop
 			 */
-			void genIntersectionConstraint();
+			void genIntersectionConstraints();
+
+			/**
+			 * @brief velocityUpdate generates impultions for each collision
+			 */
+			void velocityUpdate();
 
 			/**
 			 * @brief execute the next iteration of the loop

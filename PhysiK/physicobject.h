@@ -17,9 +17,9 @@ namespace PhysiK {
 
             PhysicObject();
 
-			Particle * positions;
+            Particle * positions;
 
-			vec3 * oldPositions;
+            vec3 * newPositions;
 
             vec3 * velocities;
 
@@ -37,6 +37,14 @@ namespace PhysiK {
 			 * @brief compute de barycenter of all particles *_*
 			 */
 			void computeBarycenter();
+
+			/**
+			 * @brief preUpdate and postUpdate are two stages of one simulation step
+			 * the first is called at the beginning of the integrator loop, and the second
+			 * just after solving the constraints system.
+			 */
+			void preUpdate(float dt, float gravity, float damping);
+			void postUpdate(float dt);
 
 			/**
 			 * @brief make it virtual

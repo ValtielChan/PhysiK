@@ -24,19 +24,23 @@ namespace PhysiK {
 
 			float& operator[](const unsigned int offset);
 
-			vec3 operator*(const float snd) const;
+			vec3 operator*(const float value) const;
 
-			vec3 operator+(const vec3 snd) const;
+			vec3 operator+(const vec3 value) const;
 
-			vec3 operator/(const float snd) const;
+			vec3 operator/(const float value) const;
 
-			vec3 operator-(const vec3 snd) const;
+			vec3 operator-(const vec3 value) const;
+
+			vec3 &operator*=(const float value);
 
 			float length() const;
 
-			vec3 cross(vec3 snd) const;
+			float lengthSquared() const;
 
-			float dot(vec3 snd) const;
+			vec3 cross(vec3 value) const;
+
+			float dot(vec3 value) const;
 
 	};
 

@@ -7,39 +7,45 @@ PhysiK::vec3::vec3(const float fst, const float snd, const float thr):
 
 }
 
-const float& PhysiK::vec3::operator [](const unsigned int offset) const{
+const float& PhysiK::vec3::operator[](const unsigned int offset) const{
 	assert(offset<3);
 	return (&x)[offset];
 }
 
-float& PhysiK::vec3::operator [](const unsigned int offset){
+float& PhysiK::vec3::operator[](const unsigned int offset){
 	assert(offset<3);
 	return (&x)[offset];
 }
 
-PhysiK::vec3 PhysiK::vec3::operator *(const float value) const{
+PhysiK::vec3 PhysiK::vec3::operator*(const float value) const{
 	vec3 to_return = *this;
 	for(int i = 0 ; i < 3 ; i++)
 		to_return[i]*=value;
 	return to_return;
 }
 
-PhysiK::vec3 PhysiK::vec3::operator +(const vec3 value) const{
+PhysiK::vec3 &PhysiK::vec3::operator*=(const float value){
+	x *= value;
+	y *= value;
+	z *= value;
+	return *this;
+}
+
+PhysiK::vec3 PhysiK::vec3::operator+(const vec3 value) const{
 	vec3 to_return = *this;
 	for(int i = 0 ; i < 3 ; i++)
 		to_return[i]+=value[i];
 	return to_return;
 }
 
-
-PhysiK::vec3 PhysiK::vec3::operator /(const float value) const{
+PhysiK::vec3 PhysiK::vec3::operator/(const float value) const{
 	vec3 to_return = *this;
 	for(int i = 0 ; i < 3 ; i++)
 		to_return[i]*=value;
 	return to_return;
 }
 
-PhysiK::vec3 PhysiK::vec3::operator -(const vec3 value) const{
+PhysiK::vec3 PhysiK::vec3::operator-(const vec3 value) const{
 	vec3 to_return = *this;
 	for(int i = 0 ; i < 3 ; i++)
 		to_return[i]+=value[i];
@@ -48,6 +54,10 @@ PhysiK::vec3 PhysiK::vec3::operator -(const vec3 value) const{
 
 float PhysiK::vec3::length() const{
 	return std::sqrt(x*x+y*y+z*z);
+}
+
+float PhysiK::vec3::lengthSquared() const{
+	return x*x+y*y+z*z;
 }
 
 PhysiK::vec3 PhysiK::vec3::cross(vec3 snd) const{
@@ -65,7 +75,7 @@ float PhysiK::vec3::dot(vec3 snd) const{
 			+this->z*snd.z;
 }
 
-unsigned int PhysiK::vec3::operator ()(const vec3& v) const{
+unsigned int PhysiK::vec3::operator()(const vec3& v) const{
 	//hash basique en attendant de trouver mieux
 	float x=v.x,y=v.y,z=v.z;
 	float max = std::max(std::max(x,y),z);
