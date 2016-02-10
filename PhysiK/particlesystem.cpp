@@ -1,5 +1,9 @@
 #include "particlesystem.h"
 
+#include "body.h"
+#include "particlegroup.h"
+#include "constraint.h"
+#include "triangle.h"
 
 void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 {
@@ -60,12 +64,33 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
 
 }
 
-void PhysiK::ParticleSystem::genIntersectionConstraint()
+void PhysiK::ParticleSystem::genIntersectionConstraints()
 {
+    // find particle to particle intersections
 
+    // find particle to plane intersections
+
+    // MILESTONE 2 : find particle to triangle intersections
+}
+
+void PhysiK::ParticleSystem::velocityUpdate()
+{
+    // for each intersection, generate a collision impulse
 }
 
 void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 {
+    // d'après le papier PBD
 
+    for(PhysicObject* po : physicObjecs)
+        po->preUpdate(deltaT, gravity , damping);
+
+    genIntersectionConstraints();
+
+    solver.solve(nbIterations);
+
+    for(PhysicObject* po : physicObjecs)
+        po->postUpdate(deltaT);
+
+    velocityUpdate();
 }

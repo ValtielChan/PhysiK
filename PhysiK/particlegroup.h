@@ -13,8 +13,8 @@ namespace PhysiK {
 
 		private:
 
-			float radius;
 			float mass;
+			float radius;
 
 		public:
 

@@ -20,5 +20,24 @@ void PhysiK::PhysicObject::computeBarycenter()
 
 PhysiK::Particle *PhysiK::PhysicObject::getPositions()
 {
-	return positions;
+    return positions;
+}
+
+void PhysiK::PhysicObject::preUpdate(float dt, float gravity, float damping)
+{
+    for(int i=0; i<nbParticles; ++i)
+    {
+        velocities[i].y += gravity * dt;
+        velocities[i] *= damping;
+        newPositions[i] = positions[i].pos + velocities[i]*dt;
+    }
+}
+
+void PhysiK::PhysicObject::postUpdate(float dt)
+{
+    for(int i=0; i<nbParticles; ++i)
+    {
+        velocities[i] = (newPositions[i] - positions[i].pos)/dt;
+        positions[i].pos = newPositions[i];
+    }
 }
