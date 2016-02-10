@@ -61,8 +61,8 @@ public:
     void addLight(Light* myLight) {lights.push_back(myLight);}
     Mesh* getMesh(int id) {return geometry[id]->mesh;}
 
-    virtual SceneIterator<Light*>* getLights() {return new ArraySceneIterator<Light*>(lights);}
-    virtual SceneIterator<GeometryNode*>* getGeometry() {return new ArraySceneIterator<GeometryNode*>(geometry);}
+    SceneIterator<Light*>* getLights() {return new ArraySceneIterator<Light*>(lights);}
+    SceneIterator<GeometryNode*>* getGeometry() {return new ArraySceneIterator<GeometryNode*>(geometry);}
 };
 
 #endif // SCENE_H

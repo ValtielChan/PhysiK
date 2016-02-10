@@ -53,10 +53,10 @@ public:
     void setColor(glm::vec3 new_color) {color = new_color;}
 
     // camera inheritance
-    virtual glm::mat4 getProjectionMatrix() {return projectionMatrix;}
-    virtual glm::mat4 getViewMatrix() {return viewMatrix;}
+    glm::mat4 getProjectionMatrix() {return projectionMatrix;}
+    glm::mat4 getViewMatrix() {return viewMatrix;}
     // does nothing, just required for inheriting Camera
-    virtual void    resize(int width, int height) {}
+    void    resize(int width, int height) {}
 
     static unsigned int getFlags(Light* l);
 private:

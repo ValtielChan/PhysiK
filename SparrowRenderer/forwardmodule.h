@@ -22,8 +22,8 @@ public:
         isWireframe(false)
     {}
 
-    virtual void renderGL(Camera* myCamera, Scene* scene);
-    virtual bool requiresModernOpenGL() {return true;} // write some compatibility code to change that to false
+    void renderGL(Camera* myCamera, Scene* scene);
+    bool requiresModernOpenGL() {return true;} // write some compatibility code to change that to false
 
     // modern opengl methods
 

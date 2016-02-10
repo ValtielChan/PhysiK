@@ -33,9 +33,9 @@ public:
         alpha_mask(NULL)
     {}
 
-    virtual void bindAttributes(Shader* myShader = NULL);
+    void bindAttributes(Shader* myShader = NULL);
 
-    virtual unsigned int getFlags();
+    unsigned int getFlags();
 
     /**
      * deprecated, you should use setDiffuseTexture instead

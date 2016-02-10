@@ -6,9 +6,9 @@
 
 struct Image
 {
-    int depth;
     int width;
     int height;
+    int depth;
     void* pixels;
 
     Image() : pixels(NULL) {}
