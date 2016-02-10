@@ -62,7 +62,7 @@ void main(void) {
 #endif
 
 #ifdef SHADOWMAP
-    posInLightSpace = lightMVP * vec4(inPosition, 1.0);
+    posInLightSpace = lightMVP * pos;
 #endif
 
 #ifdef POINT_LIGHT
@@ -82,5 +82,5 @@ void main(void) {
 
     varTexCoord = inTexCoord.xy;
 
-    gl_Position = MVP * vec4(inPosition, 1.0);
+    gl_Position = MVP * pos;
 }

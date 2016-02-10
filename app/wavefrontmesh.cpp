@@ -86,6 +86,12 @@ std::vector<Mesh*> WavefrontMesh::loadMesh(QString wavefrontFilename, bool noDia
         }
     }
     delete(loader);
+    for(Mesh* m : meshes)
+    {
+        if(m->material->getFlags() & NORMAL_MAP_FLAG)
+            m->computeTangents();
+        m->mergeVertices();
+    }
     return meshes;
 }
 
@@ -302,6 +308,7 @@ void MeshLoader::run()
 
     // TODO : optimisation -> merge groups with same material
     textureLoader.wait();
+
     ok = true;
 }
 

@@ -43,9 +43,9 @@ class ParticleDialog : public QDialog
     private:
         ParticleProperties property;
 
-        QSpinBox *spinBoxMass;
+        QDoubleSpinBox *spinBoxMass;
         QSpinBox *spinBoxAmount;
-        QSpinBox *spinBoxRadius;
+        QDoubleSpinBox *spinBoxRadius;
         ColorButton *colorButton;
 
     private slots:

@@ -96,7 +96,10 @@ void ForwardModule::lightPass(Camera* myCamera, Scene* scene, Light* light)
         {
             GeometryNode* node = geometryIt->getItem();
             Material* mat = node->mesh->material;
-            if(mat->getFlags() == geometryFlagList[i]) // if flag matches material
+            unsigned int flags = mat->getFlags();
+            if(node->mesh->hasInstances())
+                flags |= INSTANCING_FLAG;
+            if(flags == geometryFlagList[i]) // if flag matches material
             {
                 // compute matrix attributes
                 glm::mat4 modelViewMatrix = myCamera->getViewMatrix() * node->modelMatrix;

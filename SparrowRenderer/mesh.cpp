@@ -86,8 +86,8 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
     }
     else
     {
-        glAssert(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
         glAssert(glEnableVertexAttribArray(0));
+        glAssert(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
     }
     if(hasNormals() && drawNormals)
     {
@@ -99,8 +99,8 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
         }
         else
         {
-            glAssert(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
             glAssert(glEnableVertexAttribArray(1));
+            glAssert(glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
         }
     }
     if(hasTexCoords() && drawTexCoord)
@@ -113,23 +113,23 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
         }
         else
         {
-            glAssert(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), BUFFER_OFFSET(0)));
             glAssert(glEnableVertexAttribArray(2));
+            glAssert(glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(glm::vec2), BUFFER_OFFSET(0)));
         }
     }
     if(hasTangents() && drawTangents && !crappy)
     {
         glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[TANGENT_BUFFER]));
-        glAssert(glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Tangents), BUFFER_OFFSET(0)));
         glAssert(glEnableVertexAttribArray(3));
-        glAssert(glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Tangents), BUFFER_OFFSET(sizeof(glm::vec3))));
+        glAssert(glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Tangents), BUFFER_OFFSET(0)));
         glAssert(glEnableVertexAttribArray(4));
+        glAssert(glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Mesh::Tangents), BUFFER_OFFSET(sizeof(glm::vec3))));
     }
-    if(instances_offsets.size() > 1 && !crappy)
+    if(!instances_offsets.empty() && !crappy)
     {
         glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
-        glAssert(glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
         glAssert(glEnableVertexAttribArray(5));
+        glAssert(glVertexAttribPointer(5, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
         glAssert(glVertexAttribDivisor(5, 1));
         glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDICES_BUFFER]));
         glAssert(glDrawElementsInstanced(primitive_type, indices.size(), GL_UNSIGNED_INT, NULL, instances_offsets.size()));

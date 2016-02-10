@@ -19,7 +19,7 @@ class MyCamera : public Camera
     float m_dist;
 
 public:
-    MyCamera(float myFov = 90.f, float myNear = 0.1f, float myFar = 10000.f);
+    MyCamera(float myFov = 70.f, float myNear = 0.1f, float myFar = 10000.f);
 
     glm::mat4 getProjectionMatrix() {return m_projection;}
     glm::mat4 getViewMatrix() {return m_view;}
