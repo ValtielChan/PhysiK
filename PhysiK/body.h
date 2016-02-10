@@ -17,9 +17,6 @@ namespace PhysiK {
 
 		public:
 
-			Body();
-			~Body();
-
 			unsigned int nbTriangles;
 
 			/**

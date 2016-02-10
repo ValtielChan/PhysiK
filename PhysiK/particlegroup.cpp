@@ -3,15 +3,12 @@
 
 PhysiK::ParticleGroup::ParticleGroup(int particleAmount, char* dataPtr, int dataStride,
 									 float particleRadius, float particleMass) :
-	PhysicObject(),
+	PhysicObject(particleAmount),
 	mass(particleMass),
 	radius(particleRadius)
 {
 	nbParticles = particleAmount;
 	float omega = 1/mass;
-	PhysiK::PhysicObject::positions = new Particle[nbParticles];
-	PhysiK::PhysicObject::newPositions = new vec3[nbParticles];
-	PhysiK::PhysicObject::velocities = new vec3[nbParticles];
 	for(int i=0; i<nbParticles; ++i)
 	{
 		float* ptr = (float*)dataPtr;
@@ -20,11 +17,4 @@ PhysiK::ParticleGroup::ParticleGroup(int particleAmount, char* dataPtr, int data
 		velocities[i] = PhysiK::vec3(0, 0, 0);
 		dataPtr += dataStride;
 	}
-}
-
-PhysiK::ParticleGroup::~ParticleGroup()
-{
-	delete positions;
-	delete newPositions;
-	delete velocities;
 }

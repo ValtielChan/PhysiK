@@ -34,6 +34,8 @@ namespace PhysiK {
 
 			vec3 &operator*=(const float value);
 
+			bool operator ==(const vec3 value) const;
+
 			float length() const;
 
 			float lengthSquared() const;
@@ -41,6 +43,9 @@ namespace PhysiK {
 			vec3 cross(vec3 value) const;
 
 			float dot(vec3 value) const;
+
+			//these value should affect performance
+			static float VortexSize;//un truc très grand pour commencer
 
 	};
 

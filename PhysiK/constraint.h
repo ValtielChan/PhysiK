@@ -46,8 +46,10 @@ namespace PhysiK {
 	// Concrete constraints (To put in separate files maybe)
 	class DistanceConstraint : public Constraint
 	{
+			bool min;
+			float dst;
 		public:
-			DistanceConstraint(Particle *pos1, Particle *pos2);
+			DistanceConstraint(Particle *pos1, Particle *pos2, float dst = 0);
 			float eval();
 	};
 
@@ -75,6 +77,17 @@ namespace PhysiK {
 			CollisionConstraint(Particle *pos, vec3 pt1, vec3 pt2, vec3 pt3);
 			float eval();
 	};
+
+	/*class VolumeConstraint : public Constraint{
+		private:
+			float volume;
+			vec3 center;
+		public:
+			VolumeConstraint(vec3 center);
+			float volume();
+			float eval();
+	};*/
+
 
 }
 
