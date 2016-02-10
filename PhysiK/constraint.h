@@ -46,8 +46,10 @@ namespace PhysiK {
 	// Concrete constraints (To put in separate files maybe)
 	class DistanceConstraint : public Constraint
 	{
+			bool min;
+			float dst;
 		public:
-			DistanceConstraint(Particle *pos1, Particle *pos2);
+			DistanceConstraint(Particle *pos1, Particle *pos2, float dst = 0);
 			float eval();
 	};
 

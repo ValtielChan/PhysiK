@@ -11,12 +11,10 @@ namespace PhysiK {
 	class ParticleGroup : public PhysicObject
 	{
 
-		private:
+		public:
 
 			float mass;
 			float radius;
-
-		public:
 
 			/**
 			 * @param particleAmount is the amount of positions to be read from the data pointer
@@ -28,10 +26,8 @@ namespace PhysiK {
 			 */
 			ParticleGroup(int particleAmount, char* dataPtr, int dataStride,
 						  float particleRadius, float particleMass);
-
-			~ParticleGroup();
 	};
 
-	}
+}
 
 #endif // PARTICLEGROUP_H

@@ -27,6 +27,7 @@ namespace PhysiK {
 			std::vector<PhysicObject *> physicObjecs;
 
 			TriangleHashTable THT;
+			ParticleHashTable PHT;
 
 			Solver solver;
 

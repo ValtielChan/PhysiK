@@ -32,13 +32,17 @@ float PhysiK::Constraint::lambda(){
 	return eval()/sum;
 }
 
-PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2){
+PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, float dst):dst(dst){
+	min=dst!=0;
+	if(!min)
+		dst=(pos1->pos-pos2->pos).length();
 	positions.push_back(pos1);
 	positions.push_back(pos2);
 }
 
 float PhysiK::DistanceConstraint::eval(){
-	return (positions[0]->pos-positions[0]->pos).length();
+	float curdst = (positions[0]->pos-positions[0]->pos).length();
+	return min?std::min(0.f,curdst-dst):curdst;
 }
 
 PhysiK::CollisionConstraint::CollisionConstraint(Particle *pos, vec3 normal, float delta):normal(normal),delta(delta){

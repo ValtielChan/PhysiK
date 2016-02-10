@@ -1,12 +1,13 @@
 #include "intersection.h"
 
 #include "body.h"
+#include "particlegroup.h"
 #include "triangle.h"
 #include "constraint.h"
 
 #include <glm/common.hpp>
 
-bool PhysiK::Intersection::intersect(vec3 oldPostion) const{
+bool PhysiK::IntersectionParticuleTriangle::intersect(vec3 oldPostion) const{
 
 	//http://heigeas.free.fr/laure/ray_tracing/triangle.html
 
@@ -32,10 +33,18 @@ bool PhysiK::Intersection::intersect(vec3 oldPostion) const{
 
 }
 
-PhysiK::Constraint * PhysiK::Intersection::getConstraint() const{
+PhysiK::Constraint * PhysiK::IntersectionParticuleTriangle::getConstraint() const{
 	vec3 A[3];
 	for(int i = 0 ; i < 3 ; i++)
 		A[i] = colider->getPositions()[colider->getTriangles()[triangle][i]].pos;
 
 	return new CollisionConstraint(particule,A[0],A[1],A[2]);
+}
+
+bool PhysiK::IntersectionParticuleParticule::intersect() const{
+	return (colider->getPositions()[particuleColider].pos-particule->pos).length()<colider->radius+radius;
+}
+
+PhysiK::Constraint * PhysiK::IntersectionParticuleParticule::getConstraint() const{
+	return new DistanceConstraint(&colider->getPositions()[particuleColider],particule,colider->radius+radius);
 }

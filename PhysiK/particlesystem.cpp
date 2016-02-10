@@ -66,6 +66,7 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
 
 void PhysiK::ParticleSystem::genIntersectionConstraints()
 {
+
     // find particle to particle intersections
 
     // find particle to plane intersections

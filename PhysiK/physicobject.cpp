@@ -1,5 +1,11 @@
 #include "physicobject.h"
 
+PhysiK::PhysicObject::PhysicObject(int nbPosition){
+	positions = new Particle[nbPosition]();
+	newPositions = new vec3[nbPosition]();
+	velocities = new vec3[nbPosition]();
+}
+
 void PhysiK::PhysicObject::computeBarycenter()
 {
 
@@ -40,4 +46,10 @@ void PhysiK::PhysicObject::postUpdate(float dt)
         velocities[i] = (newPositions[i] - positions[i].pos)/dt;
         positions[i].pos = newPositions[i];
     }
+}
+
+PhysiK::PhysicObject::~PhysicObject(){
+	delete positions;
+	delete newPositions;
+	delete velocities;
 }

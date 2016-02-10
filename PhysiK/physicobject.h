@@ -15,7 +15,7 @@ namespace PhysiK {
 	{
 		protected:
 
-            PhysicObject();
+			PhysicObject(int nbPosition);
 
             Particle * positions;
 

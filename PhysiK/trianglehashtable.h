@@ -7,27 +7,43 @@
 
 namespace PhysiK {
 
-	class PhysicObject;
-	class Intersection;
+	class Body;
+	class IntersectionParticuleTriangle;
+	class IntersectionParticuleParticule;
+	class ParticleGroup;
 
 	/**
 	 * @brief Efficient data structure to generate intersection
 	 */
-	class TriangleHashTable
+	template <typename Object>
+	class HashTable
 	{
 
-		private:
+		protected:
 
-			std::unordered_map<vec3,std::tuple<PhysicObject *, unsigned int>,vec3> Vortex;
+			using m_pair = std::pair<Object *, unsigned int>;
+			using m_vector = std::vector<m_pair>;
+			using m_map = std::unordered_map<vec3,m_vector,vec3>;
+			m_map Vortex;
 
 		public:
 
-			/**
-			 * @brief guess what
-			 * @param intersections vector where to store the intersections
-			 */
-			void generateIntersection(std::vector<Intersection>& intersections);
+			virtual void addObject(Object *)=0;
+			void clear(){
+				Vortex.clear();
+				Vortex.rehash(0);
+			}
 
+	};
+
+	class TriangleHashTable : public HashTable<Body>{
+		void generateIntersection(std::vector<IntersectionParticuleTriangle> &intersections);
+		void addObject(Body * body);
+	};
+
+	class ParticleHashTable : public HashTable<ParticleGroup>{
+		void generateIntersection(std::vector<IntersectionParticuleParticule> &intersections);
+		void addObject(ParticleGroup* body);
 	};
 
 }

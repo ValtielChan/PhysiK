@@ -1,10 +1,12 @@
 #include "vec3.h"
 #include <cassert>
 #include <algorithm>
+#include <limits.h>
+
+float PhysiK::vec3::VortexSize = 1000;
 
 PhysiK::vec3::vec3(const float fst, const float snd, const float thr):
 	x(fst),y(snd),z(thr){
-
 }
 
 const float& PhysiK::vec3::operator[](const unsigned int offset) const{
@@ -52,6 +54,13 @@ PhysiK::vec3 PhysiK::vec3::operator-(const vec3 value) const{
 	return to_return;
 }
 
+bool PhysiK::vec3::operator==(const vec3 value) const{
+	x==value.x;
+	y==value.y;
+	z==value.z;
+}
+
+
 float PhysiK::vec3::length() const{
 	return std::sqrt(x*x+y*y+z*z);
 }
@@ -76,9 +85,16 @@ float PhysiK::vec3::dot(vec3 snd) const{
 }
 
 unsigned int PhysiK::vec3::operator()(const vec3& v) const{
-	//hash basique en attendant de trouver mieux
-	float x=v.x,y=v.y,z=v.z;
-	float max = std::max(std::max(x,y),z);
-	float dec = 256;
-	return std::abs((((x/max)*dec+y/max)*dec+z/max)*dec+max);
+	int x = v.x/vec3::VortexSize;
+	int y = v.y/vec3::VortexSize;
+	int z = v.z/vec3::VortexSize;
+
+	const unsigned int limit = std::pow(UINT_MAX,1.f/3.f)-1;
+
+	unsigned int x2 = x % limit;
+	unsigned int y2 = y % limit;
+	unsigned int z2 = z % limit;
+
+	return x2+y2*limit+z2*limit*limit;
+
 }
