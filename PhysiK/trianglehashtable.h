@@ -32,7 +32,6 @@ namespace PhysiK {
                 voxelGrid.clear();
                 voxelGrid.rehash(0);
 			}
-
 	};
 
 	class TriangleHashTable : public HashTable<Body>{

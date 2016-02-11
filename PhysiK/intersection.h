@@ -33,17 +33,19 @@ namespace PhysiK {
 
 		private:
 
-			Particle * particule1;
-			Particle * particule2;
+            Particle * particle1;
+            Particle * particle2;
 			float radius;
 
 		public:
 
-			IntersectionParticuleParticule(Particle * particule1,Particle * particule2,float radius)
-				:particule1(particule1),particule2(particule2),radius(radius){}
+            IntersectionParticuleParticule(Particle * particle1,Particle * particle2,float radius)
+                :particle1(particle1),particle2(particle2),radius(radius){}
 			bool intersect()const;
 			Constraint * getConstraint() const;
 
+            Particle *getParticle1() { return particle1; }
+            Particle *getParticle2() { return particle2; }
 	};
 
 }

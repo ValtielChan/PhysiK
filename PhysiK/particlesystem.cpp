@@ -77,29 +77,37 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 
     // find particle to particle intersections
 
-    std::vector<IntersectionParticuleParticule> intersections;
-    PHT.generateIntersection(intersections);
+    // Need to store intersection for velocityUpdate
+    ptpIntersections.clear();
+    PHT.generateIntersection(ptpIntersections);
 
-    for(IntersectionParticuleParticule& intersection: intersections)
+    for(IntersectionParticuleParticule& intersection: ptpIntersections)
 		solver.pushTemporaryConstraint(intersection.getConstraint());
 
     // find particle to plane intersections
+
 
     // MILESTONE 2 : find particle to triangle intersections
 }
 
 void PhysiK::ParticleSystem::velocityUpdate()
 {
-    // Apply gravity
-    for (PhysicObject *po : physicObjecs) {
-
-        vec3 *velocities = po->getVelocities();
-
-        for (int i = 0; i < po->nbParticles; i++)
-            velocities[i] += vec3(0.0f, -gravity, 0.0f);
-    }
-
     // for each intersection, generate a collision impulse
+    // glm::vec3 v2 = -2 * glm::dot(v1, n) * n + v1;
+    for (IntersectionParticuleParticule inter : ptpIntersections) {
+        Particle* p1 = inter.getParticle1();
+        Particle* p2 = inter.getParticle2();
+
+        vec3 n = p1->pos - p2->pos;
+        n = n.normalize();
+
+        vec3 impulseP1 = (n * p1->velocity.dot(n)) * -2.0f + p1->velocity;
+        vec3 impulseP2 = (n.opposite() * p1->velocity.dot(n.opposite())) * -2.0f + p1->velocity;
+
+        // To change later (no wanted behaviour)
+        p1->velocity += impulseP1;
+        p1->velocity += impulseP2;
+    }
 }
 
 void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)

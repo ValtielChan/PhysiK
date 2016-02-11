@@ -21,8 +21,6 @@ namespace PhysiK {
 
             vec3 * newPositions;
 
-            vec3 * velocities;
-
 		public:
 
 			unsigned int nbParticles;
@@ -32,11 +30,6 @@ namespace PhysiK {
              * @brief return a pointer to the positions of the vertices for the user
 			 */
 			Particle * getPositions();
-
-            /**
-             * @brief return a pointer to the velocities
-             */
-            vec3 * getVelocities();
 
 			/**
 			 * @brief compute de barycenter of all particles *_*

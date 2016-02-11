@@ -13,8 +13,7 @@ PhysiK::ParticleGroup::ParticleGroup(int particleAmount, char* dataPtr, int data
 	{
 		float* ptr = (float*)dataPtr;
 		PhysiK::vec3 pos(ptr[0], ptr[1], ptr[2]);
-		positions[i] = PhysiK::Particle(pos, omega);
-		velocities[i] = PhysiK::vec3(0, 0, 0);
+        positions[i] = PhysiK::Particle(pos, omega);
 		dataPtr += dataStride;
 	}
 }

@@ -63,7 +63,12 @@ PhysiK::vec3 PhysiK::vec3::operator-(const vec3 value) const{
 }
 
 bool PhysiK::vec3::operator==(const vec3 value) const{
-	return x==value.x&&y==value.y&&z==value.z;
+    return x==value.x && y==value.y && z==value.z;
+}
+
+PhysiK::vec3 PhysiK::vec3::opposite() const
+{
+    return vec3(-this->x, -this->y, -this->z);
 }
 
 
@@ -72,7 +77,13 @@ float PhysiK::vec3::length() const{
 }
 
 float PhysiK::vec3::lengthSquared() const{
-	return x*x+y*y+z*z;
+    return x*x+y*y+z*z;
+}
+
+PhysiK::vec3 PhysiK::vec3::normalize() const
+{
+    float len = length();
+    return vec3(this->x / len, this->y / len, this->y / len);
 }
 
 PhysiK::vec3 PhysiK::vec3::cross(vec3 snd) const{
