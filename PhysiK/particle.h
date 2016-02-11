@@ -1,5 +1,5 @@
-#ifndef PARTICULE_H
-#define PARTICULE_H
+#ifndef PARTICLE_H
+#define PARTICLE_H
 #include "vec3.h"
 
 namespace PhysiK {
@@ -18,7 +18,7 @@ namespace PhysiK {
 			 * @brief Construct a Particle with a postion and a weight
 			 * @param omega equal to 1/mass
 			 */
-            Particle(vec3 particule, float omega = 1, vec3 vel = vec3(0,0,0)) : pos(particule), omega(omega), velocity(vel) {}
+			Particle(vec3 particle, float omega = 1, vec3 vel = vec3(0,0,0)) : pos(particle), omega(omega), velocity(vel) {}
 
 			/**
 			 * @brief Default constructor
@@ -29,4 +29,4 @@ namespace PhysiK {
 
 	}
 
-#endif // PARTICULE_H
+#endif // PARTICLE_H

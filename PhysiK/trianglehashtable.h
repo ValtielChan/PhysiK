@@ -8,8 +8,8 @@
 namespace PhysiK {
 
 	class Body;
-	class IntersectionParticuleTriangle;
-	class IntersectionParticuleParticule;
+	class IntersectionParticleTriangle;
+	class IntersectionParticleParticle;
 	class ParticleGroup;
 
 	/**
@@ -36,13 +36,13 @@ namespace PhysiK {
 
 	class TriangleHashTable : public HashTable<Body>{
 		public:
-			void generateIntersection(std::vector<IntersectionParticuleTriangle> &intersections);
+			void generateIntersection(std::vector<IntersectionParticleTriangle> &intersections);
 			void addObject(Body * body);
 	};
 
 	class ParticleHashTable : public HashTable<ParticleGroup>{
 		public:
-			void generateIntersection(std::vector<IntersectionParticuleParticule> &intersections);
+			void generateIntersection(std::vector<IntersectionParticleParticle> &intersections);
 			void addObject(ParticleGroup* body);
 	};
 

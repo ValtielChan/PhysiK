@@ -7,11 +7,11 @@
 
 #include <glm/common.hpp>
 
-bool PhysiK::IntersectionParticuleTriangle::intersect(vec3 oldPostion) const{
+bool PhysiK::IntersectionParticleTriangle::intersect(vec3 oldPostion) const{
 
 	//http://heigeas.free.fr/laure/ray_tracing/triangle.html
 
-	vec3 p = particule->pos;
+	vec3 p = particle->pos;
 	vec3 d = oldPostion-p;
 
 	vec3 A[3];
@@ -33,18 +33,18 @@ bool PhysiK::IntersectionParticuleTriangle::intersect(vec3 oldPostion) const{
 
 }
 
-PhysiK::Constraint * PhysiK::IntersectionParticuleTriangle::getConstraint() const{
+PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint() const{
 	vec3 A[3];
 	for(int i = 0 ; i < 3 ; i++)
 		A[i] = colider->getPositions()[colider->getTriangles()[triangle][i]].pos;
 
-	return new CollisionConstraint(particule,A[0],A[1],A[2]);
+	return new CollisionConstraint(particle,A[0],A[1],A[2]);
 }
 
-bool PhysiK::IntersectionParticuleParticule::intersect() const{
+bool PhysiK::IntersectionParticleParticle::intersect() const{
     return (particle1->pos-particle2->pos).length()<radius;
 }
 
-PhysiK::Constraint * PhysiK::IntersectionParticuleParticule::getConstraint() const{
+PhysiK::Constraint * PhysiK::IntersectionParticleParticle::getConstraint() const{
     return new DistanceConstraint(particle1, particle2, radius);
 }
