@@ -22,7 +22,7 @@ void PhysiK::ParticleHashTable::addObject(ParticleGroup * group){
 	}
 }
 
-void PhysiK::ParticleHashTable::generateIntersection(std::vector<IntersectionParticuleParticule> &intersections){
+void PhysiK::ParticleHashTable::generateIntersection(std::vector<IntersectionParticleParticle> &intersections){
 	for(auto& voxel : voxelGrid){
 		m_vector& test = voxel.second;
 		for(m_pair& pair1 : test){
