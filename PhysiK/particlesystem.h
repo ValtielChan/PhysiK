@@ -5,6 +5,7 @@
 #include "solver.h"
 
 #include "particle.h"
+#include "intersection.h"
 
 #define DEFAULT_GRAVITY 9.81f
 #define DEFAULT_DAMPING 0.9f
@@ -29,7 +30,7 @@ namespace PhysiK {
 			TriangleHashTable THT;
 			ParticleHashTable PHT;
 
-            std::vector<IntersectionParticuleParticule> ptpIntersections;
+			std::vector<IntersectionParticuleParticule> ptpIntersections;
 
 			Solver solver;
 
