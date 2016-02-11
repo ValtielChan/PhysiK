@@ -6,13 +6,17 @@
 //this code is provided without any kind of waranty or purpose
 
 void PhysiK::ParticleHashTable::addObject(ParticleGroup * group){
+	float radius = group->radius;
+	int diameterInVoxel = 2.f*radius/vec3::voxelSize;
+	float uper_limit = float(diameterInVoxel+1)*vec3::voxelSize-radius;
 	for(unsigned int i = 0 ; i<group->nbParticles ;i++){
-        for(float dx = 0 ; dx < group->radius ; dx+=vec3::voxelSize){
-            for(float dy = 0 ; dy < group->radius ; dy+=vec3::voxelSize){
-                for(float dz = 0 ; dz < group->radius ; dz+=vec3::voxelSize){
-					vec3 p = group->getPositions()[i].pos;
-					vec3 pos = vec3(p.x+dx,p.y+dy,p.z+dz);
-                    voxelGrid[pos.toVoxel()].push_back(std::make_pair(group,i));
+		for(float dx = -radius ; dx < uper_limit ; dx+=vec3::voxelSize){
+			for(float dy = -radius ; dy < uper_limit ; dy+=vec3::voxelSize){
+				for(float dz = -radius ; dz < uper_limit ; dz+=vec3::voxelSize){
+					vec3 center = group->getPositions()[i].pos;
+					vec3 currentPosition = vec3(center.x+dx,center.y+dy,center.z+dz);
+					if((center-currentPosition).length()<radius)
+						voxelGrid[currentPosition.toVoxel()].push_back(std::make_pair(group,i));
 				}
 			}
 		}
@@ -20,7 +24,7 @@ void PhysiK::ParticleHashTable::addObject(ParticleGroup * group){
 }
 
 void PhysiK::ParticleHashTable::generateIntersection(std::vector<IntersectionParticuleParticule> &intersections){
-    for(auto& plop : voxelGrid){
+	for(auto& plop : voxelGrid){
 		m_vector& test = plop.second;
 		for(m_pair& pair1 : test){
 			for(m_pair& pair2 : test){

@@ -94,7 +94,7 @@ std::vector<Mesh*> WavefrontMesh::loadMesh(QString wavefrontFilename, bool noDia
             m->computeNormals();
         if(m->material->getFlags() & NORMAL_MAP_FLAG)
             m->computeTangents();
-        //m->mergeVertices();
+        m->mergeVertices();
     }
     return meshes;
 }

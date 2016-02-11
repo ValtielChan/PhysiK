@@ -28,12 +28,10 @@ namespace PhysiK {
 
 		public:
 
-			virtual void addObject(Object *)=0;
 			void clear(){
                 voxelGrid.clear();
                 voxelGrid.rehash(0);
 			}
-
 	};
 
 	class TriangleHashTable : public HashTable<Body>{

@@ -29,6 +29,8 @@ namespace PhysiK {
 			TriangleHashTable THT;
 			ParticleHashTable PHT;
 
+            std::vector<IntersectionParticuleParticule> ptpIntersections;
+
 			Solver solver;
 
 			float gravity;

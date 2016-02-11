@@ -38,9 +38,13 @@ namespace PhysiK {
 
 			bool operator ==(const vec3 value) const;
 
+            vec3 opposite() const;
+
 			float length() const;
 
 			float lengthSquared() const;
+
+            vec3 normalize() const;
 
 			vec3 cross(vec3 value) const;
 

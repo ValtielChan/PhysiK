@@ -42,9 +42,9 @@ PhysiK::Constraint * PhysiK::IntersectionParticuleTriangle::getConstraint() cons
 }
 
 bool PhysiK::IntersectionParticuleParticule::intersect() const{
-	return (particule1->pos-particule2->pos).length()<radius;
+    return (particle1->pos-particle2->pos).length()<radius;
 }
 
 PhysiK::Constraint * PhysiK::IntersectionParticuleParticule::getConstraint() const{
-    return new DistanceConstraint(particule1, particule2, radius);
+    return new DistanceConstraint(particle1, particle2, radius);
 }
