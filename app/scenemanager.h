@@ -2,6 +2,7 @@
 #define SCENEMANAGER_H
 
 #include <SparrowRenderer/scene.h>
+#include <PhysiK/particlesystem.h>
 
 class Mesh;
 
@@ -18,6 +19,7 @@ struct ParticleProperties
 class SceneManager
 {
     ArrayScene scene;
+    PhysiK::ParticleSystem physics;
 
     Mesh* createGrid(int n = 10, float size = 10);
 
@@ -32,6 +34,8 @@ public:
     void addNode(GeometryNode* node);
 
     Scene* getScene() {return &scene;}
+
+    void update(float dt);
 };
 
 #endif // SCENEMANAGER_H

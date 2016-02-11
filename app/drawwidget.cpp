@@ -17,7 +17,7 @@ DrawWidget::DrawWidget(QWidget *parent) :
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
     renderer.setScene(sceneManager.getScene());
-    connect(&glRefreshTimer, SIGNAL(timeout()), this, SLOT(repaint()));
+    connect(&glRefreshTimer, SIGNAL(timeout()), this, SLOT(update()));
     glRefreshTimer.start(25);
     std::srand(std::time(NULL));
 }
@@ -114,6 +114,12 @@ void DrawWidget::resetScene()
     sceneManager.resetScene();
     if(renderer.isModernOpenGLAvailable())
         forward->compileShaders(sceneManager.getScene());
+}
+
+void DrawWidget::update()
+{
+    sceneManager.update(0.025f);
+    repaint();
 }
 
 void DrawWidget::keyPressEvent(QKeyEvent *event)

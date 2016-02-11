@@ -126,3 +126,8 @@ Mesh* SceneManager::createGrid(int n, float size)
     grid->initGL();
     return grid;
 }
+
+void SceneManager::update(float dt)
+{
+    physics.nextSimulationStep(dt);
+}
