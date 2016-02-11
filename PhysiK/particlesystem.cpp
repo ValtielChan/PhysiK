@@ -121,10 +121,22 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 
     solver.solve(nbIterations);
 
-	solver.clearTemporaryConstriant();
+    solver.clearTemporaryConstraint();
 
     for(PhysicObject* po : physicObjecs)
         po->postUpdate(deltaT);
 
     velocityUpdate();
+}
+
+void PhysiK::ParticleSystem::reset()
+{
+    solver.clearConstraints();
+    solver.clearTemporaryConstraint();
+
+    physicObjecs.clear();
+    ptpIntersections.clear();
+
+    THT.clear();
+    PHT.clear();
 }

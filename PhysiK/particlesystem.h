@@ -78,6 +78,8 @@ namespace PhysiK {
 			 */
 			void nextSimulationStep(float deltaT);
 
+            void reset();
+
 	};
 
 	}

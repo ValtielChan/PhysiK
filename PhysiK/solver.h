@@ -14,7 +14,6 @@ namespace PhysiK {
 		private:
 
 			std::vector<Constraint *> constraints;
-
 			std::vector<Constraint *> temporaryConstraints;
 
 		public:
@@ -37,7 +36,12 @@ namespace PhysiK {
 			/**
 			 * @brief clear all the temporary constraint
 			 */
-			void clearTemporaryConstriant();
+            void clearTemporaryConstraint();
+
+            /**
+             * @brief clear all the constraints
+             */
+            void clearConstraints();
 
 	};
 
