@@ -4,7 +4,7 @@
 
 ParticleMesh::ParticleMesh(ParticleProperties properties, const glm::vec3* positions) :
     Sphere(NULL, 1, properties.radius),
-    group(properties.amount, (float*)positions, 0, properties.radius, properties.mass)
+    group(properties.amount, (float*)positions, sizeof(glm::vec3), properties.radius, properties.mass)
 {
     PhongMaterial *mat = new PhongMaterial();
     mat->diffuse = glm::vec3(properties.r, properties.g, properties.b);
@@ -17,15 +17,18 @@ ParticleMesh::ParticleMesh(ParticleProperties properties, const glm::vec3* posit
 
     while(instances_offsets.size() < properties.amount)
         instances_offsets.push_back(glm::vec3(0));
+
+    updatePositions();
 }
 
 void ParticleMesh::updatePositions()
 {
-    for(glm::vec3 &pos : instances_offsets)
+    PhysiK::Particle *particles = group.getPositions();
+    for(int i=0; i<instances_offsets.size(); ++i)
     {
-        pos.x = group.getPositions()->pos.x;
-        pos.y = group.getPositions()->pos.y;
-        pos.z = group.getPositions()->pos.z;
+        instances_offsets[i].x = particles[i].pos.x;
+        instances_offsets[i].y = particles[i].pos.y;
+        instances_offsets[i].z = particles[i].pos.z;
     }
 }
 
