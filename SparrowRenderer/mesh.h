@@ -30,7 +30,7 @@ public: // TODO : see if there is a way to set this protected
     std::vector<glm::vec2> texCoords;
     std::vector<glm::vec3> instances_offsets;
     std::vector<Tangents> tangents;
-    std::vector<unsigned int> indices;
+    std::vector<GLuint> indices;
 
 protected:
 

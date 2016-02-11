@@ -70,7 +70,9 @@ void Mesh::initGL(bool isDynamic)
     }
 
     // unbind vao
-	glAssert(glBindVertexArray(0));
+    glAssert(glBindVertexArray(0));
+    glAssert(glBindBuffer(GL_ARRAY_BUFFER, 0));
+    glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
 
 void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTangents)

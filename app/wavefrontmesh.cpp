@@ -94,7 +94,7 @@ std::vector<Mesh*> WavefrontMesh::loadMesh(QString wavefrontFilename, bool noDia
             m->computeNormals();
         if(m->material->getFlags() & NORMAL_MAP_FLAG)
             m->computeTangents();
-        m->mergeVertices();
+        //m->mergeVertices();
     }
     return meshes;
 }
@@ -243,6 +243,7 @@ void MeshLoader::run()
             {
                 // face
                 list = line.split(QChar(' '));
+                perform_second_triangle:
                 int nb_vertices = currentMesh->positions.size();
                 currentMesh->addTriangle(nb_vertices, nb_vertices+1, nb_vertices+2);
                 for(int i=0; i<3; ++i)
@@ -266,6 +267,10 @@ void MeshLoader::run()
                                                    norm[faceList[2].toInt()-1],
                                                    tex[faceList[1].toInt()-1]);
                     }
+                }
+                if(list.size()==5){
+                    list.removeAt(2);
+                    goto perform_second_triangle;
                 }
             }
             break;
