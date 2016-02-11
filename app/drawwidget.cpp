@@ -93,19 +93,14 @@ void DrawWidget::addParticles()
     if(ok)
     {
         ParticleProperties properties = dialog->getParticleProperties();
+
+        std::vector<glm::vec3> particles;
+        for(int i=0; i<properties.amount; ++i)
+            particles.push_back(getRandomPos()*10.f + glm::vec3(0, 6, 0));
+        sceneManager.addParticleGroup(properties, particles.data());
+
         if(renderer.isModernOpenGLAvailable())
-        {
-            std::vector<glm::vec3> particles;
-            for(int i=0; i<properties.amount; ++i)
-                particles.push_back(getRandomPos()*10.f + glm::vec3(0, 6, 0));
-            sceneManager.addParticleGroup(particles, properties);
-            forward->compileShaders(sceneManager.getScene()); // dynamically recompiling shaders from materials in the scene
-        }
-        else
-        {
-            for(int i=0; i<properties.amount; ++i)
-                sceneManager.addParticle(getRandomPos()*10.f + glm::vec3(0, 6, 0), properties);
-        }
+            forward->compileShaders(sceneManager.getScene());
     }
 }
 

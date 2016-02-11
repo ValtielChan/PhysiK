@@ -1,4 +1,5 @@
 #include "scenemanager.h"
+#include "particlemesh.h"
 
 #include <SparrowRenderer/parametricmesh.h>
 #include <SparrowRenderer/phongmaterial.h>
@@ -51,45 +52,15 @@ void SceneManager::resetScene()
     scene.addMesh(node);
 }
 
-void SceneManager::addParticleGroup(std::vector<glm::vec3> particles, ParticleProperties properties)
+void SceneManager::addParticleGroup(ParticleProperties properties, const glm::vec3 *positions)
 {
-    if(particles.size() > 1)
-    {
-        PhongMaterial *mat = new PhongMaterial();
-        mat->diffuse = glm::vec3(properties.r, properties.g, properties.b);
-        mat->ambient = mat->diffuse/5;
-        mat->specular = mat->diffuse;
-        mat->shininess = 20;
-
-        GeometryNode* node = new GeometryNode();
-        Sphere* sphere = new Sphere(mat, 1, properties.radius);
-        sphere->texCoords.clear();
-        sphere->instances_offsets = particles;
-        sphere->initGL();
-        node->mesh = sphere;
-
-        scene.addMesh(node);
-    }
-    else
-        addParticle(particles[0], properties);
-}
-
-void SceneManager::addParticle(glm::vec3 position, ParticleProperties properties)
-{
-    PhongMaterial *mat = new PhongMaterial();
-    mat->diffuse = glm::vec3(properties.r, properties.g, properties.b);
-    mat->ambient = mat->diffuse/5;
-    mat->specular = mat->diffuse;
-    mat->shininess = 10;
-
-    Sphere* sphere = new Sphere(mat, 1, properties.radius);
-    sphere->texCoords.clear();
-    sphere->initGL();
-
     GeometryNode* node = new GeometryNode();
-    node->mesh = sphere;
-    node->modelMatrix = glm::translate(glm::mat4(), position);
+    ParticleMesh* particleMesh = new ParticleMesh(properties, positions);
+    particleMesh->updatePositions();
+    particleMesh->initGL();
+    node->mesh = particleMesh;
     scene.addMesh(node);
+    physics.addParticleGroup(particleMesh->getParticleGroup());
 }
 
 void SceneManager::addNode(GeometryNode* node)

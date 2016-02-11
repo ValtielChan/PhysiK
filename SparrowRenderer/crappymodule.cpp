@@ -40,12 +40,25 @@ void CrappyModule::renderGL(Camera* myCamera, Scene* scene)
         geometryIt->isValid(); geometryIt->next())
     {
         GeometryNode* node = geometryIt->getItem();
-        glMatrixMode(GL_MODELVIEW);
-        glm::mat4 modelViewMatrix = myCamera->getViewMatrix() * node->modelMatrix;
-        glLoadMatrixf(glm::value_ptr(modelViewMatrix));
         glMatrixMode(GL_PROJECTION);
         glLoadMatrixf(glm::value_ptr(myCamera->getProjectionMatrix()));
-        node->mesh->draw();
+        glMatrixMode(GL_MODELVIEW);
+        if(node->mesh->hasInstances())
+        {
+            for(const glm::vec3 &pos : node->mesh->instances_offsets)
+            {
+                glm::mat4 offsetMatrix = glm::translate(node->modelMatrix, pos);
+                glm::mat4 modelViewMatrix = myCamera->getViewMatrix() * offsetMatrix;
+                glLoadMatrixf(glm::value_ptr(modelViewMatrix));
+                node->mesh->draw();
+            }
+        }
+        else
+        {
+            glm::mat4 modelViewMatrix = myCamera->getViewMatrix() * node->modelMatrix;
+            glLoadMatrixf(glm::value_ptr(modelViewMatrix));
+            node->mesh->draw();
+        }
     }
 
     glAssert(glDisable(GL_LIGHTING));

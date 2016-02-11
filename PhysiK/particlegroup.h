@@ -24,7 +24,7 @@ namespace PhysiK {
 			 * @param particleRadius will be the radius of all particles of this group
 			 * @param particleMass will be the mass of all particles of this group
 			 */
-			ParticleGroup(int particleAmount, char* dataPtr, int dataStride,
+			ParticleGroup(int particleAmount, float* dataPtr, int dataStride,
 						  float particleRadius, float particleMass);
 	};
 

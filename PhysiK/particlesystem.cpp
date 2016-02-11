@@ -54,11 +54,11 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
     PhysiK::PhysicObject *temp = particle;
     physicObjecs.push_back(temp);
 
-    // Only basic collision constraints for now
+    // Temporary plane constraint to keep the particles from falling
+    // TODO generate them only when they collide with the plane
     Particle* bodyParticles = particle->getPositions();
-    int nbParticles = particle->nbParticles;
 
-    for(int i = 0; i < nbParticles; ++i)
+    for(int i = 0; i < particle->nbParticles; ++i)
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f, 1.f), 0.f));
 
 }

@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     qtutils.cpp \
     wavefrontmesh.cpp \
     scenemanager.cpp \
-    particledialog.cpp
+    particledialog.cpp \
+    particlemesh.cpp
 
 HEADERS  += mainwindow.h \
     drawwidget.h \
@@ -39,7 +40,8 @@ HEADERS  += mainwindow.h \
     qtutils.h \
     wavefrontmesh.h \
     scenemanager.h \
-    particledialog.h
+    particledialog.h \
+    particlemesh.h
 
 FORMS    += mainwindow.ui
 

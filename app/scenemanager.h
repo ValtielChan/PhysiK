@@ -3,23 +3,16 @@
 
 #include <SparrowRenderer/scene.h>
 #include <PhysiK/particlesystem.h>
+#include "particlemesh.h"
 
 class Mesh;
-
-struct ParticleProperties
-{
-    int amount;
-    float radius;
-    float mass;
-    float r;
-    float g;
-    float b;
-};
 
 class SceneManager
 {
     ArrayScene scene;
     PhysiK::ParticleSystem physics;
+
+    std::vector<ParticleMesh*> particles;
 
     Mesh* createGrid(int n = 10, float size = 10);
 
@@ -29,8 +22,7 @@ public:
 
     void resetScene();
 
-    void addParticleGroup(std::vector<glm::vec3> particles, ParticleProperties properties);
-    void addParticle(glm::vec3 position, ParticleProperties properties);
+    void addParticleGroup(ParticleProperties properties, const glm::vec3 *positions);
     void addNode(GeometryNode* node);
 
     Scene* getScene() {return &scene;}

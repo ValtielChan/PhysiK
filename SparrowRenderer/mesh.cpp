@@ -62,7 +62,7 @@ void Mesh::initGL(bool isDynamic)
         glAssert(glBufferData(GL_ARRAY_BUFFER, tangents.size() * sizeof(glm::vec3)*2, tangents.data(), buffer_type));
     }
 
-    if(hasInstances())
+    if(hasInstances() && SparrowRenderer::isModernOpenGLAvailable())
     {
         // init instances vbo
         glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
