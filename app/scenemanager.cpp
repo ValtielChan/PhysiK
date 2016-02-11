@@ -50,16 +50,21 @@ void SceneManager::resetScene()
     GeometryNode* node = new GeometryNode();
     node->mesh = createGrid(20, 10);
     scene.addMesh(node);
+
+    particles.clear();
+
+    // no other way to reset
+    physics = PhysiK::ParticleSystem();
 }
 
 void SceneManager::addParticleGroup(ParticleProperties properties, const glm::vec3 *positions)
 {
     GeometryNode* node = new GeometryNode();
     ParticleMesh* particleMesh = new ParticleMesh(properties, positions);
-    particleMesh->updatePositions();
     particleMesh->initGL();
     node->mesh = particleMesh;
     scene.addMesh(node);
+    particles.push_back(particleMesh);
     physics.addParticleGroup(particleMesh->getParticleGroup());
 }
 
@@ -101,4 +106,6 @@ Mesh* SceneManager::createGrid(int n, float size)
 void SceneManager::update(float dt)
 {
     physics.nextSimulationStep(dt);
+    for(ParticleMesh *pm : particles)
+        pm->updatePositions();
 }

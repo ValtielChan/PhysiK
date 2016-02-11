@@ -30,6 +30,7 @@ public:
     void reset();
     void computeView();
     void mouseScroll(int nbScrolls);
+    void setCenter(glm::vec3 pos) {m_center = pos;}
 };
 
 #endif // MYCAMERA_H

@@ -1,6 +1,8 @@
 #include "particlemesh.h"
 #include <glm/ext.hpp>
 #include <SparrowRenderer/phongmaterial.h>
+#include <SparrowRenderer/sparrowrenderer.h>
+#include <SparrowRenderer/glassert.h>
 
 ParticleMesh::ParticleMesh(ParticleProperties properties, const glm::vec3* positions) :
     Sphere(NULL, 1, properties.radius),
@@ -29,6 +31,12 @@ void ParticleMesh::updatePositions()
         instances_offsets[i].x = particles[i].pos.x;
         instances_offsets[i].y = particles[i].pos.y;
         instances_offsets[i].z = particles[i].pos.z;
+    }
+    printf("pos : (%f, %f, %f)\n", instances_offsets[0].x, instances_offsets[1].x, instances_offsets[2].x);
+    if(SparrowRenderer::isModernOpenGLAvailable())
+    {
+        glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
+        glAssert(glBufferData(GL_ARRAY_BUFFER, instances_offsets.size() * sizeof(glm::vec3), instances_offsets.data(), GL_DYNAMIC_DRAW));
     }
 }
 

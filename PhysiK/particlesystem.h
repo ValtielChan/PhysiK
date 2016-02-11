@@ -37,6 +37,16 @@ namespace PhysiK {
 			float damping;
 			int nbIterations;
 
+			/**
+			 * @brief generate intersections for the next iteration of the loop
+			 */
+			void genIntersectionConstraints();
+
+			/**
+			 * @brief velocityUpdate generates impultions for each collision
+			 */
+			void velocityUpdate();
+
 		public:
 
 			ParticleSystem() :
@@ -60,16 +70,6 @@ namespace PhysiK {
 			 * @brief add a particle group
 			 */
 			void addParticleGroup(ParticleGroup * particle);
-
-			/**
-			 * @brief generate intersections for the next iteration of the loop
-			 */
-			void genIntersectionConstraints();
-
-			/**
-			 * @brief velocityUpdate generates impultions for each collision
-			 */
-			void velocityUpdate();
 
 			/**
 			 * @brief execute the next iteration of the loop

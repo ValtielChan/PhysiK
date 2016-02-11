@@ -62,7 +62,7 @@ void DrawWidget::initPipeline()
 
 glm::vec3 DrawWidget::getRandomPos()
 {
-    return glm::vec3(rand()%10000, rand()%10000, rand()%10000)/10000.f - 0.5f;
+    return glm::vec3(rand()%1000, rand()%1000, rand()%1000)/1000.f - 0.5f;
 }
 
 void DrawWidget::addMesh()

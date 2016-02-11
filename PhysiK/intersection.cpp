@@ -30,7 +30,6 @@ bool PhysiK::IntersectionParticleTriangle::intersect(vec3 oldPostion) const{
 	float t =  u.cross(v).dot(w)/D;
 
 	return a >= 0 && b >= 0 && a + b <= 1 && t < 1 && t>= 0;
-
 }
 
 PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint() const{

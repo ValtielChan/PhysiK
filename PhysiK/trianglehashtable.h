@@ -4,12 +4,12 @@
 #include <vector>
 #include <tuple>
 #include "vec3.h"
+#include "intersection.h"
 
 namespace PhysiK {
 
 	class Body;
 	class IntersectionParticleTriangle;
-	class IntersectionParticleParticle;
 	class ParticleGroup;
 
 	/**
@@ -24,15 +24,15 @@ namespace PhysiK {
 			using m_pair = std::pair<Object *, unsigned int>;
 			using m_vector = std::vector<m_pair>;
 			using m_map = std::unordered_map<vec3,m_vector,vec3>;
-            m_map voxelGrid;
+			m_map voxelGrid;
 
 		public:
 
-			void clear(){
+            void clear(){
                 voxelGrid.clear();
                 voxelGrid.rehash(0);
-			}
-	};
+            }
+    };
 
 	class TriangleHashTable : public HashTable<Body>{
 		public:
