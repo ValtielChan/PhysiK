@@ -2,6 +2,7 @@
 #include <glm/ext.hpp>
 
 #define SCROLL_SPEED 0.95f
+#define TOUCHPAD_SCROLL_SPEED 0.95f
 #define ROTATION_SPEED 0.01f
 
 MyCamera::MyCamera(float myFov, float myNear, float myFar) :
@@ -47,7 +48,16 @@ void MyCamera::computeView()
 
 void MyCamera::mouseScroll(int nbScrolls)
 {
-	float dstScrool = float(nbScrolls) / 100.f;
-	m_dist -= dstScrool*SCROLL_SPEED;
+	float dstScroll;
+
+	if(nbScrolls % 120 == 0)
+		dstScroll = float(nbScrolls)*SCROLL_SPEED / 120.f;
+	else
+		dstScroll = float(nbScrolls)*TOUCHPAD_SCROLL_SPEED / 120.f;
+
+	if(dstScroll > 0)
+		m_dist *= dstScroll;
+	else
+		m_dist /= -dstScroll;
     computeView();
 }
