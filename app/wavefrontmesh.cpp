@@ -48,8 +48,8 @@ void TextureLoader::gl_finish()
         if(images[i]){
             images[i]->initGL();
             todos[i].target = images[i]->texture;
+            delete images[i];
         }
-        delete images[i];
     }
 }
 
