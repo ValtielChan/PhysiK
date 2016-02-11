@@ -35,6 +35,11 @@ void PhysiK::Solver::pushTemporaryConstraint(Constraint *constraint){
 	temporaryConstraints.push_back(constraint);
 }
 
-void PhysiK::Solver::clearTemporaryConstriant(){
-	temporaryConstraints.clear();
+void PhysiK::Solver::clearTemporaryConstraint(){
+    temporaryConstraints.clear();
+}
+
+void PhysiK::Solver::clearConstraints()
+{
+    constraints.clear();
 }

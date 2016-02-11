@@ -5,6 +5,7 @@
 #include "solver.h"
 
 #include "particle.h"
+#include "intersection.h"
 
 #define DEFAULT_GRAVITY 9.81f
 #define DEFAULT_DAMPING 0.9f
@@ -76,6 +77,8 @@ namespace PhysiK {
 			 * @param deltaT the time enlapsed since the last iteration
 			 */
 			void nextSimulationStep(float deltaT);
+
+            void reset();
 
 	};
 
