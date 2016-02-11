@@ -41,3 +41,5 @@ HEADERS  += mainwindow.h \
     particledialog.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += style.qrc

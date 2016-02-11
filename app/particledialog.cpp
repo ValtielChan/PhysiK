@@ -74,7 +74,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     spinBoxAmount = new QSpinBox(groupBox);
     spinBoxAmount->setMinimum(1);
     spinBoxAmount->setMaximum(10000);
-    spinBoxAmount->setValue(5);
+    spinBoxAmount->setValue(20);
     formLayout->setWidget(0, QFormLayout::FieldRole, spinBoxAmount);
     spinBoxRadius = new QDoubleSpinBox(groupBox);
     spinBoxRadius->setMinimum(0.01);
@@ -83,7 +83,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     formLayout->setWidget(2, QFormLayout::FieldRole, spinBoxRadius);
     colorButton = new ColorButton(groupBox);
     formLayout->setWidget(1, QFormLayout::FieldRole, colorButton);
-    colorButton->setColor(QColor(0, 0, 255));
+    colorButton->setColor(QColor(59, 128, 64));
 
     verticalLayout = new QVBoxLayout(this);
     verticalLayout->addWidget(groupBox);
