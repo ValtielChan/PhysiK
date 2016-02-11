@@ -115,11 +115,12 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
     // d'après le papier PBD
 
     for(PhysicObject* po : physicObjecs)
-        po->preUpdate(deltaT, gravity , damping);
+        po->preUpdate(deltaT, gravity, damping);
 
     genIntersectionConstraints();
 
-    solver.solve(nbIterations);
+    // error in solver
+    //solver.solve(nbIterations);
 
     solver.clearTemporaryConstraint();
 

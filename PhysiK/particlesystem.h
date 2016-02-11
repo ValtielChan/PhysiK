@@ -7,8 +7,8 @@
 #include "particle.h"
 #include "intersection.h"
 
-#define DEFAULT_GRAVITY 9.81f
-#define DEFAULT_DAMPING 0.9f
+#define DEFAULT_GRAVITY -9.81f // 1 unité = 1 m
+#define DEFAULT_DAMPING 0.99f
 #define DEFAULT_NB_ITERATIONS 10
 
 namespace PhysiK {

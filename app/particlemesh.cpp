@@ -32,7 +32,6 @@ void ParticleMesh::updatePositions()
         instances_offsets[i].y = particles[i].pos.y;
         instances_offsets[i].z = particles[i].pos.z;
     }
-    printf("pos : (%f, %f, %f)\n", instances_offsets[0].x, instances_offsets[1].x, instances_offsets[2].x);
     if(SparrowRenderer::isModernOpenGLAvailable())
     {
         glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
