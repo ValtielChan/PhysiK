@@ -5,29 +5,44 @@
 
 #include <glm/ext.hpp>
 
+#include <set>
+
 SceneManager::SceneManager()
 {
-    Light* sun = new Light();
-    sun->initDirectionnalLight(glm::vec3(2, -5, -8));
-    scene.addLight(sun);
+    Light* key = new Light();
+    key->initDirectionnalLight(glm::vec3(2, -8, -5), glm::vec3(0.9f));
+    Light* back = new Light();
+    back->initDirectionnalLight(glm::vec3(1, 1, 10), glm::vec3(0.18f, 0.16f, 0.096f));
+    Light* fill = new Light();
+    fill->initDirectionnalLight(glm::vec3(-8, 4, -1), glm::vec3(0.1f));
+    scene.addLight(key);
+    scene.addLight(back);
+    scene.addLight(fill);
 }
 
 SceneManager::~SceneManager()
 {
     // delete light
-    delete(scene.getLights()->getItem());
+    for(SceneIterator<Light*>* lightIt = scene.getLights(); lightIt->isValid(); lightIt->next())
+        delete(lightIt->getItem());
     // delete meshes
     resetScene();
 }
 
 void SceneManager::resetScene()
 {
+    std::set<void*> ptrs;
+
     for(SceneIterator<GeometryNode*>* geometryIt = scene.getGeometry();
         geometryIt->isValid(); geometryIt->next())
     {
         GeometryNode *node = geometryIt->getItem();
-        delete node->mesh->material;
-        delete node->mesh;
+        std::pair<std::set<void*>::iterator, bool> ret = ptrs.emplace(node->mesh->material);
+        if(ret.second)
+            delete node->mesh->material;
+        ret = ptrs.emplace(node->mesh->material);
+        if(ret.second)
+            delete node->mesh;
         delete node;
     }
     scene.clearEntities();
@@ -41,9 +56,9 @@ void SceneManager::addParticleGroup(std::vector<glm::vec3> particles, ParticlePr
     if(particles.size() > 1)
     {
         PhongMaterial *mat = new PhongMaterial();
-        mat->ambient = glm::vec3(0.1f);
         mat->diffuse = glm::vec3(properties.r, properties.g, properties.b);
-        mat->specular = glm::vec3(1.f);
+        mat->ambient = mat->diffuse/5;
+        mat->specular = mat->diffuse;
         mat->shininess = 20;
 
         GeometryNode* node = new GeometryNode();
@@ -62,9 +77,9 @@ void SceneManager::addParticleGroup(std::vector<glm::vec3> particles, ParticlePr
 void SceneManager::addParticle(glm::vec3 position, ParticleProperties properties)
 {
     PhongMaterial *mat = new PhongMaterial();
-    mat->ambient = glm::vec3(0.1f);
     mat->diffuse = glm::vec3(properties.r, properties.g, properties.b);
-    mat->specular = glm::vec3(1.f);
+    mat->ambient = mat->diffuse/5;
+    mat->specular = mat->diffuse;
     mat->shininess = 10;
 
     Sphere* sphere = new Sphere(mat, 1, properties.radius);
@@ -103,10 +118,10 @@ Mesh* SceneManager::createGrid(int n, float size)
     }
     grid->setPrimitiveType(GL_LINES);
     PhongMaterial *mat = new PhongMaterial();
-    mat->ambient = glm::vec3(0.1f);
-    mat->diffuse = glm::vec3(0.5f);
-    mat->specular = glm::vec3(0.5f);
-    mat->shininess = 10;
+    mat->diffuse = glm::vec3(0.18f, 0.235f, 0.36f);
+    mat->ambient = mat->diffuse/5;
+    mat->specular = glm::vec3(0.8f);
+    mat->shininess = 40;
     grid->material = mat;
     grid->initGL();
     return grid;

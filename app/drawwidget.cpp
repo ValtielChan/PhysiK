@@ -14,7 +14,7 @@
 DrawWidget::DrawWidget(QWidget *parent) :
     QGLWidget(parent)
 {
-    renderer.setClearColor(glm::vec3(0.2f, 0.4f, 0.3f));
+    renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
     renderer.setScene(sceneManager.getScene());
     connect(&glRefreshTimer, SIGNAL(timeout()), this, SLOT(repaint()));

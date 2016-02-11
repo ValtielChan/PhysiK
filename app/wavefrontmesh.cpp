@@ -88,6 +88,8 @@ std::vector<Mesh*> WavefrontMesh::loadMesh(QString wavefrontFilename, bool noDia
     delete(loader);
     for(Mesh* m : meshes)
     {
+        if(!m->hasNormals())
+            m->computeNormals();
         if(m->material->getFlags() & NORMAL_MAP_FLAG)
             m->computeTangents();
         m->mergeVertices();
@@ -169,7 +171,7 @@ void MeshLoader::run()
     Material* defaultMat = materials.get("default");
     if(defaultMat == NULL)
     {
-        Material* defaultMat = new PhongMaterial();
+        defaultMat = new PhongMaterial();
         materials.add("default", defaultMat);
     }
     Material* currentMat = defaultMat;
