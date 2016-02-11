@@ -68,8 +68,8 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 
 	PHT.clear();
 	for(PhysicObject * object : physicObjecs)
-		if(ParticleGroup * particules = dynamic_cast<ParticleGroup *>(object))
-			PHT.addObject(particules);
+		if(ParticleGroup * particles = dynamic_cast<ParticleGroup *>(object))
+			PHT.addObject(particles);
 
 	/*for(PhysicObject * object : physicObjecs)
 		if(Body * body = dynamic_cast<Body *>(object))
@@ -81,7 +81,7 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
     ptpIntersections.clear();
     PHT.generateIntersection(ptpIntersections);
 
-    for(IntersectionParticuleParticule& intersection: ptpIntersections)
+	for(IntersectionParticleParticle& intersection: ptpIntersections)
 		solver.pushTemporaryConstraint(intersection.getConstraint());
 
     // find particle to plane intersections
@@ -94,7 +94,7 @@ void PhysiK::ParticleSystem::velocityUpdate()
 {
     // for each intersection, generate a collision impulse
     // glm::vec3 v2 = -2 * glm::dot(v1, n) * n + v1;
-    for (IntersectionParticuleParticule inter : ptpIntersections) {
+    for (IntersectionParticleParticle inter : ptpIntersections) {
         Particle* p1 = inter.getParticle1();
         Particle* p2 = inter.getParticle2();
 

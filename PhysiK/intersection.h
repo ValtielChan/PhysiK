@@ -9,18 +9,18 @@ namespace PhysiK {
 	class Particle;
 	class ParticleGroup;
 
-	class IntersectionParticuleTriangle
+	class IntersectionParticleTriangle
 	{
 		private:
 
 			Body *colider;
 			unsigned int triangle;
-			Particle * particule;
+			Particle * particle;
 
 		public:
 
-			IntersectionParticuleTriangle(Body * colider, unsigned int triangle, Particle * particule)
-				:colider(colider),triangle(triangle),particule(particule){}
+			IntersectionParticleTriangle(Body * colider, unsigned int triangle, Particle * particle)
+				:colider(colider),triangle(triangle),particle(particle){}
 
 			bool intersect(vec3 oldPostion) const;
 
@@ -28,7 +28,7 @@ namespace PhysiK {
 
 	};
 
-	class IntersectionParticuleParticule
+	class IntersectionParticleParticle
 	{
 
 		private:
@@ -39,7 +39,7 @@ namespace PhysiK {
 
 		public:
 
-            IntersectionParticuleParticule(Particle * particle1,Particle * particle2,float radius)
+            IntersectionParticleParticle(Particle * particle1,Particle * particle2,float radius)
                 :particle1(particle1),particle2(particle2),radius(radius){}
 			bool intersect()const;
 			Constraint * getConstraint() const;
