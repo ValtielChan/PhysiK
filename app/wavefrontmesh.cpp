@@ -190,12 +190,12 @@ void MeshLoader::run()
     meshes.push_back(currentMesh);
     currentMesh->setMaterial(currentMat);
 
-    line = in.readLine();
+    line = in.readLine().simplified();
     while(!line.isNull())
     {
         if(line.isEmpty())
         {
-            line = in.readLine();
+            line = in.readLine().simplified();
             continue;
         }
 
@@ -293,7 +293,7 @@ void MeshLoader::run()
             // comment
             break;
         }
-        line = in.readLine();
+        line = in.readLine().simplified();
     }
 
     for(int i=0; i<meshes.size(); ++i)
@@ -325,12 +325,12 @@ bool MeshLoader::loadMTL(QString filename, MaterialMap &materials)
     PhongMaterial* mat = NULL;
     bool hasNormalMap = false;
 
-    QString line = in.readLine();
+    QString line = in.readLine().simplified();
     while(!line.isNull())
     {
         if(line.isEmpty())
         {
-            line = in.readLine();
+            line = in.readLine().simplified();
             continue;
         }
         QStringList splitter = line.split(' ');
@@ -387,7 +387,7 @@ bool MeshLoader::loadMTL(QString filename, MaterialMap &materials)
         else
             fprintf(stderr, "unsupported material property : \"%s\"\n", splitter[0].toStdString().c_str());
 
-        line = in.readLine();
+        line = in.readLine().simplified();
     }
     if(!textureLoader.isRunning())
         textureLoader.start();

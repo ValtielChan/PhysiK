@@ -81,6 +81,7 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 
 	std::vector<IntersectionParticuleParticule> intersections1;
 	PHT.generateIntersection(intersections1);
+
 	for(IntersectionParticuleParticule& intersection: intersections1)
 		solver.pushTemporaryConstraint(intersection.getConstraint());
 
@@ -104,6 +105,8 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
     genIntersectionConstraints();
 
     solver.solve(nbIterations);
+
+	solver.clearTemporaryConstriant();
 
     for(PhysicObject* po : physicObjecs)
         po->postUpdate(deltaT);

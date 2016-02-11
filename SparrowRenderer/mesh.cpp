@@ -70,7 +70,7 @@ void Mesh::initGL(bool isDynamic)
     }
 
     // unbind vao
-    glAssert(glBindVertexArray(0));
+	glAssert(glBindVertexArray(0));
 }
 
 void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTangents)
@@ -87,7 +87,7 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
     else
     {
         glAssert(glEnableVertexAttribArray(0));
-        glAssert(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
+		glAssert(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), BUFFER_OFFSET(0)));
     }
     if(hasNormals() && drawNormals)
     {
@@ -133,14 +133,14 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
         glAssert(glVertexAttribDivisor(5, 1));
         glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDICES_BUFFER]));
         glAssert(glDrawElementsInstanced(primitive_type, indices.size(), GL_UNSIGNED_INT, NULL, instances_offsets.size()));
-    }
-    else
-    {
-        glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDICES_BUFFER]));
-        glAssert(glDrawElements(primitive_type, indices.size(), GL_UNSIGNED_INT, NULL));
-    }
-    glAssert(glBindVertexArray(0));
-    if(crappy)
+	}
+	else
+	{
+		glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDICES_BUFFER]));
+		glAssert(glDrawElements(primitive_type, indices.size(), GL_UNSIGNED_INT, NULL));
+	}
+	glAssert(glBindVertexArray(0));
+	if(crappy)
     {
         glAssert(glDisableClientState(GL_VERTEX_ARRAY));
         if(hasNormals() && drawNormals)
