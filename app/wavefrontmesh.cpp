@@ -45,8 +45,10 @@ void TextureLoader::gl_finish()
 {
     for(int i=0; i<images.size(); ++i)
     {
-        images[i]->initGL();
-        todos[i].target = images[i]->texture;
+        if(images[i]){
+            images[i]->initGL();
+            todos[i].target = images[i]->texture;
+        }
         delete images[i];
     }
 }
