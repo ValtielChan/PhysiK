@@ -75,10 +75,19 @@ float PhysiK::CollisionConstraint::eval(){
 }
 
 Physik::VolumeConstraint::volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4){
+
 	vec3 v1 = p1 - p2;
 	vec3 v2 = p1 - p3;
 	vec3 v3 = p1 - p4;
+
 	return v1.cross(v2).dot(v3)/6.f - volume;
+
+    // Autre implem qui à l'air de revenir au même en fait...
+    vec3 v1 = p2 - p1;
+    vec3 v2 = p3 - p1;
+    vec3 v3 = p4 - p1;
+
+    return fabs((v3).dot((v2).cross(v1)) / 6.0f);
 }
 
 float PhysiK::VolumeConstraint::eval(){

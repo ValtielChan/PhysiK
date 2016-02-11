@@ -37,7 +37,15 @@ PhysiK::vec3 PhysiK::vec3::operator+(const vec3 value) const{
 	vec3 to_return = *this;
 	for(int i = 0 ; i < 3 ; i++)
 		to_return[i]+=value[i];
-	return to_return;
+    return to_return;
+}
+
+PhysiK::vec3 PhysiK::vec3::operator+=(const PhysiK::vec3 value) const
+{
+    vec3 to_return = *this;
+    for(int i = 0 ; i < 3 ; i++)
+        to_return[i]+=value[i];
+    return to_return;
 }
 
 PhysiK::vec3 PhysiK::vec3::operator/(const float value) const{

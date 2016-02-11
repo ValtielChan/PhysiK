@@ -29,9 +29,14 @@ namespace PhysiK {
 			vec3 barycenter;
 
 			/**
-			 * @brief return a pointer to the position of the vertices for the user
+             * @brief return a pointer to the positions of the vertices for the user
 			 */
 			Particle * getPositions();
+
+            /**
+             * @brief return a pointer to the velocities
+             */
+            vec3 * getVelocities();
 
 			/**
 			 * @brief compute de barycenter of all particles *_*

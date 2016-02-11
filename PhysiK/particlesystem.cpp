@@ -12,7 +12,6 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
     physicObjecs.push_back(temp);
 
     // Constraint building
-    // Set of distance constraints for RigidBody
 
     // Temp
     // On pourrait le faire directement dans le constructeur des PhysicObject
@@ -45,9 +44,8 @@ void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 	physicObjecs.push_back(temp);
 
 	body->computeBarycenter();
-	// Wait for soft constraints
-	//VolumeConstraint * con = new VolumeConstraint (body->barycenter);
-	//solver.pushConstraint(con);
+    // Wait for soft constraints
+    //solver.pushConstraint(new VolumeConstraint (body->barycenter));
 
 }
 
@@ -79,10 +77,10 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 
     // find particle to particle intersections
 
-	std::vector<IntersectionParticuleParticule> intersections1;
-	PHT.generateIntersection(intersections1);
+    std::vector<IntersectionParticuleParticule> intersections;
+    PHT.generateIntersection(intersections);
 
-	for(IntersectionParticuleParticule& intersection: intersections1)
+    for(IntersectionParticuleParticule& intersection: intersections)
 		solver.pushTemporaryConstraint(intersection.getConstraint());
 
     // find particle to plane intersections
@@ -92,6 +90,15 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 
 void PhysiK::ParticleSystem::velocityUpdate()
 {
+    // Apply gravity
+    for (PhysicObject *po : physicObjecs) {
+
+        vec3 *velocities = po->getVelocities();
+
+        for (int i = 0; i < po->nbParticles; i++)
+            velocities[i] += vec3(0.0f, -gravity, 0.0f);
+    }
+
     // for each intersection, generate a collision impulse
 }
 

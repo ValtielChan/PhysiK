@@ -26,7 +26,9 @@ namespace PhysiK {
 
 			vec3 operator*(const float value) const;
 
-			vec3 operator+(const vec3 value) const;
+            vec3 operator+(const vec3 value) const;
+
+            vec3 operator+=(const vec3 value) const;
 
 			vec3 operator/(const float value) const;
 

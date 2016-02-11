@@ -29,6 +29,11 @@ PhysiK::Particle *PhysiK::PhysicObject::getPositions()
     return positions;
 }
 
+PhysiK::vec3 *PhysiK::PhysicObject::getVelocities()
+{
+    return velocities;
+}
+
 void PhysiK::PhysicObject::preUpdate(float dt, float gravity, float damping)
 {
     for(int i=0; i<nbParticles; ++i)
