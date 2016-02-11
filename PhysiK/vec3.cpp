@@ -63,9 +63,7 @@ PhysiK::vec3 PhysiK::vec3::operator-(const vec3 value) const{
 }
 
 bool PhysiK::vec3::operator==(const vec3 value) const{
-	x==value.x;
-	y==value.y;
-	z==value.z;
+	return x==value.x&&y==value.y&&z==value.z;
 }
 
 

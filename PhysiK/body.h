@@ -22,7 +22,7 @@ namespace PhysiK {
 			/**
 			 * @brief return a pointer to the triangle for the user
 			 */
-			const Triangle * getTriangles();
+			const Triangle * getTriangles() const;
 
 	};
 
