@@ -24,6 +24,7 @@ class DrawWidget : public QGLWidget
 
     QPoint lastMousePos;
     bool grabbed;
+    bool paused;
 
     void initPipeline();
     glm::vec3 getRandomPos();

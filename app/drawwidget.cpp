@@ -12,7 +12,8 @@
 #include <ctime>
 
 DrawWidget::DrawWidget(QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(parent),
+    paused(false)
 {
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
@@ -113,7 +114,8 @@ void DrawWidget::resetScene()
 
 void DrawWidget::update()
 {
-    sceneManager.update(0.025f);
+    if(!paused)
+        sceneManager.update(0.025f);
     repaint();
 }
 
@@ -135,6 +137,9 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
         break;
         case Qt::Key_T :
             camera.reset();
+        break;
+        case Qt::Key_Space :
+            paused = !paused;
         break;
     }
 }

@@ -71,23 +71,23 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 		if(ParticleGroup * particles = dynamic_cast<ParticleGroup *>(object))
 			PHT.addObject(particles);
 
-	/*for(PhysicObject * object : physicObjecs)
-		if(Body * body = dynamic_cast<Body *>(object))
-			THT.addObject(body);*/
-
     // find particle to particle intersections
 
     // Need to store intersection for velocityUpdate
     ptpIntersections.clear();
     PHT.generateIntersection(ptpIntersections);
 
-	for(IntersectionParticleParticle& intersection: ptpIntersections)
+	for(IntersectionParticleParticle& intersection : ptpIntersections)
 		solver.pushTemporaryConstraint(intersection.getConstraint());
 
     // find particle to plane intersections
 
 
     // MILESTONE 2 : find particle to triangle intersections
+
+	/*for(PhysicObject * object : physicObjecs)
+		if(Body * body = dynamic_cast<Body *>(object))
+			THT.addObject(body);*/
 }
 
 void PhysiK::ParticleSystem::velocityUpdate()
@@ -112,15 +112,14 @@ void PhysiK::ParticleSystem::velocityUpdate()
 
 void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 {
-    // d'après le papier PBD
+    // integrator
 
     for(PhysicObject* po : physicObjecs)
         po->preUpdate(deltaT, gravity, damping);
 
     genIntersectionConstraints();
 
-    // error in solver
-    //solver.solve(nbIterations);
+    solver.solve(nbIterations);
 
     solver.clearTemporaryConstraint();
 
