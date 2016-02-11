@@ -46,10 +46,10 @@ namespace PhysiK {
 
 			float dot(vec3 value) const;
 
-			vec3 toVortex();
+            vec3 toVoxel();
 
 			//these value should affect performance
-			static float VortexSize;//un truc très grand pour commencer
+            static float voxelSize;//un truc très grand pour commencer
 
 	};
 

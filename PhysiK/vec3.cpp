@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <limits.h>
 
-float PhysiK::vec3::VortexSize = 1000;
+float PhysiK::vec3::voxelSize = 1000;
 
 PhysiK::vec3::vec3(const float fst, const float snd, const float thr):
 	x(fst),y(snd),z(thr){
@@ -92,8 +92,8 @@ float PhysiK::vec3::dot(vec3 snd) const{
 			+this->z*snd.z;
 }
 
-PhysiK::vec3 PhysiK::vec3::toVortex(){
-	return vec3(int(x/vec3::VortexSize),int(y/vec3::VortexSize),int(z/vec3::VortexSize));
+PhysiK::vec3 PhysiK::vec3::toVoxel(){
+    return vec3(int(x/vec3::voxelSize),int(y/vec3::voxelSize),int(z/vec3::voxelSize));
 }
 
 unsigned int PhysiK::vec3::operator()(const vec3& v) const{

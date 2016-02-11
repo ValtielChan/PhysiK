@@ -24,14 +24,14 @@ namespace PhysiK {
 			using m_pair = std::pair<Object *, unsigned int>;
 			using m_vector = std::vector<m_pair>;
 			using m_map = std::unordered_map<vec3,m_vector,vec3>;
-			m_map Vortex;
+            m_map voxelGrid;
 
 		public:
 
 			virtual void addObject(Object *)=0;
 			void clear(){
-				Vortex.clear();
-				Vortex.rehash(0);
+                voxelGrid.clear();
+                voxelGrid.rehash(0);
 			}
 
 	};

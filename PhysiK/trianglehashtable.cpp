@@ -7,12 +7,12 @@
 
 void PhysiK::ParticleHashTable::addObject(ParticleGroup * group){
 	for(unsigned int i = 0 ; i<group->nbParticles ;i++){
-		for(float dx = 0 ; dx < group->radius ; dx+=vec3::VortexSize){
-			for(float dy = 0 ; dy < group->radius ; dy+=vec3::VortexSize){
-				for(float dz = 0 ; dz < group->radius ; dz+=vec3::VortexSize){
+        for(float dx = 0 ; dx < group->radius ; dx+=vec3::voxelSize){
+            for(float dy = 0 ; dy < group->radius ; dy+=vec3::voxelSize){
+                for(float dz = 0 ; dz < group->radius ; dz+=vec3::voxelSize){
 					vec3 p = group->getPositions()[i].pos;
 					vec3 pos = vec3(p.x+dx,p.y+dy,p.z+dz);
-					Vortex[pos.toVortex()].push_back(std::make_pair(group,i));
+                    voxelGrid[pos.toVoxel()].push_back(std::make_pair(group,i));
 				}
 			}
 		}
@@ -20,7 +20,7 @@ void PhysiK::ParticleHashTable::addObject(ParticleGroup * group){
 }
 
 void PhysiK::ParticleHashTable::generateIntersection(std::vector<IntersectionParticuleParticule> &intersections){
-	for(auto& plop : Vortex){
+    for(auto& plop : voxelGrid){
 		m_vector& test = plop.second;
 		for(m_pair& pair1 : test){
 			for(m_pair& pair2 : test){
