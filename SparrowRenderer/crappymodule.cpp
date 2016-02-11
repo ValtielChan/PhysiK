@@ -11,7 +11,6 @@
 void CrappyModule::renderGL(Camera* myCamera, Scene* scene)
 {
     glAssert(glEnable(GL_LIGHTING));
-    glAssert(glClearColor(0, 0.1f, 0.05f, 1.0));
     glAssert(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
     glLoadIdentity();
     glAssert(glEnable(GL_LIGHT0));
@@ -28,7 +27,7 @@ void CrappyModule::renderGL(Camera* myCamera, Scene* scene)
         glAssert(glEnable(GL_LIGHT0 + i));
         glAssert(glLightfv(GL_LIGHT0 + i, GL_AMBIENT, glm::value_ptr(glm::vec4(glm::vec3(0), 1))));
         if(l->isDirectionnal()){
-            glAssert(glLightfv(GL_LIGHT0 + i, GL_POSITION, glm::value_ptr(glm::vec4(l->getDir(), 0))));
+            glAssert(glLightfv(GL_LIGHT0 + i, GL_POSITION, glm::value_ptr(glm::vec4(-l->getDir(), 0))));
         }else{
             glAssert(glLightfv(GL_LIGHT0 + i, GL_POSITION, glm::value_ptr(glm::vec4(l->getPos(), 1))));
         }
