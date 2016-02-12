@@ -26,7 +26,8 @@ public:
     void bindVec3(GLuint location, glm::vec3 vec);
     void bindVec4(GLuint location, glm::vec4 vec);
     void bindVec3Array(GLuint location, glm::vec3* vec, int nb_elements);
-    void bindInteger(GLuint location, GLuint tex_id);
+    void bindUnsignedInteger(GLuint location, GLuint unsigned_integer);
+    void bindInteger(GLuint location, GLint integer);
 };
 
 #endif // SHADER_H

@@ -3,18 +3,21 @@
 #include <QMouseEvent>
 #include <SparrowRenderer/crappymodule.h>
 #include <SparrowRenderer/forwardmodule.h>
+#include <SparrowRenderer/glassert.h>
 #include "wavefrontmesh.h"
 #include <QCoreApplication>
 #include <QFileDialog>
 #include <QInputDialog>
 #include "particledialog.h"
+#include "pickframebuffer.h"
 #include "qtutils.h"
 #include <ctime>
 
 DrawWidget::DrawWidget(QWidget *parent) :
-    QGLWidget(parent),
+    QOpenGLWidget(parent),
     paused(false)
 {
+    fbo = new PickFramebuffer();
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
     renderer.setScene(sceneManager.getScene());
@@ -39,6 +42,12 @@ void DrawWidget::paintGL()
 
 void DrawWidget::resizeGL(int w, int h)
 {
+    if(renderer.isModernOpenGLAvailable())
+    {
+        GLint qtFramebuffer;
+        glAssert(glGetIntegerv(GL_FRAMEBUFFER_BINDING, &qtFramebuffer));
+        fbo->resize(qtFramebuffer, width(), height());
+    }
     renderer.resizeGL(w, h);
     repaint();
 }
@@ -47,15 +56,20 @@ void DrawWidget::initPipeline()
 {
     if(renderer.isModernOpenGLAvailable())
     {
+        GLint qtFramebuffer;
+        glAssert(glGetIntegerv(GL_FRAMEBUFFER_BINDING, &qtFramebuffer));
+        fbo->resize(qtFramebuffer, width(), height());
+
         forward = new ForwardModule();
-        QString frag = QtUtils::fileToString(QCoreApplication::applicationDirPath().append("/../shaders/forward.frag.glsl"));
-        QString vert = QtUtils::fileToString(QCoreApplication::applicationDirPath().append("/../shaders/forward.vert.glsl"));
+        QString frag = QtUtils::fileToString(":shaders/shaders/forward.frag.glsl");
+        QString vert = QtUtils::fileToString(":shaders/shaders/forward.vert.glsl");
         ShaderSource *source = new ShaderSource();
         source->setSource(frag.toStdString().c_str(), ShaderSource::FRAGMENT);
         source->setSource(vert.toStdString().c_str(), ShaderSource::VERTEX);
         forward->setShaderSource(source);
         forward->compileShaders(sceneManager.getScene());
         renderer.addModule(forward, "forward");
+        forward->setRenderTarget(fbo);
     }
     else
         renderer.addModule(new CrappyModule(), "crappy");
@@ -153,8 +167,22 @@ void DrawWidget::mouseMoveEvent(QMouseEvent *event)
 
 void DrawWidget::mousePressEvent(QMouseEvent* event)
 {
-    grabbed = true;
-    lastMousePos = event->globalPos();
+    switch(event->button())
+    {
+        case Qt::LeftButton :
+        grabbed = true;
+        lastMousePos = event->globalPos();
+            break;
+        case Qt::RightButton :
+        if(renderer.isModernOpenGLAvailable())
+        {
+            unsigned short id = fbo->getObjectId(event->x(), event->y());
+            printf("object id : %d\n", id);
+        }
+            break;
+        default:
+            break;
+    }
 }
 void DrawWidget::mouseReleaseEvent(QMouseEvent* event)
 {

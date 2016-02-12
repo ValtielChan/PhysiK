@@ -15,13 +15,13 @@ void PhongMaterial::bindAttributes(Shader* myShader)
         if(normal_map != NULL)
         {
             normal_map->bind(NORMAL_MAP);
-            myShader->bindInteger(myShader->getLocation("normalMap"), NORMAL_MAP);
+            myShader->bindUnsignedInteger(myShader->getLocation("normalMap"), NORMAL_MAP);
         }
 
         if(ambient_texture != NULL)
         {
             ambient_texture->bind(AMBIENT_TEXTURE);
-            myShader->bindInteger(myShader->getLocation("ambientTexture"), AMBIENT_TEXTURE);
+            myShader->bindUnsignedInteger(myShader->getLocation("ambientTexture"), AMBIENT_TEXTURE);
         }
         else
             myShader->bindVec3(myShader->getLocation("materialKa"), ambient);
@@ -29,7 +29,7 @@ void PhongMaterial::bindAttributes(Shader* myShader)
         if(diffuse_texture != NULL)
         {
             diffuse_texture->bind(DIFFUSE_TEXTURE);
-            myShader->bindInteger(myShader->getLocation("diffuseTexture"), DIFFUSE_TEXTURE);
+            myShader->bindUnsignedInteger(myShader->getLocation("diffuseTexture"), DIFFUSE_TEXTURE);
         }
         else
             myShader->bindVec3(myShader->getLocation("materialKd"), diffuse);
@@ -37,7 +37,7 @@ void PhongMaterial::bindAttributes(Shader* myShader)
         if(specular_texture != NULL)
         {
             specular_texture->bind(SPECULAR_TEXTURE);
-            myShader->bindInteger(myShader->getLocation("specularTexture"), SPECULAR_TEXTURE);
+            myShader->bindUnsignedInteger(myShader->getLocation("specularTexture"), SPECULAR_TEXTURE);
         }
         else
             myShader->bindVec3(myShader->getLocation("materialKs"), specular);
@@ -45,7 +45,7 @@ void PhongMaterial::bindAttributes(Shader* myShader)
         if(alpha_mask != NULL)
         {
             alpha_mask->bind(ALPHA_MASK);
-            myShader->bindInteger(myShader->getLocation("alphaMask"), ALPHA_MASK);
+            myShader->bindUnsignedInteger(myShader->getLocation("alphaMask"), ALPHA_MASK);
         }
     }
     else

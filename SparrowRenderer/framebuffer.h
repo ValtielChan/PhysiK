@@ -8,11 +8,10 @@ class Texture;
 
 class FrameBuffer
 {
-private:
-    FrameBuffer(int id) : fbo(id) {}
-    bool check();
-
 protected:
+    FrameBuffer(int id) : allocated(false), fbo(id) {}
+    bool check();
+    const bool allocated;
     GLuint fbo;
     std::vector<Texture*> textures;
     std::vector<GLuint> attachments;

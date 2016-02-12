@@ -77,7 +77,7 @@ void ForwardModule::lightPass(Camera* myCamera, Scene* scene, Light* light)
                 if(light->isShadowCaster())
                 {
                     light->getShadowMap()->bind(NB_FLAGS); // NB_FLAGS has the value of the first available slot after the phong material texture slots
-                    shader->bindInteger(shader->getLocation("shadowMap"), NB_FLAGS);
+                    shader->bindUnsignedInteger(shader->getLocation("shadowMap"), NB_FLAGS);
                 }
                 break;
             case Light::POINT:
@@ -91,10 +91,16 @@ void ForwardModule::lightPass(Camera* myCamera, Scene* scene, Light* light)
             break;
             }
         }
+        unsigned int id = 1;
         for(SceneIterator<GeometryNode*>* geometryIt = scene->getGeometry();
             geometryIt->isValid(); geometryIt->next())
         {
             GeometryNode* node = geometryIt->getItem();
+            shader->bindUnsignedInteger(shader->getLocation("objectId"), id);
+            if(node->mesh->hasInstances())
+                id += node->mesh->instances_offsets.size();
+            else
+                ++id;
             Material* mat = node->mesh->material;
             unsigned int flags = mat->getFlags();
             if(node->mesh->hasInstances())

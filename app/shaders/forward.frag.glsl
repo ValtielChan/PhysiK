@@ -3,7 +3,11 @@
 uniform vec3 lightColor;
 
 uniform float materialNs;
-uniform int objectId;
+uniform uint objectId;
+
+#ifdef INSTANCING
+flat in int instanceId;
+#endif
 
 #ifdef ALPHA_MASK
 uniform sampler2D alphaMask;
@@ -39,8 +43,8 @@ in vec3 varNormal;
 uniform sampler2D shadowMap;
 in vec4 posInLightSpace;
 #endif
-
 in vec2 varTexCoord;
+
 
 #ifndef AMBIENT_LIGHT
 in vec3 lightDirInView;
@@ -53,6 +57,7 @@ uniform float attenuation;
 #endif
 
 layout(location = 0)out vec4 outColor;
+layout(location = 1)out vec4 pickData;
 
 vec3 phongLighting(in vec3 kd, in vec3 ks, in float ns, in vec3 color, in vec3 normal, in vec3 lightDir, in vec3 halfVec){
     float diffuseComponent = max(dot(normal, lightDir), 0);
@@ -115,4 +120,12 @@ void main(void) {
     vec3 light = phongLighting(diffuse, specular, materialNs, lightColor, normal, lightDirInView, halfVecInView);
     outColor = vec4(light*shadow*(1+cos(1.57 + att*1.57)), 1);
 #endif
+
+#ifdef INSTANCING
+    pickData.w = float(int(objectId) + instanceId);
+#else
+    pickData.w = float(objectId);
+#endif
+
+    pickData.rgb = gl_FragCoord.xyz/gl_FragCoord.w;
 }

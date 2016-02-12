@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     wavefrontmesh.cpp \
     scenemanager.cpp \
     particledialog.cpp \
-    particlemesh.cpp
+    particlemesh.cpp \
+    pickframebuffer.cpp
 
 HEADERS  += mainwindow.h \
     drawwidget.h \
@@ -41,8 +42,9 @@ HEADERS  += mainwindow.h \
     wavefrontmesh.h \
     scenemanager.h \
     particledialog.h \
-    particlemesh.h
+    particlemesh.h \
+    pickframebuffer.h
 
 FORMS    += mainwindow.ui
 
-RESOURCES += style.qrc
+RESOURCES += resources.qrc

@@ -186,7 +186,12 @@ void Shader::bindVec3Array(GLuint location, glm::vec3* vec, int nb_elements)
     glAssert(glUniform3fv(location, nb_elements, (GLfloat*)vec));
 }
 
-void Shader::bindInteger(GLuint location, GLuint tex_id)
+void Shader::bindUnsignedInteger(GLuint location, GLuint unsigned_integer)
 {
-    glAssert(glUniform1i(location, tex_id));
+    glAssert(glUniform1ui(location, unsigned_integer));
+}
+
+void Shader::bindInteger(GLuint location, GLint integer)
+{
+    glAssert(glUniform1i(location, integer));
 }

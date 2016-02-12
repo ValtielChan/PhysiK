@@ -31,6 +31,8 @@ layout(location = 4)in vec3 inBinormal;
 
 #ifdef INSTANCING
 layout(location = 5)in vec3 inInstanceOffset;
+
+flat out int instanceId;
 #endif
 
 #ifndef AMBIENT_LIGHT
@@ -49,6 +51,7 @@ out vec4 posInLightSpace;
 
 void main(void) {
 #ifdef INSTANCING
+    instanceId = gl_InstanceID - 1;
     vec4 pos = vec4(inPosition + inInstanceOffset, 1.0);
 #else
     vec4 pos = vec4(inPosition, 1.0);

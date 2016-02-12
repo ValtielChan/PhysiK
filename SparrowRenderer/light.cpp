@@ -120,7 +120,7 @@ void Light::generateShadowMap(Scene* scene)
                 shaders[1]->bind();
                 pmat->alpha_mask->bind(ALPHA_MASK);
                 shaders[1]->bindMat4(shaders[1]->getLocation("MVP"), lightMVP);
-                shaders[1]->bindInteger(shaders[1]->getLocation("alphaMask"), ALPHA_MASK);
+                shaders[1]->bindUnsignedInteger(shaders[1]->getLocation("alphaMask"), ALPHA_MASK);
                 node->mesh->draw(shaders[1], false, true, false);
             }
             else

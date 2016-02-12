@@ -4,14 +4,15 @@
 
 const FrameBuffer* FrameBuffer::screen = new FrameBuffer(0);
 
-FrameBuffer::FrameBuffer()
+FrameBuffer::FrameBuffer() :
+    allocated(true)
 {
     glAssert(glGenFramebuffers(1, &fbo));
 }
 
 FrameBuffer::~FrameBuffer()
 {
-    if(fbo != 0)
+    if(allocated)
         glAssert(glDeleteFramebuffers(1, &fbo));
 }
 
