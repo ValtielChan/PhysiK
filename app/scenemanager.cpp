@@ -54,7 +54,8 @@ void SceneManager::resetScene()
     particles.clear();
 
     // no other way to reset
-    physics = PhysiK::ParticleSystem();
+    //physics = PhysiK::ParticleSystem();
+    physics.reset();
 }
 
 void SceneManager::addParticleGroup(ParticleProperties properties, const glm::vec3 *positions)
