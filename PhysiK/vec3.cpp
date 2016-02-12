@@ -40,12 +40,11 @@ PhysiK::vec3 PhysiK::vec3::operator+(const vec3 value) const{
     return to_return;
 }
 
-PhysiK::vec3 PhysiK::vec3::operator+=(const PhysiK::vec3 value) const
+PhysiK::vec3& PhysiK::vec3::operator+=(const PhysiK::vec3 value)
 {
-    vec3 to_return = *this;
     for(int i = 0 ; i < 3 ; i++)
-        to_return[i]+=value[i];
-    return to_return;
+        (*this)[i]+=value[i];
+    return *this;
 }
 
 PhysiK::vec3 PhysiK::vec3::operator/(const float value) const{
@@ -73,7 +72,7 @@ PhysiK::vec3 PhysiK::vec3::opposite() const
 
 
 float PhysiK::vec3::length() const{
-	return std::sqrt(x*x+y*y+z*z);
+    return std::sqrt(lengthSquared());
 }
 
 float PhysiK::vec3::lengthSquared() const{

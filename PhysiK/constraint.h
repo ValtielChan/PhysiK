@@ -34,7 +34,7 @@ namespace PhysiK {
 			 * @brief Compute the value of the gradient
 			 * @param vertex the vertex where to compute the gradient
 			 */
-			virtual vec3 grad(const vec3 * vertex);
+			virtual vec3 grad(vec3 * vertex);
 
 			/**
 			 * @brief Compute the value of lambda

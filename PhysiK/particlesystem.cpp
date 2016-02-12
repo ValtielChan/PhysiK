@@ -59,7 +59,7 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
     Particle* bodyParticles = particle->getPositions();
 
     for(unsigned int i = 0; i < particle->nbParticles; ++i)
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f, 1.f), 0.f));
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 1.f, 0.f), 0.f));
 
 }
 

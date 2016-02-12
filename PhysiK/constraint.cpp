@@ -2,34 +2,32 @@
 #include "particle.h"
 #include <math.h>
 
-PhysiK::vec3 PhysiK::Constraint::grad(const vec3 *input){
+PhysiK::vec3 PhysiK::Constraint::grad(vec3 *input){
 	const float epsilon = 0.1f;
 	vec3 gradient;
-	vec3 vertex = *input;
 	float baseC = eval();
 
-	vertex.x += epsilon;
+	input->x += epsilon;
 	gradient.x = eval() - baseC;
-	vertex.x -= epsilon;
+	input->x -= epsilon;
 
-	vertex.y += epsilon;
+	input->y += epsilon;
 	gradient.y = eval() - baseC;
-	vertex.y -= epsilon;
+	input->y -= epsilon;
 
-	vertex.z += epsilon;
+	input->z += epsilon;
 	gradient.z = eval() - baseC;
-	vertex.z -= epsilon;
+	input->z -= epsilon;
 
 	return gradient/epsilon;
 }
 
 float PhysiK::Constraint::lambda(){
 	float sum = 0.0f;
-	for(Particle * vertex : positions){
-		float norm = grad(&(vertex->pos)).length();
-		sum += vertex->omega*norm*norm;
-	}
-	return eval()/sum;
+	for(Particle * vertex : positions)
+		sum+=grad(&(vertex->pos)).lengthSquared();
+	float res = eval();
+	return res==0?0:res/sum;
 }
 
 PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, float dst):dst(dst){

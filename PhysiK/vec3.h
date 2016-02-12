@@ -26,9 +26,9 @@ namespace PhysiK {
 
 			vec3 operator*(const float value) const;
 
-            vec3 operator+(const vec3 value) const;
+			vec3 operator+(const vec3 value) const;
 
-            vec3 operator+=(const vec3 value) const;
+			vec3& operator+=(const vec3 value);
 
 			vec3 operator/(const float value) const;
 
@@ -38,22 +38,22 @@ namespace PhysiK {
 
 			bool operator ==(const vec3 value) const;
 
-            vec3 opposite() const;
+			vec3 opposite() const;
 
 			float length() const;
 
 			float lengthSquared() const;
 
-            vec3 normalize() const;
+			vec3 normalize() const;
 
 			vec3 cross(vec3 value) const;
 
 			float dot(vec3 value) const;
 
-            vec3 toVoxel();
+			vec3 toVoxel();
 
 			//these value should affect performance
-            static float voxelSize;//un truc très grand pour commencer
+			static float voxelSize;//un truc très grand pour commencer
 
 	};
 

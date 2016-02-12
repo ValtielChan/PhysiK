@@ -19,7 +19,7 @@ void PhysiK::Solver::solve(unsigned int nbIterations){
 				displacement.push_back(constraint->grad(&(position->pos)) * - lambda * position->omega);
 
 			for(std::size_t i = 0 ; i < constraint->positions.size() ; i++)
-				constraint->positions[i]->pos=displacement[i];
+				constraint->positions[i]->pos+=displacement[i];
 
 			displacement.clear();
 
@@ -36,7 +36,7 @@ void PhysiK::Solver::pushTemporaryConstraint(Constraint *constraint){
 }
 
 void PhysiK::Solver::clearTemporaryConstraint(){
-    temporaryConstraints.clear();
+	temporaryConstraints.clear();
 }
 
 void PhysiK::Solver::clearConstraints()
