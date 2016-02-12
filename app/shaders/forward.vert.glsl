@@ -51,7 +51,7 @@ out vec4 posInLightSpace;
 
 void main(void) {
 #ifdef INSTANCING
-    instanceId = gl_InstanceID - 1;
+    instanceId = gl_InstanceID;
     vec4 pos = vec4(inPosition + inInstanceOffset, 1.0);
 #else
     vec4 pos = vec4(inPosition, 1.0);

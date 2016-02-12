@@ -39,25 +39,15 @@ in mat3 tangentSpace;
 in vec3 varNormal;
 #endif
 
-#ifdef SHADOWMAP
-uniform sampler2D shadowMap;
-in vec4 posInLightSpace;
-#endif
 in vec2 varTexCoord;
-
 
 #ifndef AMBIENT_LIGHT
 in vec3 lightDirInView;
 in vec3 halfVecInView;
 #endif
 
-#ifdef POINT_LIGHT
-in vec3 lightDistInView;
-uniform float attenuation;
-#endif
-
 layout(location = 0)out vec4 outColor;
-layout(location = 1)out vec4 pickData;
+layout(location = 1)out vec3 pickData;
 
 vec3 phongLighting(in vec3 kd, in vec3 ks, in float ns, in vec3 color, in vec3 normal, in vec3 lightDir, in vec3 halfVec){
     float diffuseComponent = max(dot(normal, lightDir), 0);
@@ -78,7 +68,6 @@ void main(void) {
 
 #ifdef NORMAL_MAP
     vec3 normal = normalize(texture(normalMap, varTexCoord).xyz * tangentSpace);
-    //normal = normalize(vec3(0, 0, 1) * tangentSpace);
 #else
     vec3 normal = normalize(varNormal);
 #endif
@@ -101,31 +90,20 @@ void main(void) {
     vec3 specular = materialKs;
 #endif
 
-#ifdef SHADOWMAP
-    float shadow = computeShadow(shadowMap, posInLightSpace.xyz/posInLightSpace.w);
-#else
-    float shadow = 1;
-#endif
-
-    float att = 0;
-#ifdef POINT_LIGHT
-    att = length(lightDistInView)*attenuation;
-    if(att > 1)
-        discard;
-#endif
-
 #ifdef AMBIENT_LIGHT
     outColor = vec4(diffuse*0.1f, 1);
 #else
     vec3 light = phongLighting(diffuse, specular, materialNs, lightColor, normal, lightDirInView, halfVecInView);
-    outColor = vec4(light*shadow*(1+cos(1.57 + att*1.57)), 1);
+    outColor = vec4(light, 1);
 #endif
 
 #ifdef INSTANCING
-    pickData.w = float(int(objectId) + instanceId);
+    pickData = vec3(gl_FragCoord.z, gl_FragCoord.w, float(int(objectId) + instanceId));
 #else
-    pickData.w = float(objectId);
+    pickData = vec3(gl_FragCoord.z, gl_FragCoord.w, float(objectId));
 #endif
 
-    pickData.rgb = gl_FragCoord.xyz/gl_FragCoord.w;
+#ifndef AMBIENT_LIGHT
+    pickData = vec3(0);
+#endif
 }

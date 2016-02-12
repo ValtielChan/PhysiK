@@ -12,7 +12,6 @@
 #include "pickframebuffer.h"
 #include "qtutils.h"
 #include <ctime>
-#include <glm/ext.hpp>
 
 DrawWidget::DrawWidget(QWidget *parent) :
     QOpenGLWidget(parent),
@@ -177,26 +176,8 @@ void DrawWidget::mousePressEvent(QMouseEvent* event)
         case Qt::RightButton :
         if(renderer.isModernOpenGLAvailable())
         {
-            glm::vec3 info = fbo->getObjectId(event->x(), event->y());
-            int id = int(info.z);
-            glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, info.x, 1);
-            pos /= info.y;
-            // le contenu de pos semble correctement initialisé (dans le frustum)
-
-            glm::mat4 mvp = camera.getProjectionMatrix() * camera.getViewMatrix();
-
-            glm::vec4 clickPos = glm::inverse(mvp) * pos;
-
-            /*SceneIterator<GeometryNode*> *plop = sceneManager.getScene()->getGeometry();
-            plop->next();
-            glm::vec3 particle1 = plop->getItem()->mesh->instances_offsets[0];
-
-            glm::vec4 theoriticalPos = mvp * glm::vec4(particle1.x, particle1.y, particle1.z, 1);
-            theoriticalPos /= theoriticalPos.w;
-
-            printf("plop\n");*/
-            if(id > 0)
-                camera.setCenter(glm::vec3(clickPos.x, clickPos.y, clickPos.z));
+            glm::vec4 info = fbo->getObjectId(event->x(), event->y());
+            printf("object id : %d\n", floor(info.w/4));
         }
             break;
         default:

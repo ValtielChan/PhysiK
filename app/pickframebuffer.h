@@ -2,6 +2,7 @@
 #define PICKFRAMEBUFFER_H
 
 #include <SparrowRenderer/framebuffer.h>
+#include <glm/vec3.hpp>
 
 class PickFramebuffer : public FrameBuffer
 {
@@ -12,7 +13,7 @@ class PickFramebuffer : public FrameBuffer
 
         void resize(GLint qtFramebuffer, int width, int height);
 
-        int getObjectId(int x, int y);
+        glm::vec3 getObjectId(int x, int y);
 };
 
 #endif // PICKFRAMEBUFFER_H

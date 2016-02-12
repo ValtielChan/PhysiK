@@ -91,7 +91,7 @@ void ForwardModule::lightPass(Camera* myCamera, Scene* scene, Light* light)
             break;
             }
         }
-        unsigned int id = 1;
+        unsigned int id = 2;
         for(SceneIterator<GeometryNode*>* geometryIt = scene->getGeometry();
             geometryIt->isValid(); geometryIt->next())
         {
