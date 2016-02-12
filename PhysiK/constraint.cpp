@@ -30,8 +30,8 @@ float PhysiK::Constraint::lambda(){
 	return res*sum==0?0:res/sum;
 }
 
-PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, float dst):dst(dst){
-	min=dst!=0;
+PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, float _dst):dst(_dst){
+	min=_dst!=0;
 	if(!min)
 		dst=(pos1->pos-pos2->pos).length();
 	positions.push_back(pos1);
@@ -40,7 +40,7 @@ PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, f
 
 float PhysiK::DistanceConstraint::eval(){
 	float curdst = (positions[0]->pos-positions[1]->pos).length();
-	return min?std::min(0.f,curdst-dst):curdst;
+	return min?std::min(0.f,curdst-dst):curdst-dst;
 }
 
 PhysiK::CollisionConstraint::CollisionConstraint(Particle *pos, vec3 normal, float delta):normal(normal),delta(delta){

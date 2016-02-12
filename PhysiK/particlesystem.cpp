@@ -58,6 +58,12 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
     // TODO generate them only when they collide with the plane
     Particle* bodyParticles = particle->getPositions();
 
+    for(unsigned int i = 0; i<particle->nbParticles;i++){
+        for(unsigned int j = 0; j<particle->nbParticles;j++){
+            solver.pushConstraint(new DistanceConstraint(&bodyParticles[i],&bodyParticles[j]));
+        }
+    }
+
     for(unsigned int i = 0; i < particle->nbParticles; ++i){
         float radius = particle->radius;
         const float box_size = 20-(radius*2);
