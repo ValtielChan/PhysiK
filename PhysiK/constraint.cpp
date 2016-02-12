@@ -25,9 +25,9 @@ PhysiK::vec3 PhysiK::Constraint::grad(vec3 *input){
 float PhysiK::Constraint::lambda(){
 	float sum = 0.0f;
 	for(Particle * vertex : positions)
-		sum+=grad(&(vertex->pos)).lengthSquared();
+		sum+=grad(&(vertex->pos)).lengthSquared()*vertex->omega;
 	float res = eval();
-	return res==0?0:res/sum;
+	return res*sum==0?0:res/sum;
 }
 
 PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, float dst):dst(dst){

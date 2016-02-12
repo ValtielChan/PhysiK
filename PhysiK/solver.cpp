@@ -13,7 +13,7 @@ void PhysiK::Solver::solve(unsigned int nbIterations){
 
 			std::vector<vec3> displacement;
 
-			float lambda = constraint->lambda();//ctrl-click to see warning please
+			float lambda = constraint->lambda();
 
 			for(Particle * position: constraint->positions)
 				displacement.push_back(constraint->grad(&(position->pos)) * - lambda * position->omega);
