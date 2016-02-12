@@ -50,9 +50,9 @@ void ForwardModule::lightPass(Camera* myCamera, Scene* scene, Light* light)
         glAssert(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
     }
     // loop over all types of geometry
-    for(int i=0; i<geometryFlagList.size(); ++i)
+    for(std::size_t i=0; i<geometryFlagList.size(); ++i)
     {
-        int j;
+        std::size_t j;
         for(j=0; j<lightFlagList.size(); ++j)
             if(lightFlagList[j] == Light::getFlags(light))
                 break;
@@ -198,7 +198,7 @@ void ForwardModule::compileShaders(Scene* scene)
         if(i & INSTANCING_FLAG)
             defines.push_back(flagStr[INSTANCING]);
 
-        int boundary = defines.size();
+        std::size_t boundary = defines.size();
         for(int j : lightFlagList)
         {
             while(defines.size() > boundary)

@@ -7,7 +7,7 @@
 
 struct ParticleProperties
 {
-    int amount;
+    unsigned int amount;
     float radius;
     float mass;
     float r;

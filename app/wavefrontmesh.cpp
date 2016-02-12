@@ -31,7 +31,7 @@ void TextureLoader::run()
                              (images.size()*100) / todos.size());
         if(canceled)
         {
-            for(int i=0; i<images.size(); ++i)
+            for(std::size_t i=0; i<images.size(); ++i)
             {
                 delete(images[i]);
                 delete(todos[i].target);
@@ -43,7 +43,7 @@ void TextureLoader::run()
 
 void TextureLoader::gl_finish()
 {
-    for(int i=0; i<images.size(); ++i)
+    for(std::size_t i=0; i<images.size(); ++i)
     {
         if(images[i]){
             images[i]->initGL();
@@ -305,7 +305,7 @@ void MeshLoader::run()
         line = in.readLine().simplified();
     }
 
-    for(int i=0; i<meshes.size(); ++i)
+    for(std::size_t i=0; i<meshes.size(); ++i)
     {
         if(meshes[i]->indices.size() == 0)
         {

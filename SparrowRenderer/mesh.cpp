@@ -205,7 +205,7 @@ void Mesh::mergeVertices()
     std::set<int, VertexComparator> vertexSet;
     VertexComparator::setMesh(this);
 
-    for(int i=0; i<indices.size(); ++i)
+    for(std::size_t i=0; i<indices.size(); ++i)
     {
         std::pair<std::set<int,VertexComparator>::iterator,bool> ret = vertexSet.insert(indices[i]);
         deleted[indices[i]] = !ret.second && *(ret.first) != indices[i];
@@ -221,7 +221,7 @@ void Mesh::mergeVertices()
     }
     int offset = 0;
     int pos = 0;
-    for(int i=0; i<positions.size(); ++i)
+    for(std::size_t i=0; i<positions.size(); ++i)
     {
         if(deleted[i])
             ++offset;
@@ -241,7 +241,7 @@ void Mesh::mergeVertices()
             ++pos;
         }
     }
-    for(int i=0; i<indices.size(); ++i)
+    for(std::size_t i=0; i<indices.size(); ++i)
         indices[i] -= offsets[indices[i]];
 
     positions.resize(positions.size()-offset);
@@ -261,7 +261,7 @@ void Mesh::mergeVertices()
 void Mesh::computeNormals()
 {
     normals.resize(positions.size());
-    for (int i=0; i < indices.size(); i += 3)
+    for (std::size_t i=0; i < indices.size(); i += 3)
     {
         int v0 = indices[i];
         int v1 = indices[i+1];
@@ -281,7 +281,7 @@ void Mesh::computeTangents()
         return;
     tangents = std::vector<Tangents>(positions.size());
 
-    for (int j=0; j < indices.size(); j += 3)
+    for (std::size_t j=0; j < indices.size(); j += 3)
     {
         int vertexId0 = indices[j];
         int vertexId1 = indices[j+1];

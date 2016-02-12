@@ -12,8 +12,8 @@ namespace PhysiK {
 		public:
 
 			vec3 pos;
-            vec3 velocity;
 			float omega;
+			vec3 velocity;
 			/**
 			 * @brief Construct a Particle with a postion and a weight
 			 * @param omega equal to 1/mass

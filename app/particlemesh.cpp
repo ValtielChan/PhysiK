@@ -26,7 +26,7 @@ ParticleMesh::ParticleMesh(ParticleProperties properties, const glm::vec3* posit
 void ParticleMesh::updatePositions()
 {
     PhysiK::Particle *particles = group.getPositions();
-    for(int i=0; i<instances_offsets.size(); ++i)
+    for(std::size_t i=0; i<instances_offsets.size(); ++i)
     {
         instances_offsets[i].x = particles[i].pos.x;
         instances_offsets[i].y = particles[i].pos.y;

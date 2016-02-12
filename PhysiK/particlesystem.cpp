@@ -58,7 +58,7 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
     // TODO generate them only when they collide with the plane
     Particle* bodyParticles = particle->getPositions();
 
-    for(int i = 0; i < particle->nbParticles; ++i)
+    for(unsigned int i = 0; i < particle->nbParticles; ++i)
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f, 1.f), 0.f));
 
 }
@@ -117,7 +117,7 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
     for(PhysicObject* po : physicObjecs)
         po->preUpdate(deltaT, gravity, damping);
 
-    genIntersectionConstraints();
+    //genIntersectionConstraints();
 
     solver.solve(nbIterations);
 

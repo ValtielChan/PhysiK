@@ -2,7 +2,7 @@
 #include <glm/ext.hpp>
 
 #define SCROLL_SPEED 0.95f
-#define TOUCHPAD_SCROLL_SPEED 0.95f
+#define TOUCHPAD_SCROLL_SPEED -0.95f
 #define ROTATION_SPEED 0.01f
 
 MyCamera::MyCamera(float myFov, float myNear, float myFar) :

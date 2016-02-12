@@ -9,7 +9,7 @@ void PhysiK::PhysicObject::computeBarycenter()
 {
 
     float xSum = 0.f, ySum = 0.f, zSum = 0.f;
-    for(int i = 0; i < nbParticles; ++i){
+    for(unsigned int i = 0; i < nbParticles; ++i){
 
         xSum += positions[i].pos.x;
         ySum += positions[i].pos.y;
@@ -30,7 +30,7 @@ PhysiK::Particle *PhysiK::PhysicObject::getPositions()
 
 void PhysiK::PhysicObject::preUpdate(float dt, float gravity, float damping)
 {
-    for(int i=0; i<nbParticles; ++i)
+    for(unsigned int i=0; i<nbParticles; ++i)
     {
         positions[i].velocity.y += gravity * dt;
         positions[i].velocity *= damping;
@@ -40,7 +40,7 @@ void PhysiK::PhysicObject::preUpdate(float dt, float gravity, float damping)
 
 void PhysiK::PhysicObject::postUpdate(float dt)
 {
-    for(int i=0; i<nbParticles; ++i)
+    for(unsigned int i=0; i<nbParticles; ++i)
     {
         positions[i].velocity = (newPositions[i] - positions[i].pos)/dt;
         positions[i].pos = newPositions[i];
