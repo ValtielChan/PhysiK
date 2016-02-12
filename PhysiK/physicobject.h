@@ -19,7 +19,7 @@ namespace PhysiK {
 
             Particle * positions;
 
-            vec3 * newPositions;
+            vec3 * oldPositions;
 
 		public:
 

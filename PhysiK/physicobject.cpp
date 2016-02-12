@@ -2,7 +2,7 @@
 
 PhysiK::PhysicObject::PhysicObject(int nbPosition){
 	positions = new Particle[nbPosition]();
-    newPositions = new vec3[nbPosition]();
+	oldPositions = new vec3[nbPosition]();
 }
 
 void PhysiK::PhysicObject::computeBarycenter()
@@ -34,7 +34,7 @@ void PhysiK::PhysicObject::preUpdate(float dt, float gravity, float damping)
     {
         positions[i].velocity.y += gravity * dt;
         positions[i].velocity *= damping;
-        newPositions[i] = positions[i].pos + positions[i].velocity*dt;
+        positions[i] = positions[i].pos + positions[i].velocity*dt;
     }
 }
 
@@ -42,12 +42,12 @@ void PhysiK::PhysicObject::postUpdate(float dt)
 {
     for(unsigned int i=0; i<nbParticles; ++i)
     {
-        positions[i].velocity = (newPositions[i] - positions[i].pos)/dt;
-        positions[i].pos = newPositions[i];
+        positions[i].velocity = (positions[i].pos - oldPositions[i])/dt;
+        oldPositions[i]=positions[i].pos;
     }
 }
 
 PhysiK::PhysicObject::~PhysicObject(){
 	delete positions;
-    delete newPositions;
+	delete oldPositions;
 }

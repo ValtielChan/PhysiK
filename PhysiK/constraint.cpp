@@ -3,7 +3,7 @@
 #include <math.h>
 
 PhysiK::vec3 PhysiK::Constraint::grad(vec3 *input){
-	const float epsilon = 0.1f;
+	const float epsilon = 0.001f;
 	vec3 gradient;
 	float baseC = eval();
 
