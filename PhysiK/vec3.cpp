@@ -104,6 +104,11 @@ PhysiK::vec3 PhysiK::vec3::toVoxel(){
     return vec3(int(x/vec3::voxelSize),int(y/vec3::voxelSize),int(z/vec3::voxelSize));
 }
 
+void PhysiK::vec3::print()
+{
+    std::cout << "vec3 : (" << x << ", " << y << ", " << z << ")" << std::endl;
+}
+
 unsigned int PhysiK::vec3::operator()(const vec3& v) const{
 
 	const unsigned int limit = std::pow(UINT_MAX,1.f/3.f)-1;

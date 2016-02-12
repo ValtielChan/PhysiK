@@ -113,7 +113,9 @@ void PhysiK::ParticleSystem::velocityUpdate()
 #if 0
 
     for (IntersectionParticleParticle inter : ptpIntersections) {
+
         break;
+
         Particle* p1 = inter.getParticle1();
         Particle* p2 = inter.getParticle2();
 
@@ -134,8 +136,10 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 {
     // integrator
 
-    for(PhysicObject* po : physicObjecs)
+    for(PhysicObject* po : physicObjecs) {
+        //po->getPositions()[0].velocity.print();
         po->preUpdate(deltaT, gravity, damping);
+    }
 
     genIntersectionConstraints();
 

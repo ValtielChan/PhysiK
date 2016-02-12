@@ -17,7 +17,7 @@ namespace PhysiK {
 
 			PhysicObject(int nbPosition);
 
-            Particle * positions;
+            Particle * particles;
 
             vec3 * oldPositions;
 

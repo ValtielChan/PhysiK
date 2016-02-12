@@ -1,6 +1,7 @@
 #ifndef PARTICLESYSTEM_H
 #define PARTICLESYSTEM_H
 #include <vector>
+#include <iostream>
 #include "trianglehashtable.h"
 #include "solver.h"
 

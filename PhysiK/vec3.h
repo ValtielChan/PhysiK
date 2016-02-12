@@ -1,6 +1,8 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+#include <iostream>
+
 namespace PhysiK {
 
 	/**
@@ -51,6 +53,8 @@ namespace PhysiK {
 			float dot(vec3 value) const;
 
 			vec3 toVoxel();
+
+            void print();
 
 			//these value should affect performance
 			static float voxelSize;//un truc très grand pour commencer
