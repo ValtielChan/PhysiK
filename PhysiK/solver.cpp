@@ -1,7 +1,7 @@
 #include "solver.h"
 #include "particle.h"
 #include "constraint.h"
-
+#include <cassert>
 void PhysiK::Solver::solve(unsigned int nbIterations){
 
 	//half for constraint, half for temporaryConstraints
@@ -36,6 +36,8 @@ void PhysiK::Solver::pushTemporaryConstraint(Constraint *constraint){
 }
 
 void PhysiK::Solver::clearTemporaryConstraint(){
+	for(Constraint * contrainte: temporaryConstraints)
+		delete contrainte;
 	temporaryConstraints.clear();
 }
 

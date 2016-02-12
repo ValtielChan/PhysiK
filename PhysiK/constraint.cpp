@@ -27,20 +27,18 @@ float PhysiK::Constraint::lambda(){
 	for(Particle * vertex : positions)
 		sum+=grad(&(vertex->pos)).lengthSquared()*vertex->omega;
 	float res = eval();
-	return res*sum==0?0:res/sum;
+	return sum==0?0:res/sum;
 }
 
-PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, float _dst):dst(_dst){
-	min=_dst!=0;
-	if(!min)
-		dst=(pos1->pos-pos2->pos).length();
+PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, float _dst):dst(_dst),min(_dst!=0){
+	if(!min)dst=(pos1->pos-pos2->pos).length();
 	positions.push_back(pos1);
 	positions.push_back(pos2);
 }
 
-float PhysiK::DistanceConstraint::eval(){
-	float curdst = (positions[0]->pos-positions[1]->pos).length();
-	return min?std::min(0.f,curdst-dst):curdst-dst;
+float PhysiK::DistanceConstraint::eval() const{
+	float curdst = (positions[0]->pos-positions[1]->pos).length()-dst;
+	return min?std::min(0.f,curdst):curdst;
 }
 
 PhysiK::CollisionConstraint::CollisionConstraint(Particle *pos, vec3 normal, float delta):normal(normal),delta(delta){
@@ -58,8 +56,8 @@ PhysiK::CollisionConstraint::CollisionConstraint(Particle *pos, vec3 pt1, vec3 p
 			+normal.z*pt1.z;
 }
 
-float PhysiK::CollisionConstraint::eval(){
-	Particle * pos = positions[0];
+float PhysiK::CollisionConstraint::eval() const{
+	const Particle * pos = positions[0];
 	return std::min(
 				0.f,
 				 normal.x*pos->pos.x

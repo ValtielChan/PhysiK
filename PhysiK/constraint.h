@@ -28,7 +28,7 @@ namespace PhysiK {
 			/**
 			 * @brief Compute the value of the constraint to minimize
 			 */
-			virtual float eval() = 0;
+			virtual float eval() const = 0;
 
 			/**
 			 * @brief Compute the value of the gradient
@@ -41,16 +41,17 @@ namespace PhysiK {
 			 * @warning there is a second definition of lambda with a sigma on the paper
 			 */
 			virtual float lambda();
+			virtual ~Constraint(){}
 	};
 
 	// Concrete constraints (To put in separate files maybe)
 	class DistanceConstraint : public Constraint
 	{
-			bool min;
 			float dst;
+			bool min;
 		public:
 			DistanceConstraint(Particle *pos1, Particle *pos2, float dst = 0);
-			float eval();
+			float eval() const;
 	};
 
 	class CollisionConstraint : public Constraint{
@@ -75,7 +76,7 @@ namespace PhysiK {
 			 * the triangle is defined clock-wise (maybe) with tree vertices(pt1, pt2, pt3)
 			 */
 			CollisionConstraint(Particle *pos, vec3 pt1, vec3 pt2, vec3 pt3);
-			float eval();
+			float eval() const;
 	};
 
 	/*class VolumeConstraint : public Constraint{

@@ -58,11 +58,13 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
     // TODO generate them only when they collide with the plane
     Particle* bodyParticles = particle->getPositions();
 
+#if 0 //for rigid body
     for(unsigned int i = 0; i<particle->nbParticles;i++){
         for(unsigned int j = 0; j<particle->nbParticles;j++){
             solver.pushConstraint(new DistanceConstraint(&bodyParticles[i],&bodyParticles[j]));
         }
     }
+#endif
 
     for(unsigned int i = 0; i < particle->nbParticles; ++i){
         float radius = particle->radius;
@@ -70,10 +72,10 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f,  1.f, 0.f),  radius));
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, -1.f, 0.f), -box_size));
 
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f, -1.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f,  1.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 1.f, 0.f, 0.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(-1.f, 0.f, 0.f), -box_size/2.f));
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f, -1.f), -box_size/2.f));
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f,  1.f), -box_size/2.f));
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 1.f, 0.f,  0.f), -box_size/2.f));
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(-1.f, 0.f,  0.f), -box_size/2.f));
     }
 
 }
@@ -97,7 +99,6 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 
     // find particle to plane intersections
 
-
     // MILESTONE 2 : find particle to triangle intersections
 
 	/*for(PhysicObject * object : physicObjecs)
@@ -109,7 +110,10 @@ void PhysiK::ParticleSystem::velocityUpdate()
 {
     // for each intersection, generate a collision impulse
     // glm::vec3 v2 = -2 * glm::dot(v1, n) * n + v1;
+#if 0
+
     for (IntersectionParticleParticle inter : ptpIntersections) {
+        break;
         Particle* p1 = inter.getParticle1();
         Particle* p2 = inter.getParticle2();
 
@@ -123,6 +127,7 @@ void PhysiK::ParticleSystem::velocityUpdate()
         p1->velocity += impulseP1;
         p1->velocity += impulseP2;
     }
+#endif
 }
 
 void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
@@ -132,7 +137,7 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
     for(PhysicObject* po : physicObjecs)
         po->preUpdate(deltaT, gravity, damping);
 
-    //genIntersectionConstraints();
+    genIntersectionConstraints();
 
     solver.solve(nbIterations);
 
