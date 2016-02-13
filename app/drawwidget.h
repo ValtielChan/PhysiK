@@ -15,46 +15,50 @@ class PickFramebuffer;
 
 class DrawWidget : public QOpenGLWidget
 {
-    Q_OBJECT
+    private:
+        Q_OBJECT
 
-    SparrowRenderer renderer;
-    MyCamera camera;
-    QTimer glRefreshTimer;
-    SceneManager sceneManager;
-    ForwardModule *forward;
-    PickFramebuffer *fbo;
+        SparrowRenderer renderer;
+        MyCamera camera;
+        QTimer glRefreshTimer;
+        SceneManager sceneManager;
+        ForwardModule *forward;
+        PickFramebuffer *fbo;
 
-    QPoint lastMousePos;
-    bool grabbedLeft;
-    bool grabbedRight;
-    bool paused;
+        QPoint lastMousePos;
+        bool grabbedLeft;
+        bool grabbedRight;
+        bool paused;
 
-    void initPipeline();
-    glm::vec3 getRandomPos();
+        void initPipeline();
+        glm::vec3 getRandomPos();
 
-protected:
-    // Output
-    virtual void initializeGL();
-    virtual void paintGL();
-    virtual void resizeGL(int w, int h);
+    protected:
+        // Output
+        virtual void initializeGL();
+        virtual void paintGL();
+        virtual void resizeGL(int w, int h);
 
-    // Input
-    void keyPressEvent(QKeyEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-    void wheelEvent(QWheelEvent *event);
+        // Input
+        void keyPressEvent(QKeyEvent *event);
+        void mouseMoveEvent(QMouseEvent *event);
+        void mousePressEvent(QMouseEvent *event);
+        void mouseReleaseEvent(QMouseEvent *event);
+        void wheelEvent(QWheelEvent *event);
 
-public:
-    DrawWidget(QWidget *parent = 0);
+    public:
+        DrawWidget(QWidget *parent = 0);
 
-public slots:
-    void addMesh();
-    void addParticles();
-    void resetScene();
+    public slots:
+        void addMesh();
+        void addParticles();
+        void resetScene();
 
-private slots:
-    void update();
+    private slots:
+        void update();
+
+    signals:
+        void updateFPS(double, double);
 };
 
 #endif // DRAWWIDGET_H

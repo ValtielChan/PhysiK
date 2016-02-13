@@ -23,7 +23,7 @@ DrawWidget::DrawWidget(QWidget *parent) :
     renderer.setCamera(&camera);
     renderer.setScene(sceneManager.getScene());
     connect(&glRefreshTimer, SIGNAL(timeout()), this, SLOT(update()));
-    glRefreshTimer.start(25);
+    glRefreshTimer.start(16);
     std::srand(std::time(NULL));
 }
 
@@ -129,9 +129,11 @@ void DrawWidget::resetScene()
 
 void DrawWidget::update()
 {
+    double physicsTime = 0;
     if(!paused)
-        sceneManager.update(0.025f);
+        physicsTime = sceneManager.update(0.025f);
     repaint();
+    emit updateFPS(physicsTime, 1./renderer.getFPS());
 }
 
 void DrawWidget::keyPressEvent(QKeyEvent *event)

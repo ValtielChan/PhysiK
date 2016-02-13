@@ -7,6 +7,7 @@
 #include <glm/ext.hpp>
 
 #include <set>
+#include <chrono>
 
 SceneManager::SceneManager()
 {
@@ -104,9 +105,12 @@ Mesh* SceneManager::createGrid(int n, float size)
     return grid;
 }
 
-void SceneManager::update(float dt)
+double SceneManager::update(float dt)
 {
+    std::chrono::high_resolution_clock::time_point t = std::chrono::high_resolution_clock::now();
     physics.nextSimulationStep(dt);
+    double timeElapsed = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - t).count();
     for(ParticleMesh *pm : particles)
         pm->updatePositions();
+    return timeElapsed;
 }

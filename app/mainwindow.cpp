@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     statusBar = new StatusBar(this);
     setStatusBar(statusBar);
+    connect(ui->drawWidget, SIGNAL(updateFPS(double,double)), statusBar, SLOT(updateSpeed(double,double)));
 }
 
 MainWindow::~MainWindow()

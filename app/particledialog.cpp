@@ -66,11 +66,11 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     formLayout->setWidget(2, QFormLayout::LabelRole, labelRadius);
     labelMass = new QLabel(groupBox);
     formLayout->setWidget(3, QFormLayout::LabelRole, labelMass);
-    spinBoxMass = new QDoubleSpinBox(groupBox);
-    spinBoxMass->setMinimum(0.01);
-    spinBoxMass->setMaximum(100);
-    spinBoxMass->setValue(1);
-    formLayout->setWidget(3, QFormLayout::FieldRole, spinBoxMass);
+    spinBoxDensity = new QDoubleSpinBox(groupBox);
+    spinBoxDensity->setMinimum(0.01);
+    spinBoxDensity->setMaximum(100);
+    spinBoxDensity->setValue(0.24); // density needed for a sphere of radius 1 to weight exactly 1
+    formLayout->setWidget(3, QFormLayout::FieldRole, spinBoxDensity);
     spinBoxAmount = new QSpinBox(groupBox);
     spinBoxAmount->setMinimum(1);
     spinBoxAmount->setMaximum(10000);
@@ -97,7 +97,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     labelAmount->setText("Amount");
     labelColor->setText("Color");
     labelRadius->setText("Radius");
-    labelMass->setText("Mass");
+    labelMass->setText("Density");
 
     QObject::connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProperties()));
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -107,7 +107,8 @@ void ParticleDialog::saveProperties()
 {
     property.amount = spinBoxAmount->value();
     property.radius = spinBoxRadius->value();
-    property.mass = spinBoxMass->value();
+    float r3 = property.radius * property.radius * property.radius;
+    property.mass = spinBoxDensity->value()*(4.18879020479*r3);
     QColor c = colorButton->getColor();
     property.r = c.redF();
     property.g = c.greenF();

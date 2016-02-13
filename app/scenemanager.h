@@ -27,7 +27,7 @@ public:
 
     Scene* getScene() {return &scene;}
 
-    void update(float dt);
+    double update(float dt);
 };
 
 #endif // SCENEMANAGER_H

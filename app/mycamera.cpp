@@ -69,7 +69,7 @@ void MyCamera::mouseScroll(int nbScrolls)
 	}
 	else{
 		dstScroll = float(nbScrolls)*TOUCHPAD_SCROLL_SPEED / 120.f;
-		m_dist -= dstScroll;
+		m_dist += dstScroll;
 		if(m_dist < 0)
 			m_dist = 0;
 	}
