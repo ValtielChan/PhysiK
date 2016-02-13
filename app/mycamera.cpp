@@ -1,8 +1,7 @@
 #include "mycamera.h"
 #include <glm/ext.hpp>
 
-#define SCROLL_SPEED 0.95f
-#define TOUCHPAD_SCROLL_SPEED -0.95f
+#define SCROLL_SPEED 0.998f
 #define ROTATION_SPEED 0.01f
 #define MOVE_SPEED 0.002f
 
@@ -41,7 +40,7 @@ void MyCamera::moveCamera(float dx, float dy)
 
 void MyCamera::reset()
 {
-    m_center = glm::vec3(0, 4, 0);
+    m_center = glm::vec3(0, 0, 0);
     m_rotation = glm::vec2(0, 0);
     m_dist = 20;
     computeView();
@@ -60,18 +59,18 @@ void MyCamera::mouseScroll(int nbScrolls)
 {
 	float dstScroll;
 
-	if(nbScrolls % 120 == 0){
-		dstScroll = float(nbScrolls)*SCROLL_SPEED / 120.f;
-		if(dstScroll > 0)
-			m_dist *= dstScroll;
+	while(nbScrolls != 0)
+	{
+		if(nbScrolls > 0)
+		{
+			m_dist *= SCROLL_SPEED;
+			--nbScrolls;
+		}
 		else
-			m_dist /= -dstScroll;
-	}
-	else{
-		dstScroll = float(nbScrolls)*TOUCHPAD_SCROLL_SPEED / 120.f;
-		m_dist += dstScroll;
-		if(m_dist < 0)
-			m_dist = 0;
+		{
+			m_dist /= SCROLL_SPEED;
+			++nbScrolls;
+		}
 	}
 
     computeView();
