@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     scenemanager.cpp \
     particledialog.cpp \
     particlemesh.cpp \
-    pickframebuffer.cpp
+    pickframebuffer.cpp \
+    statusbar.cpp
 
 HEADERS  += mainwindow.h \
     drawwidget.h \
@@ -43,7 +44,8 @@ HEADERS  += mainwindow.h \
     scenemanager.h \
     particledialog.h \
     particlemesh.h \
-    pickframebuffer.h
+    pickframebuffer.h \
+    statusbar.h
 
 FORMS    += mainwindow.ui
 

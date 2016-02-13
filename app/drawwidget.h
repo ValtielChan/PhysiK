@@ -25,7 +25,8 @@ class DrawWidget : public QOpenGLWidget
     PickFramebuffer *fbo;
 
     QPoint lastMousePos;
-    bool grabbed;
+    bool grabbedLeft;
+    bool grabbedRight;
     bool paused;
 
     void initPipeline();

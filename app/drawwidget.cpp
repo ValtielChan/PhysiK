@@ -161,8 +161,10 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
 
 void DrawWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if(grabbed)
-        camera.mouseMove(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
+    if(grabbedLeft)
+        camera.rotateCamera(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
+    if(grabbedRight)
+        camera.moveCamera(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
     lastMousePos = event->globalPos();
 }
 
@@ -171,10 +173,14 @@ void DrawWidget::mousePressEvent(QMouseEvent* event)
     switch(event->button())
     {
         case Qt::LeftButton :
-        grabbed = true;
-        lastMousePos = event->globalPos();
+            grabbedLeft = true;
+            lastMousePos = event->globalPos();
             break;
         case Qt::RightButton :
+            grabbedRight = true;
+            lastMousePos = event->globalPos();
+            break;
+        case Qt::MiddleButton :
         if(renderer.isModernOpenGLAvailable())
         {
             glm::vec3 info = fbo->getObjectId(event->x(), event->y());
@@ -205,7 +211,7 @@ void DrawWidget::mousePressEvent(QMouseEvent* event)
 }
 void DrawWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-    grabbed = false;
+    grabbedLeft = false;
 }
 
 void DrawWidget::wheelEvent(QWheelEvent *event)

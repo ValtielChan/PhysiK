@@ -26,7 +26,8 @@ public:
 
     void resize(int width, int height);
 
-    void mouseMove(float dx, float dy);
+    void rotateCamera(float dx, float dy);
+    void moveCamera(float dx, float dy);
     void reset();
     void computeView();
     void mouseScroll(int nbScrolls);

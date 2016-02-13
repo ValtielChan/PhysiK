@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+class StatusBar;
+
 namespace Ui {
 class MainWindow;
 }
@@ -17,6 +19,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    StatusBar *statusBar;
 };
 
 #endif // MAINWINDOW_H

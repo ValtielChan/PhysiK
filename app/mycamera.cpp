@@ -4,6 +4,7 @@
 #define SCROLL_SPEED 0.95f
 #define TOUCHPAD_SCROLL_SPEED -0.95f
 #define ROTATION_SPEED 0.01f
+#define MOVE_SPEED 0.002f
 
 MyCamera::MyCamera(float myFov, float myNear, float myFar) :
     m_fov(myFov), m_near(myNear), m_far(myFar)
@@ -18,7 +19,7 @@ void MyCamera::resize(int width, int height)
         m_projection = glm::perspectiveFov<float>(m_fov, float(width), float(height), m_near, m_far);
 }
 
-void MyCamera::mouseMove(float dx, float dy)
+void MyCamera::rotateCamera(float dx, float dy)
 {
     m_rotation.x += dx*ROTATION_SPEED;
     m_rotation.y += dy*ROTATION_SPEED;
@@ -26,6 +27,15 @@ void MyCamera::mouseMove(float dx, float dy)
         m_rotation.y = 3.14f;
     if(m_rotation.y < -3.14f)
         m_rotation.y = -3.14f;
+    computeView();
+}
+
+void MyCamera::moveCamera(float dx, float dy)
+{
+    glm::vec3 moveVector(dx, 0, dy);
+    moveVector = glm::inverse(glm::mat3(m_view)) * moveVector;
+    m_center.x -= moveVector.x*m_dist*MOVE_SPEED;
+    m_center.z -= moveVector.z*m_dist*MOVE_SPEED;
     computeView();
 }
 
@@ -59,7 +69,9 @@ void MyCamera::mouseScroll(int nbScrolls)
 	}
 	else{
 		dstScroll = float(nbScrolls)*TOUCHPAD_SCROLL_SPEED / 120.f;
-		m_dist += dstScroll;
+		m_dist -= dstScroll;
+		if(m_dist < 0)
+			m_dist = 0;
 	}
 
     computeView();
