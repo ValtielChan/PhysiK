@@ -1,12 +1,14 @@
 #include "mycamera.h"
 #include <glm/ext.hpp>
 
+#include <QElapsedTimer>
+
 #define SCROLL_SPEED 0.998f
 #define ROTATION_SPEED 0.01f
 #define MOVE_SPEED 0.002f
 
 MyCamera::MyCamera(float myFov, float myNear, float myFar) :
-    m_fov(myFov), m_near(myNear), m_far(myFar)
+    m_fov(myFov), m_near(myNear), m_far(myFar), timer(NULL)
 {
     reset();
     resize(800, 600);
@@ -41,7 +43,8 @@ void MyCamera::moveCamera(float dx, float dy)
 void MyCamera::reset()
 {
     m_center = glm::vec3(0, 0, 0);
-    m_rotation = glm::vec2(0, 0);
+    m_target = m_center;
+    m_rotation = glm::vec2(0, 1);
     m_dist = 20;
     computeView();
 }
@@ -74,4 +77,33 @@ void MyCamera::mouseScroll(int nbScrolls)
 	}
 
     computeView();
+}
+
+void MyCamera::setTarget(glm::vec3 pos)
+{
+    m_origin = m_center;
+    m_target = pos;
+    if(timer != NULL)
+        delete timer;
+    timer = new QElapsedTimer();
+    timer->start();
+}
+
+void MyCamera::update()
+{
+    if(timer != NULL)
+    {
+        double secondsElapsed = timer->nsecsElapsed()*0.000000001;
+        if(secondsElapsed >= 1)
+        {
+            setCenter(m_target);
+            delete timer;
+            timer = NULL;
+        }
+        else
+        {
+            float ratio = (cos(secondsElapsed*3.1416)+1)/2;
+            setCenter(m_origin*ratio + m_target*(1-ratio));
+        }
+    }
 }

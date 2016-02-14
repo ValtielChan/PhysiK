@@ -5,6 +5,8 @@
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 
+class QElapsedTimer;
+
 class MyCamera : public Camera
 {
     glm::mat4 m_view;
@@ -14,9 +16,15 @@ class MyCamera : public Camera
     float m_near;
     float m_far;
 
+    // camera position
     glm::vec3 m_center;
     glm::vec2 m_rotation;
     float m_dist;
+
+    // camera movement
+    glm::vec3 m_origin;
+    glm::vec3 m_target;
+    QElapsedTimer* timer;
 
 public:
     MyCamera(float myFov = 70.f, float myNear = 0.1f, float myFar = 10000.f);
@@ -32,6 +40,9 @@ public:
     void computeView();
     void mouseScroll(int nbScrolls);
     void setCenter(glm::vec3 pos) {m_center = pos;computeView();}
+
+    void setTarget(glm::vec3 pos);
+    void update();
 };
 
 #endif // MYCAMERA_H

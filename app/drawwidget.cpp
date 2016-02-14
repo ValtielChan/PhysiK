@@ -132,6 +132,7 @@ void DrawWidget::update()
     double physicsTime = 0;
     if(!paused)
         physicsTime = sceneManager.update(0.025f);
+    camera.update();
     repaint();
     emit updateFPS(physicsTime, 1./renderer.getFPS());
 }
@@ -187,7 +188,7 @@ void DrawWidget::mousePressEvent(QMouseEvent* event)
         {
             glm::vec3 info = fbo->getObjectId(event->x(), event->y());
             int id = int(info.z);
-            glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, info.x, 1);
+            glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, info.x*2 - 1, 1);
             pos /= info.y;
             // le contenu de pos semble correctement initialisé (dans le frustum)
 
@@ -204,7 +205,7 @@ void DrawWidget::mousePressEvent(QMouseEvent* event)
 
             printf("plop\n");*/
             if(id > 0)
-                camera.setCenter(glm::vec3(clickPos.x, clickPos.y, clickPos.z));
+                camera.setTarget(glm::vec3(clickPos.x, clickPos.y, clickPos.z));
         }
             break;
         default:

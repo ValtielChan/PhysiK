@@ -4,7 +4,7 @@ CONFIG += staticlib
 CONFIG += c++11
 
 QMAKE_CXXFLAGS += -std=c++11
-QMAKE_CXXFLAGS += -Wno-comment #to much warning... unreadable console
+QMAKE_CXXFLAGS += -Wno-comment #too much warning... unreadable console
 
 DESTDIR = $$lib_dir
 
