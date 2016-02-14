@@ -42,52 +42,91 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>677</width>
-     <height>20</height>
-    </rect>
+  <widget class="QToolBar" name="toolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
-   <widget class="QMenu" name="menuMenu">
-    <property name="title">
-     <string>Menu</string>
-    </property>
-    <addaction name="actionParticles"/>
-    <addaction name="actionRigidBody"/>
-    <addaction name="actionSoftBody"/>
-    <addaction name="separator"/>
-    <addaction name="actionReset_Scene"/>
-    <addaction name="separator"/>
-    <addaction name="actionExit"/>
-   </widget>
-   <addaction name="menuMenu"/>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::TopToolBarArea</set>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionParticles"/>
+   <addaction name="actionRigidBody"/>
+   <addaction name="separator"/>
+   <addaction name="actionPause"/>
+   <addaction name="actionReset_Scene"/>
+   <addaction name="separator"/>
+   <addaction name="actionReset_Camera"/>
   </widget>
   <action name="actionParticles">
+   <property name="icon">
+    <iconset>
+     <normalon>:/qss_icons/rc/add_particles_64.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
-    <string>Particles</string>
+    <string>Add Particles</string>
    </property>
   </action>
   <action name="actionRigidBody">
-   <property name="text">
-    <string>RigidBody</string>
+   <property name="icon">
+    <iconset>
+     <normalon>:/qss_icons/rc/add_mesh_64.png</normalon>
+    </iconset>
    </property>
-  </action>
-  <action name="actionSoftBody">
    <property name="text">
-    <string>SoftBody</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="text">
-    <string>Exit</string>
+    <string>Add RigidBody</string>
    </property>
   </action>
   <action name="actionReset_Scene">
+   <property name="icon">
+    <iconset>
+     <normalon>:/qss_icons/rc/stop_64.png</normalon>
+    </iconset>
+   </property>
    <property name="text">
     <string>Reset Scene</string>
+   </property>
+  </action>
+  <action name="actionPause">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/qss_icons/rc/pause_64.png</normaloff>
+     <normalon>:/qss_icons/rc/start_64.png</normalon>:/qss_icons/rc/pause_64.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pause</string>
+   </property>
+  </action>
+  <action name="actionReset_Camera">
+   <property name="text">
+    <string>Reset Camera</string>
    </property>
   </action>
  </widget>
@@ -98,30 +137,19 @@
    <extends>QOpenGLWidget</extends>
    <header>drawwidget.h</header>
    <slots>
+    <signal>pauseEvent()</signal>
     <slot>addParticles()</slot>
     <slot>addMesh()</slot>
     <slot>resetScene()</slot>
+    <slot>setPaused(bool)</slot>
+    <slot>resetCamera()</slot>
    </slots>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
-  <connection>
-   <sender>actionExit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>232</x>
-     <y>173</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>actionParticles</sender>
    <signal>triggered()</signal>
@@ -155,22 +183,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionSoftBody</sender>
-   <signal>triggered()</signal>
-   <receiver>drawWidget</receiver>
-   <slot>addMesh()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>232</x>
-     <y>183</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionReset_Scene</sender>
    <signal>triggered()</signal>
    <receiver>drawWidget</receiver>
@@ -183,6 +195,54 @@
     <hint type="destinationlabel">
      <x>232</x>
      <y>183</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionPause</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>drawWidget</receiver>
+   <slot>setPaused(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionReset_Camera</sender>
+   <signal>triggered()</signal>
+   <receiver>drawWidget</receiver>
+   <slot>resetCamera()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>275</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>drawWidget</sender>
+   <signal>pauseEvent()</signal>
+   <receiver>actionPause</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>338</x>
+     <y>275</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
     </hint>
    </hints>
   </connection>

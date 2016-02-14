@@ -26,8 +26,10 @@ class DrawWidget : public QOpenGLWidget
         PickFramebuffer *fbo;
 
         QPoint lastMousePos;
-        bool grabbedLeft;
-        bool grabbedRight;
+        bool grabbedRotateCamera;
+        bool grabbedMoveCamera;
+        bool grabbedRotateObject;
+        bool grabbedMoveObject;
         bool paused;
 
         void initPipeline();
@@ -53,12 +55,15 @@ class DrawWidget : public QOpenGLWidget
         void addMesh();
         void addParticles();
         void resetScene();
+        void resetCamera() {camera.reset();}
+        void setPaused(bool isPaused) {paused = isPaused;}
 
     private slots:
         void update();
 
     signals:
         void updateFPS(double, double);
+        void pauseEvent();
 };
 
 #endif // DRAWWIDGET_H
