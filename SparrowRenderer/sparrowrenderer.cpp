@@ -27,7 +27,7 @@ void SparrowRenderer::initGL(int w, int h, bool forceCrappy)
         GLEW_ARB_framebuffer_object &&
         glewIsSupported("GL_VERSION_3_3") &&
         GLEW_VERSION_3_3 &&
-        strcmp("3.30",(const char *)glGetString(GL_SHADING_LANGUAGE_VERSION))<=0)
+        strcmp("1.30",(const char *)glGetString(GL_SHADING_LANGUAGE_VERSION))<=0)
     {
         modernOpenglAvailable = true;
         printf("Modern OpenGL available.\n");

@@ -1,4 +1,4 @@
-#version 330 core
+#version 130
 
 uniform mat4 modelViewMatrix;
 uniform mat4 MVP;
@@ -21,18 +21,16 @@ uniform vec3 dirLight;
 uniform vec3 pointLight;
 #endif
 
-layout(location = 0)in vec3 inPosition;
-layout(location = 2)in vec2 inTexCoord;
-layout(location = 1)in vec3 inNormal;
+in vec3 inPosition;
+in vec2 inTexCoord;
+in vec3 inNormal;
 #ifdef NORMAL_MAP
-layout(location = 3)in vec3 inTangent;
-layout(location = 4)in vec3 inBinormal;
+in vec3 inTangent;
+in vec3 inBinormal;
 #endif
 
 #ifdef INSTANCING
-layout(location = 5)in vec3 inInstanceOffset;
-
-flat out int instanceId;
+in vec3 inInstanceOffset;
 #endif
 
 #ifndef AMBIENT_LIGHT
@@ -51,7 +49,6 @@ out vec4 posInLightSpace;
 
 void main(void) {
 #ifdef INSTANCING
-    instanceId = gl_InstanceID;
     vec4 pos = vec4(inPosition + inInstanceOffset, 1.0);
 #else
     vec4 pos = vec4(inPosition, 1.0);

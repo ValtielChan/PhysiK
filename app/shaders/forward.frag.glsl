@@ -1,13 +1,9 @@
-#version 330 core
+#version 130
 
 uniform vec3 lightColor;
 
 uniform float materialNs;
 uniform uint objectId;
-
-#ifdef INSTANCING
-flat in int instanceId;
-#endif
 
 #ifdef ALPHA_MASK
 uniform sampler2D alphaMask;
@@ -46,8 +42,8 @@ in vec3 lightDirInView;
 in vec3 halfVecInView;
 #endif
 
-layout(location = 0)out vec4 outColor;
-layout(location = 1)out vec3 pickData;
+out vec4 outColor;
+out vec4 pickData;
 
 vec3 phongLighting(in vec3 kd, in vec3 ks, in float ns, in vec3 color, in vec3 normal, in vec3 lightDir, in vec3 halfVec){
     float diffuseComponent = max(dot(normal, lightDir), 0);
@@ -57,7 +53,7 @@ vec3 phongLighting(in vec3 kd, in vec3 ks, in float ns, in vec3 color, in vec3 n
 
 float computeShadow(sampler2D shadowmap, vec3 shadow){
     float lightFragDepth = texture(shadowmap, shadow.xy).r;
-    return lightFragDepth < shadow.z ? 0 : 1;
+    return lightFragDepth < shadow.z ? 0. : 1.;
 }
 
 void main(void) {
@@ -97,13 +93,8 @@ void main(void) {
     outColor = vec4(light, 1);
 #endif
 
-#ifdef INSTANCING
-    pickData = vec3(gl_FragCoord.z, gl_FragCoord.w, float(int(objectId) + instanceId));
-#else
-    pickData = vec3(gl_FragCoord.z, gl_FragCoord.w, float(objectId));
-#endif
-
+    pickData = vec4(gl_FragCoord.z, gl_FragCoord.w, float(objectId),0);
 #ifndef AMBIENT_LIGHT
-    pickData = vec3(0);
+    pickData = vec4(0);
 #endif
 }

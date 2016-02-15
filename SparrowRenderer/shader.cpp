@@ -17,6 +17,9 @@ Shader::Shader(const std::string &vertexSource, const std::string &fragmentSourc
     glAssert(glBindAttribLocation(program, 0, "inPosition"));
     glAssert(glBindAttribLocation(program, 1, "inNormal"));
     glAssert(glBindAttribLocation(program, 2, "inTexCoord"));
+    glAssert(glBindAttribLocation(program, 3, "inTangent"));
+    glAssert(glBindAttribLocation(program, 4, "inBinormal"));
+    glAssert(glBindAttribLocation(program, 5, "inInstanceOffset"));
 
     glAssert(glLinkProgram(program));
 
