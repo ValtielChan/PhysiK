@@ -165,16 +165,13 @@ void DrawWidget::mouseMoveEvent(QMouseEvent *event)
         camera.rotateCamera(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
     if(grabbedMoveCamera)
     {
-        if(renderer.isModernOpenGLAvailable() && grabPos.w > 0)
-        {
-            float x = float(event->x())*2/width() - 1.f;
-            float y = float(height() - event->y())*2/height() - 1.f;
-            glm::vec4 pos(x*grabPos.w, y*grabPos.w, grabPos.z, grabPos.w);
-            glm::mat4 inverseMVP = glm::inverse(camera.getProjectionMatrix() * camera.getViewMatrix());
-            glm::vec4 diff = (inverseMVP * grabPos) - (inverseMVP * pos);
-            grabPos = pos;
-            camera.moveCenter(glm::vec3(diff.x, diff.y, diff.z));
-        }
+        float x = float(event->x())*2/width() - 1.f;
+        float y = float(height() - event->y())*2/height() - 1.f;
+        glm::vec4 pos(x*grabPos.w, y*grabPos.w, grabPos.z, grabPos.w);
+        glm::mat4 inverseMVP = glm::inverse(camera.getProjectionMatrix() * camera.getViewMatrix());
+        glm::vec4 diff = (inverseMVP * grabPos) - (inverseMVP * pos);
+        grabPos = pos;
+        camera.moveCenter(glm::vec3(diff.x, diff.y, diff.z));
     }
     lastMousePos = event->globalPos();
 }
