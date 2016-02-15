@@ -59,9 +59,9 @@ PhysiK::Particle * PhysiK::IntersectionParticleParticle::getParticle2() const{
 }
 
 PhysiK::vec3 PhysiK::IntersectionParticleParticle::getWorks1(float deltaT)const{
-	return particles1->getDeltaP(offset1)/deltaT*particles1->mass;
+	return particles1->getDeltaP(offset1)*deltaT*particles1->mass;
 }
 
 PhysiK::vec3 PhysiK::IntersectionParticleParticle::getWorks2(float deltaT)const{
-	return particles2->getDeltaP(offset2)/deltaT*particles2->mass;
+	return particles2->getDeltaP(offset2)*deltaT*particles2->mass;
 }

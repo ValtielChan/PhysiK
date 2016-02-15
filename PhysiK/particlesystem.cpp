@@ -115,8 +115,8 @@ void PhysiK::ParticleSystem::velocityUpdate(float deltaT)
     for (IntersectionParticleParticle& inter : ptpIntersections) {
 
         // To change later (no wanted behaviour)
-        inter.getParticle1()->velocity += inter.getWorks2(deltaT);
-        inter.getParticle2()->velocity += inter.getWorks1(deltaT);
+        inter.getParticle1()->impulsion += inter.getWorks2(deltaT);
+        inter.getParticle2()->impulsion += inter.getWorks1(deltaT);
     }
 
 }
