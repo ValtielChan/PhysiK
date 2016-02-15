@@ -29,6 +29,7 @@ class DrawWidget : public QOpenGLWidget
         bool grabbedLeft;
         bool grabbedRight;
         bool paused;
+        bool slowmotion;
 
         void initPipeline();
         glm::vec3 getRandomPos();

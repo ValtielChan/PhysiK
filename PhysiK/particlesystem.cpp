@@ -106,30 +106,18 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 			THT.addObject(body);*/
 }
 
-void PhysiK::ParticleSystem::velocityUpdate()
+void PhysiK::ParticleSystem::velocityUpdate(float deltaT)
 {
     // for each intersection, generate a collision impulse
     // glm::vec3 v2 = -2 * glm::dot(v1, n) * n + v1;
-#if 0
 
-    for (IntersectionParticleParticle inter : ptpIntersections) {
-
-        break;
-
-        Particle* p1 = inter.getParticle1();
-        Particle* p2 = inter.getParticle2();
-
-        vec3 n = p1->pos - p2->pos;
-        n = n.normalize();
-
-        vec3 impulseP1 = (n * p1->velocity.dot(n)) * -2.0f + p1->velocity;
-        vec3 impulseP2 = (n.opposite() * p1->velocity.dot(n.opposite())) * -2.0f + p1->velocity;
+    for (IntersectionParticleParticle& inter : ptpIntersections) {
 
         // To change later (no wanted behaviour)
-        p1->velocity += impulseP1;
-        p1->velocity += impulseP2;
+        inter.getParticle1()->velocity += inter.getWorks2(deltaT);
+        inter.getParticle2()->velocity += inter.getWorks1(deltaT);
     }
-#endif
+
 }
 
 void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
@@ -147,10 +135,12 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 
     solver.clearTemporaryConstraint();
 
+    velocityUpdate(deltaT);
+
     for(PhysicObject* po : physicObjecs)
         po->postUpdate(deltaT);
 
-    velocityUpdate();
+
 }
 
 void PhysiK::ParticleSystem::reset()

@@ -47,7 +47,7 @@ namespace PhysiK {
 			/**
 			 * @brief velocityUpdate generates impultions for each collision
 			 */
-			void velocityUpdate();
+			void velocityUpdate(float deltaT);
 
 		public:
 

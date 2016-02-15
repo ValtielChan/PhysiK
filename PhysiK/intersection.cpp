@@ -41,9 +41,29 @@ PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint() const
 }
 
 bool PhysiK::IntersectionParticleParticle::intersect() const{
-    return (particle1->pos-particle2->pos).length()<radius;
+	return (getParticle1()->pos-getParticle2()->pos).length()<(particles1->radius+particles2->radius);
+}
+
+PhysiK::vec3 PhysiK::IntersectionParticleParticle::intersectPos() const{
+	return (getParticle1()->pos*particles2->radius+getParticle2()->pos*particles1->radius)/(particles1->radius+particles2->radius);
 }
 
 PhysiK::Constraint * PhysiK::IntersectionParticleParticle::getConstraint() const{
-    return new DistanceConstraint(particle1, particle2, radius);
+	return new DistanceConstraint(getParticle1(), getParticle2(), particles1->radius+particles2->radius);
+}
+
+PhysiK::Particle * PhysiK::IntersectionParticleParticle::getParticle1() const{
+	return particles1->getPositions()+offset1;
+}
+
+PhysiK::Particle * PhysiK::IntersectionParticleParticle::getParticle2() const{
+	return particles2->getPositions()+offset2;
+}
+
+PhysiK::vec3 PhysiK::IntersectionParticleParticle::getWorks1(float deltaT)const{
+	return particles1->getDeltaP(offset1)/deltaT*particles1->mass;
+}
+
+PhysiK::vec3 PhysiK::IntersectionParticleParticle::getWorks2(float deltaT)const{
+	return particles2->getDeltaP(offset2)/deltaT*particles2->mass;
 }

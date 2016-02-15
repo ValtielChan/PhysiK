@@ -16,7 +16,7 @@
 
 DrawWidget::DrawWidget(QWidget *parent) :
     QOpenGLWidget(parent),
-    paused(false)
+    paused(false),slowmotion(false)
 {
     fbo = new PickFramebuffer();
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
@@ -131,7 +131,7 @@ void DrawWidget::update()
 {
     double physicsTime = 0;
     if(!paused)
-        physicsTime = sceneManager.update(0.025f);
+        physicsTime = sceneManager.update(slowmotion?0.002f:0.025f);
     repaint();
     emit updateFPS(physicsTime, 1./renderer.getFPS());
 }
@@ -157,6 +157,9 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
         break;
         case Qt::Key_Space :
             paused = !paused;
+        break;
+        case Qt::Key_S:
+            slowmotion = !slowmotion;
         break;
     }
 }
