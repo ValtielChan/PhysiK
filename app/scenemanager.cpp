@@ -54,8 +54,6 @@ void SceneManager::resetScene()
 
     particles.clear();
 
-    // no other way to reset
-    //physics = PhysiK::ParticleSystem();
     physics.reset();
 }
 

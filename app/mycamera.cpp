@@ -24,25 +24,16 @@ void MyCamera::rotateCamera(float dx, float dy)
 {
     m_rotation.x += dx*ROTATION_SPEED;
     m_rotation.y += dy*ROTATION_SPEED;
-    if(m_rotation.y > 3.14f)
-        m_rotation.y = 3.14f;
-    if(m_rotation.y < -3.14f)
-        m_rotation.y = -3.14f;
-    computeView();
-}
-
-void MyCamera::moveCamera(float dx, float dy)
-{
-    glm::vec3 moveVector(dx, 0, dy);
-    moveVector = glm::inverse(glm::mat3(m_view)) * moveVector;
-    m_center.x -= moveVector.x*m_dist*MOVE_SPEED;
-    m_center.z -= moveVector.z*m_dist*MOVE_SPEED;
+    if(m_rotation.y > 1.57f)
+        m_rotation.y = 1.57f;
+    if(m_rotation.y < -1.57f)
+        m_rotation.y = -1.57f;
     computeView();
 }
 
 void MyCamera::reset()
 {
-    m_center = glm::vec3(0, 0, 0);
+    m_center = glm::vec3(0, 4, 0);
     m_target = m_center;
     m_rotation = glm::vec2(0, 1);
     m_dist = 20;
@@ -75,8 +66,14 @@ void MyCamera::mouseScroll(int nbScrolls)
 			++nbScrolls;
 		}
 	}
-
     computeView();
+}
+
+glm::vec3 MyCamera::getDefaultPxInfo()
+{
+    glm::vec4 plop(m_center, 1);
+    plop = (m_projection * m_view) * plop;
+    return glm::vec3(m_dist/m_far, 1/plop.w, 0);
 }
 
 void MyCamera::setTarget(glm::vec3 pos)

@@ -26,6 +26,7 @@ class DrawWidget : public QOpenGLWidget
         PickFramebuffer *fbo;
 
         QPoint lastMousePos;
+        glm::vec4 grabPos;
         bool grabbedRotateCamera;
         bool grabbedMoveCamera;
         bool grabbedRotateObject;
@@ -45,6 +46,7 @@ class DrawWidget : public QOpenGLWidget
         void keyPressEvent(QKeyEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
         void mousePressEvent(QMouseEvent *event);
+        void mouseDoubleClickEvent(QMouseEvent * event);
         void mouseReleaseEvent(QMouseEvent *event);
         void wheelEvent(QWheelEvent *event);
 

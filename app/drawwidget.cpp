@@ -148,12 +148,9 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
             addMesh();
         break;
         case Qt::Key_E :
-            addMesh();
-        break;
-        case Qt::Key_R :
             resetScene();
         break;
-        case Qt::Key_T :
+        case Qt::Key_R :
             resetCamera();
         break;
         case Qt::Key_Space :
@@ -167,12 +164,36 @@ void DrawWidget::mouseMoveEvent(QMouseEvent *event)
     if(grabbedRotateCamera)
         camera.rotateCamera(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
     if(grabbedMoveCamera)
-        camera.moveCamera(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
+    {
+        if(renderer.isModernOpenGLAvailable() && grabPos.w > 0)
+        {
+            float x = float(event->x())*2/width() - 1.f;
+            float y = float(height() - event->y())*2/height() - 1.f;
+            glm::vec4 pos(x*grabPos.w, y*grabPos.w, grabPos.z, grabPos.w);
+            glm::mat4 inverseMVP = glm::inverse(camera.getProjectionMatrix() * camera.getViewMatrix());
+            glm::vec4 diff = (inverseMVP * grabPos) - (inverseMVP * pos);
+            grabPos = pos;
+            camera.moveCenter(glm::vec3(diff.x, diff.y, diff.z));
+        }
+    }
     lastMousePos = event->globalPos();
 }
 
 void DrawWidget::mousePressEvent(QMouseEvent* event)
 {
+    int id = 0;
+    glm::vec3 pxInfo;
+    if(renderer.isModernOpenGLAvailable())
+    {
+        pxInfo = fbo->getObjectId(event->x(), event->y());
+        id = int(pxInfo.z);
+    }
+    if(id == 0)
+        pxInfo = camera.getDefaultPxInfo();
+    // opengl frustum has boundaries of [-1, 1]
+    glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, pxInfo.x*2 - 1, 1);
+    pos /= pxInfo.y;
+    grabPos = pos;
     switch(event->button())
     {
         case Qt::LeftButton :
@@ -187,26 +208,34 @@ void DrawWidget::mousePressEvent(QMouseEvent* event)
             else
                 grabbedMoveCamera = true;
             break;
-        case Qt::MiddleButton :
-        if(renderer.isModernOpenGLAvailable())
-        {
-            glm::vec3 info = fbo->getObjectId(event->x(), event->y());
-            int id = int(info.z);
-            // opengl frustum has boundaries of [-1, 1]
-            glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, info.x*2 - 1, 1);
-            pos /= info.y;
-            glm::mat4 mvp = camera.getProjectionMatrix() * camera.getViewMatrix();
-            // applying inverse mvp
-            glm::vec4 clickPos = glm::inverse(mvp) * pos;
-            if(id > 0)
-                camera.setTarget(glm::vec3(clickPos.x, clickPos.y, clickPos.z));
-        }
-            break;
         default:
             break;
     }
     lastMousePos = event->globalPos();
 }
+
+void DrawWidget::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        if(renderer.isModernOpenGLAvailable())
+        {
+            glm::vec3 info = fbo->getObjectId(event->x(), event->y());
+            int id = int(info.z);
+            if(id > 0)
+            {
+                // opengl frustum has boundaries of [-1, 1]
+                glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, info.x*2 - 1, 1);
+                pos /= info.y;
+                glm::mat4 mvp = camera.getProjectionMatrix() * camera.getViewMatrix();
+                // applying inverse mvp
+                glm::vec4 clickPos = glm::inverse(mvp) * pos;
+                camera.setTarget(glm::vec3(clickPos.x, clickPos.y, clickPos.z));
+            }
+        }
+    }
+}
+
 void DrawWidget::mouseReleaseEvent(QMouseEvent* event)
 {
     switch(event->button())
@@ -219,7 +248,6 @@ void DrawWidget::mouseReleaseEvent(QMouseEvent* event)
             grabbedMoveCamera = false;
             grabbedMoveObject = false;
             break;
-
         default:
             break;
     }

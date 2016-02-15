@@ -40,7 +40,8 @@ public:
     void computeView();
     void mouseScroll(int nbScrolls);
     void setCenter(glm::vec3 pos) {m_center = pos;computeView();}
-
+    void moveCenter(glm::vec3 pos) {m_center += pos;computeView();}
+    glm::vec3 getDefaultPxInfo();
     void setTarget(glm::vec3 pos);
     void update();
 };
