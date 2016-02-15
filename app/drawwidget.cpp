@@ -85,7 +85,7 @@ void DrawWidget::addMesh()
 {
     WavefrontMesh meshLoader;
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Wavefront object"),
-                                                    QCoreApplication::applicationDirPath().append("/.."),
+                                                    QCoreApplication::applicationDirPath().append("/../assets"),
                                                     tr("Wavefront Object (*.obj)"));
     std::vector<Mesh*> meshes = meshLoader.loadMesh(filename);
     for(Mesh *m : meshes)
@@ -112,7 +112,7 @@ void DrawWidget::addParticles()
 
         std::vector<glm::vec3> particles;
         for(int i=0; i<properties.amount; ++i)
-            particles.push_back(getRandomPos()*10.f + glm::vec3(0, 6, 0));
+            particles.push_back(getRandomPos()*10.f + glm::vec3(0, 14, 0));
         sceneManager.addParticleGroup(properties, particles.data());
 
         if(renderer.isModernOpenGLAvailable())
@@ -132,6 +132,7 @@ void DrawWidget::update()
     double physicsTime = 0;
     if(!paused)
         physicsTime = sceneManager.update(slowmotion?0.002f:0.025f);
+    camera.update();
     repaint();
     emit updateFPS(physicsTime, 1./renderer.getFPS());
 }
@@ -147,16 +148,13 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
             addMesh();
         break;
         case Qt::Key_E :
-            addMesh();
-        break;
-        case Qt::Key_R :
             resetScene();
         break;
-        case Qt::Key_T :
-            camera.reset();
+        case Qt::Key_R :
+            resetCamera();
         break;
         case Qt::Key_Space :
-            paused = !paused;
+            emit pauseEvent();
         break;
         case Qt::Key_S:
             slowmotion = !slowmotion;
@@ -166,57 +164,93 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
 
 void DrawWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    if(grabbedLeft)
+    if(grabbedRotateCamera)
         camera.rotateCamera(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
-    if(grabbedRight)
-        camera.moveCamera(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
+    if(grabbedMoveCamera)
+    {
+        float x = float(event->x())*2/width() - 1.f;
+        float y = float(height() - event->y())*2/height() - 1.f;
+        glm::vec4 pos(x*grabPos.w, y*grabPos.w, grabPos.z, grabPos.w);
+        glm::mat4 inverseMVP = glm::inverse(camera.getProjectionMatrix() * camera.getViewMatrix());
+        glm::vec4 diff = (inverseMVP * grabPos) - (inverseMVP * pos);
+        grabPos = pos;
+        camera.moveCenter(glm::vec3(diff.x, diff.y, diff.z));
+    }
     lastMousePos = event->globalPos();
 }
 
 void DrawWidget::mousePressEvent(QMouseEvent* event)
 {
+    int id = 0;
+    glm::vec3 pxInfo;
+    if(renderer.isModernOpenGLAvailable())
+    {
+        pxInfo = fbo->getObjectId(event->x(), event->y());
+        id = int(pxInfo.z);
+    }
+    if(id == 0)
+        pxInfo = camera.getDefaultPxInfo();
+    // opengl frustum has boundaries of [-1, 1]
+    glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, pxInfo.x*2 - 1, 1);
+    pos /= pxInfo.y;
+    grabPos = pos;
     switch(event->button())
     {
         case Qt::LeftButton :
-            grabbedLeft = true;
-            lastMousePos = event->globalPos();
+            if(event->modifiers() & Qt::ControlModifier)
+                grabbedRotateObject = true;
+            else
+                grabbedRotateCamera = true;
             break;
         case Qt::RightButton :
-            grabbedRight = true;
-            lastMousePos = event->globalPos();
-            break;
-        case Qt::MiddleButton :
-        if(renderer.isModernOpenGLAvailable())
-        {
-            glm::vec3 info = fbo->getObjectId(event->x(), event->y());
-            int id = int(info.z);
-            glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, info.x, 1);
-            pos /= info.y;
-            // le contenu de pos semble correctement initialisé (dans le frustum)
-
-            glm::mat4 mvp = camera.getProjectionMatrix() * camera.getViewMatrix();
-
-            glm::vec4 clickPos = glm::inverse(mvp) * pos;
-
-            /*SceneIterator<GeometryNode*> *plop = sceneManager.getScene()->getGeometry();
-            plop->next();
-            glm::vec3 particle1 = plop->getItem()->mesh->instances_offsets[0];
-
-            glm::vec4 theoriticalPos = mvp * glm::vec4(particle1.x, particle1.y, particle1.z, 1);
-            theoriticalPos /= theoriticalPos.w;
-
-            printf("plop\n");*/
-            if(id > 0)
-                camera.setCenter(glm::vec3(clickPos.x, clickPos.y, clickPos.z));
-        }
+            if(event->modifiers() & Qt::ControlModifier)
+                grabbedMoveObject = true;
+            else
+                grabbedMoveCamera = true;
             break;
         default:
             break;
     }
+    lastMousePos = event->globalPos();
 }
+
+void DrawWidget::mouseDoubleClickEvent(QMouseEvent * event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        if(renderer.isModernOpenGLAvailable())
+        {
+            glm::vec3 info = fbo->getObjectId(event->x(), event->y());
+            int id = int(info.z);
+            if(id > 0)
+            {
+                // opengl frustum has boundaries of [-1, 1]
+                glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, info.x*2 - 1, 1);
+                pos /= info.y;
+                glm::mat4 mvp = camera.getProjectionMatrix() * camera.getViewMatrix();
+                // applying inverse mvp
+                glm::vec4 clickPos = glm::inverse(mvp) * pos;
+                camera.setTarget(glm::vec3(clickPos.x, clickPos.y, clickPos.z));
+            }
+        }
+    }
+}
+
 void DrawWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-    grabbedLeft = false;
+    switch(event->button())
+    {
+        case Qt::LeftButton :
+            grabbedRotateCamera = false;
+            grabbedRotateObject = false;
+            break;
+        case Qt::RightButton :
+            grabbedMoveCamera = false;
+            grabbedMoveObject = false;
+            break;
+        default:
+            break;
+    }
 }
 
 void DrawWidget::wheelEvent(QWheelEvent *event)

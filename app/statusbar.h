@@ -17,6 +17,8 @@ class StatusBar : public QStatusBar
         QLabel *constraintCountLabel;
 
         QLabel *FPSLabel;
+        QLabel *physicsPerfLabel;
+        QLabel *renderingPerfLabel;
         int nbRefreshes;
         double renderingTime;
         double physicsTime;

@@ -5,11 +5,9 @@
 #include "triangle.h"
 #include "constraint.h"
 
-#include <glm/common.hpp>
-
 bool PhysiK::IntersectionParticleTriangle::intersect(vec3 oldPostion) const{
 
-	//http://heigeas.free.fr/laure/ray_tracing/triangle.html
+    // http://heigeas.free.fr/laure/ray_tracing/triangle.html
 
 	vec3 p = particle->pos;
 	vec3 d = oldPostion-p;

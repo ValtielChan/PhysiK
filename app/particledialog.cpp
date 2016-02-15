@@ -55,6 +55,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     QDialogButtonBox *buttonBox;
 
     resize(278, 225);
+    setWindowIcon(QIcon(":qss_icons/rc/add_particles_64"));
 
     groupBox = new QGroupBox(this);
     formLayout = new QFormLayout(groupBox);
@@ -74,7 +75,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     spinBoxAmount = new QSpinBox(groupBox);
     spinBoxAmount->setMinimum(1);
     spinBoxAmount->setMaximum(10000);
-    spinBoxAmount->setValue(20);
+    spinBoxAmount->setValue(500);
     formLayout->setWidget(0, QFormLayout::FieldRole, spinBoxAmount);
     spinBoxRadius = new QDoubleSpinBox(groupBox);
     spinBoxRadius->setMinimum(0.01);

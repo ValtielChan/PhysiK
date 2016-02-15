@@ -13,6 +13,8 @@ CONFIG += c++11
 QMAKE_CXXFLAGS += -std=c++11
 QMAKE_CXXFLAGS += -Wno-comment #to much warning... unreadable console
 
+#QMAKE_LFLAGS += -static-libgcc -static-libstdc++ -static -lpthread
+
 DESTDIR = $$bin_dir
 
 DEFINES += GLEW_STATIC

@@ -48,9 +48,9 @@ void PhysiK::PhysicObject::postUpdate(float dt)
 {
     for(unsigned int i=0; i<nbParticles; ++i)
     {
+        particles[i].velocity = (particles[i].pos - oldPositions[i])/dt;
         particles[i].velocity+=particles[i].impulsion*particles[i].omega;
         particles[i].impulsion+=vec3();
-        particles[i].velocity = (particles[i].pos - oldPositions[i])/dt;
         oldPositions[i]=particles[i].pos;
     }
 }

@@ -71,7 +71,6 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
         const float box_size = 20-(radius*2);
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f,  1.f, 0.f),  radius));
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, -1.f, 0.f), -box_size));
-
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f, -1.f), -box_size/2.f));
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f,  1.f), -box_size/2.f));
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 1.f, 0.f,  0.f), -box_size/2.f));
@@ -98,6 +97,8 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 		solver.pushTemporaryConstraint(intersection.getConstraint());
 
     // find particle to plane intersections
+
+
 
     // MILESTONE 2 : find particle to triangle intersections
 

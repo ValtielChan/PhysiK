@@ -43,6 +43,11 @@
 		<file>rc/radio_unchecked_disabled.png</file>
 		<file>rc/radio_unchecked_focus.png</file>
 		<file>rc/radio_unchecked.png</file>
+		<file>rc/add_particles_64.png</file>
+		<file>rc/add_mesh_64.png</file>
+		<file>rc/start_64.png</file>
+		<file>rc/pause_64.png</file>
+		<file>rc/stop_64.png</file>
 	</qresource>
 	<qresource prefix="qdarkstyle">
 		<file>style.qss</file>
