@@ -26,10 +26,16 @@ namespace PhysiK {
 			unsigned int nbParticles;
 			vec3 barycenter;
 
-			/**
+            /**
              * @brief return a pointer to the positions of the vertices for the user
-			 */
-			Particle * getPositions();
+             */
+            Particle * getPositions() const;
+
+            /**
+             * @brief getDeltaP
+             * @return
+             */
+            vec3 getDeltaP(unsigned int offset) const;
 
 			/**
 			 * @brief compute de barycenter of all particles *_*

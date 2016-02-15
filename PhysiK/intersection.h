@@ -33,19 +33,22 @@ namespace PhysiK {
 
 		private:
 
-            Particle * particle1;
-            Particle * particle2;
-			float radius;
+			ParticleGroup * particles1;
+			ParticleGroup * particles2;
+			unsigned int offset1;
+			unsigned int offset2;
 
 		public:
 
-            IntersectionParticleParticle(Particle * particle1,Particle * particle2,float radius)
-                :particle1(particle1),particle2(particle2),radius(radius){}
+			IntersectionParticleParticle(ParticleGroup * particle1, unsigned int offset1,ParticleGroup * particle2,unsigned int offset2)
+				:particles1(particle1),particles2(particle2),offset1(offset1),offset2(offset2){}
 			bool intersect()const;
+			vec3 intersectPos()const;
 			Constraint * getConstraint() const;
-
-            Particle *getParticle1() { return particle1; }
-            Particle *getParticle2() { return particle2; }
+			Particle *getParticle1() const;
+			Particle *getParticle2() const;
+			vec3 getWorks1(float deltaT) const;
+			vec3 getWorks2(float deltaT) const;
 	};
 
 }

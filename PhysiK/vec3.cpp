@@ -47,6 +47,13 @@ PhysiK::vec3& PhysiK::vec3::operator+=(const PhysiK::vec3 value)
     return *this;
 }
 
+PhysiK::vec3& PhysiK::vec3::operator-=(const PhysiK::vec3 value)
+{
+    for(int i = 0 ; i < 3 ; i++)
+        (*this)[i]-=value[i];
+    return *this;
+}
+
 PhysiK::vec3 PhysiK::vec3::operator/(const float value) const{
 	vec3 to_return = *this;
 	for(int i = 0 ; i < 3 ; i++)
@@ -65,7 +72,7 @@ bool PhysiK::vec3::operator==(const vec3 value) const{
     return x==value.x && y==value.y && z==value.z;
 }
 
-PhysiK::vec3 PhysiK::vec3::opposite() const
+PhysiK::vec3 PhysiK::vec3::operator-() const
 {
     return vec3(-this->x, -this->y, -this->z);
 }
@@ -100,7 +107,7 @@ float PhysiK::vec3::dot(vec3 snd) const{
 			+this->z*snd.z;
 }
 
-PhysiK::vec3 PhysiK::vec3::toVoxel(){
+PhysiK::vec3 PhysiK::vec3::toVoxel(unsigned int level){
     return vec3(int(x/vec3::voxelSize),int(y/vec3::voxelSize),int(z/vec3::voxelSize));
 }
 

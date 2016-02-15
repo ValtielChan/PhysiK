@@ -23,16 +23,17 @@ void PhysiK::ParticleHashTable::addObject(ParticleGroup * group){
 }
 
 void PhysiK::ParticleHashTable::generateIntersection(std::vector<IntersectionParticleParticle> &intersections){
-	for(auto& voxel : voxelGrid){
-		m_vector& test = voxel.second;
+	for(auto& iterator : voxelGrid){
+		m_vector& test = iterator.second;
+		const vec3& voxel = iterator.first;
 		for(unsigned int i = 0 ; i < test.size();i++){
 			m_pair& pair1= test[i];
 			for(unsigned int j= i+1 ; j < test.size();j++){
 				m_pair& pair2= test[j];
-				Particle& particle1 = pair1.first->getPositions()[pair1.second];
-				Particle& particle2 = pair2.first->getPositions()[pair2.second];
-				IntersectionParticleParticle to_test(&particle1,&particle2,pair1.first->radius+pair2.first->radius);
-				if(&particle1!=&particle2&&to_test.intersect())
+				IntersectionParticleParticle to_test(pair1.first,pair1.second,pair2.first,pair2.second);
+				if(to_test.getParticle1()!=to_test.getParticle2()
+						&&to_test.intersect()
+						&&to_test.intersectPos().toVoxel()==voxel)//itersection in the voxel (avoid duplicate intersections)
 					intersections.push_back(std::move(to_test));
 			}
 		}

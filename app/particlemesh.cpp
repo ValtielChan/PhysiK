@@ -5,7 +5,7 @@
 #include <SparrowRenderer/glassert.h>
 
 ParticleMesh::ParticleMesh(ParticleProperties properties, const glm::vec3* positions) :
-    Sphere(NULL, properties.radius > 1.5f ? 2 : 1, properties.radius),
+    Sphere(NULL, 4, properties.radius),
     group(properties.amount, (float*)positions, sizeof(glm::vec3), properties.radius, properties.mass)
 {
     PhongMaterial *mat = new PhongMaterial();

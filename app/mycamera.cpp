@@ -43,7 +43,7 @@ void MyCamera::reset()
 void MyCamera::computeView()
 {
 
-	m_view = glm::translate(glm::mat4(), glm::vec3(0, 0, -m_dist));
+    m_view = glm::translate(glm::mat4(), glm::vec3(0, 0, -m_dist));
     m_view = glm::rotate(m_view, m_rotation.y, glm::vec3(1, 0, 0));
     m_view = glm::rotate(m_view, m_rotation.x, glm::vec3(0, 1, 0));
     m_view = glm::translate(m_view, -m_center);
@@ -51,8 +51,6 @@ void MyCamera::computeView()
 
 void MyCamera::mouseScroll(int nbScrolls)
 {
-	float dstScroll;
-
 	while(nbScrolls != 0)
 	{
 		if(nbScrolls > 0)
@@ -66,7 +64,8 @@ void MyCamera::mouseScroll(int nbScrolls)
 			++nbScrolls;
 		}
 	}
-    computeView();
+
+	computeView();
 }
 
 glm::vec3 MyCamera::getDefaultPxInfo()

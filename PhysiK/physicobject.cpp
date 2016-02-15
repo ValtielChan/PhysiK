@@ -23,9 +23,15 @@ void PhysiK::PhysicObject::computeBarycenter()
 	barycenter = vec3(xSum, ySum, zSum);
 }
 
-PhysiK::Particle *PhysiK::PhysicObject::getPositions()
+PhysiK::Particle *PhysiK::PhysicObject::getPositions()const
 {
-    return particles;
+	return particles;
+}
+
+
+PhysiK::vec3 PhysiK::PhysicObject::getDeltaP(unsigned int offset)const
+{
+    return getPositions()[offset].pos - oldPositions[offset];
 }
 
 void PhysiK::PhysicObject::preUpdate(float dt, float gravity, float damping)
@@ -43,6 +49,8 @@ void PhysiK::PhysicObject::postUpdate(float dt)
     for(unsigned int i=0; i<nbParticles; ++i)
     {
         particles[i].velocity = (particles[i].pos - oldPositions[i])/dt;
+        particles[i].velocity+=particles[i].impulsion*particles[i].omega;
+        particles[i].impulsion+=vec3();
         oldPositions[i]=particles[i].pos;
     }
 }
