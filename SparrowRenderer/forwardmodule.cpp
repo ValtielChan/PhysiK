@@ -21,8 +21,11 @@ void ForwardModule::renderGL(Camera* myCamera, Scene* scene)
 {
     // bind target
     renderTarget->bindFBO();
+    if(clearBeforeDrawing)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // render ambient lighting
+    glAssert(glEnable(GL_DEPTH_TEST));
     glAssert(glDepthFunc(GL_LESS));
     glAssert(glDisable(GL_BLEND));
 

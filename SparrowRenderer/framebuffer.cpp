@@ -30,7 +30,7 @@ void FrameBuffer::addTexture(Texture* tex, GLenum attachment)
         else
         {
             glAssert(glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, tex->getTarget(), tex->getId(), 0));
-            if(attachment != GL_DEPTH_ATTACHMENT)
+            if(attachment != GL_DEPTH_ATTACHMENT) // TODO stencil attachment must be tested too
                 attachments.push_back(attachment);
         }
 
@@ -53,6 +53,7 @@ void FrameBuffer::deleteTextures()
 {
     for(Texture* t : textures)
         delete(t);
+    textures.clear();
 }
 
 void FrameBuffer::bindFBO(GLenum target) const
