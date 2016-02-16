@@ -40,6 +40,13 @@ PhysiK::vec3 PhysiK::vec3::operator+(const vec3 value) const{
     return to_return;
 }
 
+PhysiK::vec3 PhysiK::vec3::operator+(const float value) const{
+	vec3 to_return = *this;
+	for(int i = 0 ; i < 3 ; i++)
+		to_return[i]+=value;
+	return to_return;
+}
+
 PhysiK::vec3& PhysiK::vec3::operator+=(const PhysiK::vec3 value)
 {
     for(int i = 0 ; i < 3 ; i++)
@@ -107,8 +114,13 @@ float PhysiK::vec3::dot(vec3 snd) const{
 			+this->z*snd.z;
 }
 
-PhysiK::vec3 PhysiK::vec3::toVoxel(unsigned int level){
-    return vec3(int(x/vec3::voxelSize),int(y/vec3::voxelSize),int(z/vec3::voxelSize));
+PhysiK::vec3 PhysiK::vec3::toVoxel() const{
+	return vec3(floor(x/vec3::voxelSize),floor(y/vec3::voxelSize),floor(z/vec3::voxelSize));
+}
+
+
+PhysiK::vec3 PhysiK::vec3::center() const{
+	return *this + 0.5;
 }
 
 void PhysiK::vec3::print()

@@ -32,6 +32,7 @@ namespace PhysiK {
 			ParticleHashTable PHT;
 
 			std::vector<IntersectionParticleParticle> ptpIntersections;
+			std::vector<IntersectionParticleTriangle> pttIntersections;
 
 			Solver solver;
 

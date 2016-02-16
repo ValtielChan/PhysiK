@@ -1,7 +1,8 @@
 #include "body.h"
 #include "triangle.h"
 
-PhysiK::Body::Body(int nbParticles, int nbTriangles):PhysicObject(nbParticles),nbTriangles(nbTriangles){
+PhysiK::Body::Body(unsigned int nbParticles,unsigned int nbTriangles):
+    PhysicObject(nbParticles),nbTriangles(nbTriangles){
     triangles = new Triangle[nbTriangles]();
 }
 
@@ -14,5 +15,5 @@ PhysiK::Triangle * PhysiK::Body::getTriangles(){
 }
 
 PhysiK::Body::~Body(){
-    delete triangles;
+    delete[] triangles;
 }

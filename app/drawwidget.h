@@ -4,7 +4,13 @@
 // this needs to be included first for GLEW to be working
 #include <SparrowRenderer/sparrowrenderer.h>
 
+#if 0
+#define QOpenGLWidget QGLWidget
+#define defaultFramebufferObject() 0
+#include <QGLWidget>
+#else
 #include <QOpenGLWidget>
+#endif
 #include <QTimer>
 
 #include "mycamera.h"

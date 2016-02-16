@@ -17,7 +17,7 @@ namespace PhysiK {
 
 		public:
 
-			Body(int nbParticles,int nbTriangles);
+			Body(unsigned int nbParticles,unsigned int nbTriangles);
 
 			unsigned int nbTriangles;
 

@@ -13,6 +13,11 @@ namespace PhysiK {
 	 */
 	class PhysicObject
 	{
+
+			PhysicObject(const PhysicObject&)=delete;
+			PhysicObject(PhysicObject&&)=delete;
+			PhysicObject& operator =(const PhysicObject&)=delete;
+
 		protected:
 
 			PhysicObject(int nbPosition);

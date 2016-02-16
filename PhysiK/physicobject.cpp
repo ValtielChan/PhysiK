@@ -1,6 +1,6 @@
 #include "physicobject.h"
 
-PhysiK::PhysicObject::PhysicObject(int nbPosition){
+PhysiK::PhysicObject::PhysicObject(int nbPosition):nbParticles(nbPosition){
     particles = new Particle[nbPosition]();
 	oldPositions = new vec3[nbPosition]();
 }
@@ -45,7 +45,7 @@ void PhysiK::PhysicObject::preUpdate(float dt, float gravity, float damping)
     {
         particles[i].velocity.y += particles[i].omega == 0 ? 0 : gravity * dt;
         particles[i].velocity *= damping;
-        particles[i] = particles[i].pos + particles[i].velocity*dt;
+        particles[i].pos = particles[i].pos + particles[i].velocity*dt;
     }
 }
 
@@ -54,13 +54,13 @@ void PhysiK::PhysicObject::postUpdate(float dt)
     for(unsigned int i=0; i<nbParticles; ++i)
     {
         particles[i].velocity = (particles[i].pos - oldPositions[i])/dt;
-        particles[i].velocity+=particles[i].impulsion*particles[i].omega;
-        particles[i].impulsion+=vec3();
+        //particles[i].velocity+=particles[i].impulsion*particles[i].omega;
+        //particles[i].impulsion+=vec3();
         oldPositions[i]=particles[i].pos;
     }
 }
 
 PhysiK::PhysicObject::~PhysicObject(){
-    delete particles;
-	delete oldPositions;
+	delete[] particles;
+	delete[] oldPositions;
 }
