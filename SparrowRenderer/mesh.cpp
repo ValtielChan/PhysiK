@@ -161,14 +161,14 @@ void Mesh::destroyGL()
     }
 }
 
-glm::vec3* Mesh::beginUpdateInstances()
+glm::vec3* Mesh::beginUpdateBuffer(int buffer)
 {
-    glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
+    glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[buffer]));
     glAssert(glm::vec3* ptr = (glm::vec3*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
     return ptr;
 }
 
-void Mesh::endUpdateInstances()
+void Mesh::endUpdateBuffer()
 {
     glUnmapBuffer(GL_ARRAY_BUFFER);
 }
@@ -272,6 +272,7 @@ void Mesh::mergeVertices()
 void Mesh::computeNormals()
 {
     normals.resize(positions.size());
+    std::memset(normals.data(), 0, normals.size());
     for (std::size_t i=0; i < indices.size(); i += 3)
     {
         int v0 = indices[i];

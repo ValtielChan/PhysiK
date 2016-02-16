@@ -30,10 +30,6 @@ public: // TODO : see if there is a way to set this protected
     std::vector<Tangents> tangents;
     std::vector<GLuint> indices;
 
-protected:
-
-    // opengl
-
     enum {
         // required buffers
         POSITION_BUFFER,
@@ -48,12 +44,16 @@ protected:
         NB_BUFFERS
     };
 
-    GLuint vao;
+    GLuint vao; // TODO : this is supposed to be protected
+
+protected:
+
     int nb_buffers;
     GLuint vbo[NB_BUFFERS];
     GLenum primitive_type;
 
 public:
+
     Mesh();
     virtual ~Mesh();
 
@@ -61,8 +61,8 @@ public:
     void draw(Shader* shader = NULL, bool drawNormals = true, bool drawTexCoord = true, bool drawTangents = true);
     void destroyGL();
 
-    glm::vec3* beginUpdateInstances();
-    void endUpdateInstances();
+    glm::vec3* beginUpdateBuffer(int buffer);
+    void endUpdateBuffer();
 
     /**
      * this class is intended to be used with the default GL_TRIANGLES primitive,

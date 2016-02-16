@@ -14,23 +14,25 @@ namespace PhysiK {
 		private:
 
 			Triangle * triangles;
+            vec3 barycenter;
 
 		public:
 
-			Body(int nbParticles,int nbTriangles);
+            Body(int nbParticles, int nbTriangles, bool kinematic = true);
+            ~Body();
 
 			unsigned int nbTriangles;
 
 			/**
-			 * @brief return a pointer to the triangle for the user
+             * @brief return a pointer to the triangles for the user
 			 */
 			const Triangle * getTriangles() const;
 			/**
-			 * @brief return a pointer to the triangle for the user
+             * @brief return a pointer to the triangles for the user
 			 */
 			Triangle * getTriangles();
 
-			~Body();
+            void computeBarycenter();
 
 	};
 

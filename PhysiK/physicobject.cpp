@@ -5,24 +5,6 @@ PhysiK::PhysicObject::PhysicObject(int nbPosition){
 	oldPositions = new vec3[nbPosition]();
 }
 
-void PhysiK::PhysicObject::computeBarycenter()
-{
-
-    float xSum = 0.f, ySum = 0.f, zSum = 0.f;
-    for(unsigned int i = 0; i < nbParticles; ++i){
-
-        xSum += particles[i].pos.x;
-        ySum += particles[i].pos.y;
-        zSum += particles[i].pos.z;
-    }
-
-    xSum /= nbParticles;
-    ySum /= nbParticles;
-    zSum /= nbParticles;
-
-	barycenter = vec3(xSum, ySum, zSum);
-}
-
 PhysiK::Particle *PhysiK::PhysicObject::getPositions()const
 {
 	return particles;

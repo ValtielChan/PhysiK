@@ -30,7 +30,7 @@ void ParticleMesh::updatePositions()
     PhysiK::Particle *particles = group.getPositions();
     if(SparrowRenderer::isModernOpenGLAvailable() && vao != 0)
     {
-        glm::vec3 * ptr = beginUpdateInstances();
+        glm::vec3 * ptr = beginUpdateBuffer(Mesh::INSTANCE_BUFFER);
 #pragma omp parallel for
         for(std::size_t i=0; i<instances_offsets.size(); ++i)
         {
@@ -38,7 +38,7 @@ void ParticleMesh::updatePositions()
             ptr[i].y = particles[i].pos.y;
             ptr[i].z = particles[i].pos.z;
         }
-        endUpdateInstances();
+        endUpdateBuffer();
     }
     else
     {

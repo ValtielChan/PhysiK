@@ -11,7 +11,7 @@ namespace PhysiK {
 	{
 		private:
 
-			unsigned int VertexOffset[3];
+            unsigned int vertexOffset[3];
 
 		public:
 
