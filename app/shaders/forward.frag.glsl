@@ -47,7 +47,7 @@ in vec3 halfVecInView;
 #endif
 
 layout(location = 0)out vec4 outColor;
-layout(location = 1)out vec3 pickData;
+layout(location = 1)out vec4 pickData;
 
 vec3 phongLighting(in vec3 kd, in vec3 ks, in float ns, in vec3 color, in vec3 normal, in vec3 lightDir, in vec3 halfVec){
     float diffuseComponent = max(dot(normal, lightDir), 0);
@@ -98,12 +98,12 @@ void main(void) {
 #endif
 
 #ifdef INSTANCING
-    pickData = vec3(gl_FragCoord.z, gl_FragCoord.w, float(int(objectId) + instanceId));
+    pickData = vec4(gl_FragCoord.z, gl_FragCoord.w, float(int(objectId) + instanceId), 0);
 #else
-    pickData = vec3(gl_FragCoord.z, gl_FragCoord.w, float(objectId));
+    pickData = vec4(gl_FragCoord.z, gl_FragCoord.w, float(objectId), 0);
 #endif
 
 #ifndef AMBIENT_LIGHT
-    pickData = vec3(0);
+    pickData = vec4(0);
 #endif
 }

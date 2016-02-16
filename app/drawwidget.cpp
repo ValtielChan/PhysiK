@@ -9,17 +9,18 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include "particledialog.h"
-#include "pickframebuffer.h"
+#include "pickmodule.h"
 #include "qtutils.h"
 #include <ctime>
 #include <glm/ext.hpp>
 
 DrawWidget::DrawWidget(QWidget *parent) :
-    QOpenGLWidget(parent),
-    paused(false),slowmotion(false)
+    QGLWidget(parent),
+    paused(false),
+    slowmotion(false),
+    forward(NULL),
+    pick(NULL)
 {
-    grabbedMoveCamera=false;
-    fbo = new PickFramebuffer();
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
     renderer.setScene(sceneManager.getScene());
@@ -44,23 +45,16 @@ void DrawWidget::paintGL()
 
 void DrawWidget::resizeGL(int w, int h)
 {
-    if(renderer.isModernOpenGLAvailable())
-    {
-        GLint qtFramebuffer;
-        glAssert(glGetIntegerv(GL_FRAMEBUFFER_BINDING, &qtFramebuffer));
-        fbo->resize(qtFramebuffer, width(), height());
-    }
     renderer.resizeGL(w, h);
+    if(forward != NULL)
+        forward->setRenderTarget(pick->getFrameBuffer());
+    repaint();
 }
 
 void DrawWidget::initPipeline()
 {
     if(renderer.isModernOpenGLAvailable())
     {
-        GLint qtFramebuffer;
-        glAssert(glGetIntegerv(GL_FRAMEBUFFER_BINDING, &qtFramebuffer));
-        fbo->resize(qtFramebuffer, width(), height());
-
         forward = new ForwardModule();
         QString frag = QtUtils::fileToString(":shaders/shaders/forward.frag.glsl");
         QString vert = QtUtils::fileToString(":shaders/shaders/forward.vert.glsl");
@@ -70,7 +64,10 @@ void DrawWidget::initPipeline()
         forward->setShaderSource(source);
         forward->compileShaders(sceneManager.getScene());
         renderer.addModule(forward, "forward");
-        forward->setRenderTarget(fbo);
+        pick = new PickModule(width(), height());
+        forward->setRenderTarget(pick->getFrameBuffer());
+        renderer.addModule(pick, "pick");
+        forward->setClearBeforeDrawing(true);
     }
     else
         renderer.addModule(new CrappyModule(), "crappy");
@@ -185,7 +182,7 @@ void DrawWidget::mousePressEvent(QMouseEvent* event)
     glm::vec3 pxInfo;
     if(renderer.isModernOpenGLAvailable())
     {
-        pxInfo = fbo->getObjectId(event->x(), event->y());
+        pxInfo = pick->getObjectInfo(event->x(), event->y());
         id = int(pxInfo.z);
     }
     if(id == 0)
@@ -220,7 +217,7 @@ void DrawWidget::mouseDoubleClickEvent(QMouseEvent * event)
     {
         if(renderer.isModernOpenGLAvailable())
         {
-            glm::vec3 info = fbo->getObjectId(event->x(), event->y());
+            glm::vec3 info = pick->getObjectInfo(event->x(), event->y());
             int id = int(info.z);
             if(id > 0)
             {

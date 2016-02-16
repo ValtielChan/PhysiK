@@ -69,12 +69,9 @@ void SparrowRenderer::resizeGL(int w, int h)
 
 void SparrowRenderer::renderGL()
 {
-    // each module should handle its framebuffer bindings
-    // FrameBuffer::screen->bindFBO();
     glAssert(glViewport(0, 0, width, height));
     glAssert(glClearColor(clearColor.r, clearColor.g, clearColor.b, 1));
     glAssert(glClearDepth(1.0));
-    glAssert(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
     for(ModuleNode &m : modules)
     {
         if(m.isEnabled)

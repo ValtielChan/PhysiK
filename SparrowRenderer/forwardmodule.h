@@ -19,7 +19,8 @@ public:
     ForwardModule() :
         shaderSources(NULL),
         renderTarget(FrameBuffer::screen),
-        isWireframe(false)
+        isWireframe(false),
+        clearBeforeDrawing(false)
     {}
 
     void renderGL(Camera* myCamera, Scene* scene);
@@ -32,6 +33,7 @@ public:
 
     void setRenderTarget(const FrameBuffer* target);
     void setWireframe(bool wireframe) {isWireframe = wireframe;}
+    void setClearBeforeDrawing(bool clear) {clearBeforeDrawing = clear;}
 
 private:
     static const char* const flagStr[NB_FLAGS];
@@ -43,6 +45,7 @@ private:
     const FrameBuffer* renderTarget;
 
     bool isWireframe;
+    bool clearBeforeDrawing;
 
     void lightPass(Camera* myCamera, Scene* scene, Light* light);
 };
