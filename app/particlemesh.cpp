@@ -4,6 +4,8 @@
 #include <SparrowRenderer/sparrowrenderer.h>
 #include <SparrowRenderer/glassert.h>
 
+#include <chrono>
+
 ParticleMesh::ParticleMesh(ParticleProperties properties, const glm::vec3* positions) :
     Sphere(NULL, 4, properties.radius),
     group(properties.amount, (float*)positions, sizeof(glm::vec3), properties.radius, properties.mass)
@@ -26,16 +28,27 @@ ParticleMesh::ParticleMesh(ParticleProperties properties, const glm::vec3* posit
 void ParticleMesh::updatePositions()
 {
     PhysiK::Particle *particles = group.getPositions();
-    for(std::size_t i=0; i<instances_offsets.size(); ++i)
+    if(SparrowRenderer::isModernOpenGLAvailable() && vao != 0)
     {
-        instances_offsets[i].x = particles[i].pos.x;
-        instances_offsets[i].y = particles[i].pos.y;
-        instances_offsets[i].z = particles[i].pos.z;
+        glm::vec3 * ptr = beginUpdateInstances();
+#pragma omp parallel for
+        for(std::size_t i=0; i<instances_offsets.size(); ++i)
+        {
+            ptr[i].x = particles[i].pos.x;
+            ptr[i].y = particles[i].pos.y;
+            ptr[i].z = particles[i].pos.z;
+        }
+        endUpdateInstances();
     }
-    if(SparrowRenderer::isModernOpenGLAvailable())
+    else
     {
-        glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
-        glAssert(glBufferData(GL_ARRAY_BUFFER, instances_offsets.size() * sizeof(glm::vec3), instances_offsets.data(), GL_DYNAMIC_DRAW));
+#pragma omp parallel for
+        for(std::size_t i=0; i<instances_offsets.size(); ++i)
+        {
+            instances_offsets[i].x = particles[i].pos.x;
+            instances_offsets[i].y = particles[i].pos.y;
+            instances_offsets[i].z = particles[i].pos.z;
+        }
     }
 }
 

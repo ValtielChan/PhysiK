@@ -74,7 +74,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     formLayout->setWidget(3, QFormLayout::FieldRole, spinBoxDensity);
     spinBoxAmount = new QSpinBox(groupBox);
     spinBoxAmount->setMinimum(1);
-    spinBoxAmount->setMaximum(10000);
+    spinBoxAmount->setMaximum(100000);
     spinBoxAmount->setValue(500);
     formLayout->setWidget(0, QFormLayout::FieldRole, spinBoxAmount);
     spinBoxRadius = new QDoubleSpinBox(groupBox);

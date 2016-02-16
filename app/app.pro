@@ -21,7 +21,7 @@ DEFINES += GLEW_STATIC
 
 LIBPATH += $$lib_dir
 
-LIBS += -lPhysiK -lSparrowRenderer
+LIBS += -lPhysiK -lSparrowRenderer -fopenmp
 win32 : LIBS += -lopengl32
 
 INCLUDEPATH += ../

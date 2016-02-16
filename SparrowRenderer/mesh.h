@@ -11,8 +11,6 @@ class Shader;
 
 struct Mesh
 {
-protected:
-
 public: // TODO : see if there is a way to set this protected
     // geometry data
 
@@ -62,6 +60,9 @@ public:
     void initGL(bool isDynamic = false);
     void draw(Shader* shader = NULL, bool drawNormals = true, bool drawTexCoord = true, bool drawTangents = true);
     void destroyGL();
+
+    glm::vec3* beginUpdateInstances();
+    void endUpdateInstances();
 
     /**
      * this class is intended to be used with the default GL_TRIANGLES primitive,

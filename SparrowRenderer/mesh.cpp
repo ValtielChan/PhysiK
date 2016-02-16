@@ -154,12 +154,24 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
 
 void Mesh::destroyGL()
 {
-    if(vbo != NULL)
+    if(vao != 0)
     {
         glAssert(glDeleteVertexArrays(1, &vao));
         glAssert(glDeleteBuffers(NB_BUFFERS, vbo));
         vao = 0;
     }
+}
+
+glm::vec3* Mesh::beginUpdateInstances()
+{
+    glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
+    glAssert(glm::vec3* ptr = (glm::vec3*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+    return ptr;
+}
+
+void Mesh::endUpdateInstances()
+{
+    glUnmapBuffer(GL_ARRAY_BUFFER);
 }
 
 struct VertexComparator
