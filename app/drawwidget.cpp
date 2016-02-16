@@ -15,12 +15,12 @@
 #include <glm/ext.hpp>
 
 DrawWidget::DrawWidget(QWidget *parent) :
-    QOpenGLWidget(parent),
+    WIDGET_NAME(parent),
     paused(false),
     timeRate(1),
     forward(NULL),
     pick(NULL),
-    qtFBO(NULL),
+    qtFBO(FrameBuffer::screen),
     grabbedRotateCamera(false),
     grabbedMoveCamera(false),
     grabbedRotateObject(false),
@@ -54,9 +54,11 @@ void DrawWidget::resizeGL(int w, int h)
     if(forward != NULL)
     {
         forward->setRenderTarget(pick->getFrameBuffer());
+#ifdef COMPATIBILITY_DIMITRI
         delete(qtFBO);
         qtFBO = new FrameBuffer(defaultFramebufferObject());
         pick->setRenderTarget(qtFBO);
+#endif
     }
 }
 
@@ -77,7 +79,9 @@ void DrawWidget::initPipeline()
         forward->setRenderTarget(pick->getFrameBuffer());
         renderer.addModule(pick, "pick");
         forward->setClearBeforeDrawing(true);
+#ifdef COMPATIBILITY_DIMITRI
         qtFBO = new FrameBuffer(defaultFramebufferObject());
+#endif
         pick->setRenderTarget(qtFBO);
     }
     else

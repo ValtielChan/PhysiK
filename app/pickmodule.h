@@ -33,7 +33,7 @@ class PickModule : public Module
 
         FrameBuffer* getFrameBuffer() {return fbo;}
 
-        void setRenderTarget(FrameBuffer *target) {renderTarget = target;}
+        void setRenderTarget(const FrameBuffer *target) {renderTarget = target;}
 
         glm::vec3 getObjectInfo(int x, int y);
 };

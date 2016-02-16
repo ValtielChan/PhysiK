@@ -4,7 +4,14 @@
 // this needs to be included first for GLEW to be working
 #include <SparrowRenderer/sparrowrenderer.h>
 
+#ifdef COMPATIBILITY_DIMITRI
 #include <QOpenGLWidget>
+#define OPENGL_WIDGET_NAME QOpenGLWidget
+#else
+#include <QGLWidget>
+#define OPENGL_WIDGET_NAME QGLWidget
+#endif
+
 #include <QTimer>
 
 #include "mycamera.h"
@@ -13,7 +20,7 @@
 class ForwardModule;
 class PickModule;
 
-class DrawWidget : public QOpenGLWidget
+class DrawWidget : public OPENGL_WIDGET_NAME
 {
     private:
         Q_OBJECT
@@ -34,7 +41,7 @@ class DrawWidget : public QOpenGLWidget
         bool paused;
         float timeRate;
 
-        FrameBuffer *qtFBO;
+        const FrameBuffer *qtFBO;
 
         void initPipeline();
         glm::vec3 getRandomPos();
