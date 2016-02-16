@@ -18,6 +18,7 @@ class PickModule : public Module
         GLuint vao;
         GLuint vbo;
         GLuint rbo;
+        const FrameBuffer *renderTarget;
 
         static const GLfloat vertices[];
         static const std::string vertSource;
@@ -31,6 +32,8 @@ class PickModule : public Module
         virtual void resize(int width, int height);
 
         FrameBuffer* getFrameBuffer() {return fbo;}
+
+        void setRenderTarget(FrameBuffer *target) {renderTarget = target;}
 
         glm::vec3 getObjectInfo(int x, int y);
 };

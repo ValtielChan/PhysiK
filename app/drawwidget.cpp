@@ -15,11 +15,12 @@
 #include <glm/ext.hpp>
 
 DrawWidget::DrawWidget(QWidget *parent) :
-    QGLWidget(parent),
+    QOpenGLWidget(parent),
     paused(false),
     slowmotion(false),
     forward(NULL),
-    pick(NULL)
+    pick(NULL),
+    qtFBO(NULL)
 {
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
@@ -47,8 +48,12 @@ void DrawWidget::resizeGL(int w, int h)
 {
     renderer.resizeGL(w, h);
     if(forward != NULL)
+    {
         forward->setRenderTarget(pick->getFrameBuffer());
-    repaint();
+        delete(qtFBO);
+        qtFBO = new FrameBuffer(defaultFramebufferObject());
+        pick->setRenderTarget(qtFBO);
+    }
 }
 
 void DrawWidget::initPipeline()
@@ -68,6 +73,8 @@ void DrawWidget::initPipeline()
         forward->setRenderTarget(pick->getFrameBuffer());
         renderer.addModule(pick, "pick");
         forward->setClearBeforeDrawing(true);
+        qtFBO = new FrameBuffer(defaultFramebufferObject());
+        pick->setRenderTarget(qtFBO);
     }
     else
         renderer.addModule(new CrappyModule(), "crappy");

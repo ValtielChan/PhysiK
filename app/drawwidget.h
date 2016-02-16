@@ -4,7 +4,7 @@
 // this needs to be included first for GLEW to be working
 #include <SparrowRenderer/sparrowrenderer.h>
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
 #include <QTimer>
 
 #include "mycamera.h"
@@ -13,7 +13,7 @@
 class ForwardModule;
 class PickModule;
 
-class DrawWidget : public QGLWidget
+class DrawWidget : public QOpenGLWidget
 {
     private:
         Q_OBJECT
@@ -33,6 +33,8 @@ class DrawWidget : public QGLWidget
         bool grabbedMoveObject;
         bool paused;
         bool slowmotion;
+
+        FrameBuffer *qtFBO;
 
         void initPipeline();
         glm::vec3 getRandomPos();

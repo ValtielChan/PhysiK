@@ -9,7 +9,6 @@ class Texture;
 class FrameBuffer
 {
 protected:
-    FrameBuffer(int id) : allocated(false), fbo(id) {}
     bool check();
     const bool allocated;
     GLuint fbo;
@@ -18,6 +17,7 @@ protected:
 
 public:
     FrameBuffer();
+    FrameBuffer(GLuint id) : allocated(false), fbo(id) {}
     ~FrameBuffer();
     void addTexture(Texture* tex, GLenum attachment);
     void initColorAttachments();

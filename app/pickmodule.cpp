@@ -28,7 +28,8 @@ const std::string PickModule::fragSource =
     }\n";
 
 PickModule::PickModule(int width, int height) :
-    fbo(NULL), rbo(0)
+    fbo(NULL), rbo(0),
+    renderTarget(FrameBuffer::screen)
 {
     // create FBO
     resize(width, height);
@@ -59,7 +60,7 @@ PickModule::~PickModule()
 void PickModule::renderGL(Camera* myCamera, Scene* scene)
 {
     // draw on screen
-    FrameBuffer::screen->bindFBO();
+    renderTarget->bindFBO();
 
     glAssert(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
     glAssert(glDisable(GL_BLEND));
@@ -77,7 +78,6 @@ void PickModule::renderGL(Camera* myCamera, Scene* scene)
     glAssert(glDrawArrays(GL_TRIANGLES, 0, 3));
 
     glAssert(glEnable(GL_DEPTH_TEST));
-    FrameBuffer::screen->bindFBO();
 }
 
 void PickModule::resize(int width, int height)
