@@ -23,6 +23,7 @@ namespace PhysiK {
 				:colider(colider),triangle(triangle),particle(particle){}
 
 			bool intersect(vec3 oldPostion) const;
+			bool intersect() const;
 
 			Constraint * getConstraint() const;
 

@@ -32,7 +32,7 @@ class DrawWidget : public QOpenGLWidget
         bool grabbedRotateObject;
         bool grabbedMoveObject;
         bool paused;
-        bool slowmotion;
+        float timeRate;
 
         FrameBuffer *qtFBO;
 

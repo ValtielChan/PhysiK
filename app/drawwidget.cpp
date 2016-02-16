@@ -17,10 +17,14 @@
 DrawWidget::DrawWidget(QWidget *parent) :
     QOpenGLWidget(parent),
     paused(false),
-    slowmotion(false),
+    timeRate(1),
     forward(NULL),
     pick(NULL),
-    qtFBO(NULL)
+    qtFBO(NULL),
+    grabbedRotateCamera(false),
+    grabbedMoveCamera(false),
+    grabbedRotateObject(false),
+    grabbedMoveObject(false)
 {
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
@@ -135,7 +139,7 @@ void DrawWidget::update()
 {
     double physicsTime = 0;
     if(!paused)
-        physicsTime = sceneManager.update(slowmotion?0.002f:0.025f);
+        physicsTime = sceneManager.update(0.025f*timeRate);
     camera.update();
     repaint();
     emit updateFPS(physicsTime, 1./renderer.getFPS());
@@ -161,7 +165,10 @@ void DrawWidget::keyPressEvent(QKeyEvent *event)
             emit pauseEvent();
         break;
         case Qt::Key_S:
-            slowmotion = !slowmotion;
+            timeRate /= 2;
+        break;
+        case Qt::Key_D:
+            timeRate *= 2;
         break;
     }
 }
