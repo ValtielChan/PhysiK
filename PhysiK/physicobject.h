@@ -21,11 +21,12 @@ namespace PhysiK {
 
             vec3 * oldPositions;
 
-            bool isKinematic;
+
 
 		public:
 
             unsigned int nbParticles;
+            bool isKinematic;
 
             /**
              * @brief return a pointer to the positions of the vertices for the user

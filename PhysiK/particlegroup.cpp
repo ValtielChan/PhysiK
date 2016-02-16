@@ -10,11 +10,11 @@ PhysiK::ParticleGroup::ParticleGroup(int particleAmount, float* dataPtr, int dat
     this->isKinematic = isKinematic;
 
 	nbParticles = particleAmount;
-	float omega = 1/mass;
+    float omega = isKinematic ? 0 : 1/mass;
 	for(unsigned int i=0; i<nbParticles; ++i)
 	{
 		PhysiK::vec3 pos(dataPtr[0], dataPtr[1], dataPtr[2]);
-        particles[i] = PhysiK::Particle(pos, omega, isKinematic);
+        particles[i] = PhysiK::Particle(pos, omega);
         oldPositions[i] = particles[i].pos;
 		dataPtr = (float*)((char*)dataPtr + dataStride);
 	}
