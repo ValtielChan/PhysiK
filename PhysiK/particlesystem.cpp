@@ -80,6 +80,23 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
     const Triangle* bodyTriangles = body->getTriangles();
     int nbTriangles = body->nbTriangles;
 
+    // First 3 constraints
+    Triangle ft = bodyTriangles[0];
+    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[0]], &bodyParticles[ft[1]]));
+    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[1]], &bodyParticles[ft[2]]));
+    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[2]], &bodyParticles[ft[3]]));
+
+    for(int i = 0; i < body->nbParticles; ++i){
+
+        // constraints between the 3 first vertex and all others
+        for(int k = 0; k < 3; k++)
+            solver.pushConstraint(new DistanceConstraint (&bodyParticles[i], &bodyParticles[ft[k]]));
+
+        //default constraint
+        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f, 1.f), 0.f));
+    }
+
+    /*
     for(int i = 0; i < nbTriangles; ++i){
 
         Triangle cur = bodyTriangles[i];
@@ -92,7 +109,7 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 			//default constraint
 			solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[j]], vec3(0.f, 0.f, 1.f), 0.f));
 		}
-    }
+    }*/
 }
 
 void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
