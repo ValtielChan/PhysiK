@@ -57,7 +57,7 @@ vec3 phongLighting(in vec3 kd, in vec3 ks, in float ns, in vec3 color, in vec3 n
 
 float computeShadow(sampler2D shadowmap, vec3 shadow){
     float lightFragDepth = texture(shadowmap, shadow.xy).r;
-    return lightFragDepth < shadow.z ? 0 : 1;
+    return lightFragDepth < shadow.z ? 0. : 1.;
 }
 
 void main(void) {
