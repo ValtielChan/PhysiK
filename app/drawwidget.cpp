@@ -18,6 +18,7 @@ DrawWidget::DrawWidget(QWidget *parent) :
     QOpenGLWidget(parent),
     paused(false),slowmotion(false)
 {
+    grabbedMoveCamera=false;
     fbo = new PickFramebuffer();
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
@@ -50,7 +51,6 @@ void DrawWidget::resizeGL(int w, int h)
         fbo->resize(qtFramebuffer, width(), height());
     }
     renderer.resizeGL(w, h);
-    repaint();
 }
 
 void DrawWidget::initPipeline()

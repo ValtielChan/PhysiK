@@ -6,8 +6,66 @@
 #include "triangle.h"
 #include "intersection.h"
 
+PhysiK::ParticleSystem::ParticleSystem() :
+	gravity(DEFAULT_GRAVITY),
+	damping(DEFAULT_DAMPING),
+	nbIterations(DEFAULT_NB_ITERATIONS){
+
+	/*
+	Body * myBody = new Body(8, 12);
+
+	//reversed inside out cube
+
+	myBody->getPositions()[0].pos = vec3( 10, 0, 10);
+	myBody->getPositions()[1].pos = vec3( 10, 0,-10);
+	myBody->getPositions()[2].pos = vec3(-10, 0,-10);
+	myBody->getPositions()[3].pos = vec3(-10, 0, 10);
+
+	myBody->getPositions()[4].pos = vec3( 10,20, 10);
+	myBody->getPositions()[5].pos = vec3( 10,20,-10);
+	myBody->getPositions()[6].pos = vec3(-10,20,-10);
+	myBody->getPositions()[7].pos = vec3(-10,20, 10);
+
+	//		   7-------4
+	//		  /|      /|
+	//		 / |     / |
+	//		6--|----5  |
+	//		|  3----|--0
+	//		|  /    | /
+	//		| /     |/
+	//		2-------1
+
+	//top
+	myBody->getTriangles()[0] = Triangle(0,1,2);
+	myBody->getTriangles()[0] = Triangle(0,2,3);
+
+	//bottom
+	myBody->getTriangles()[0] = Triangle(6,5,4);
+	myBody->getTriangles()[0] = Triangle(6,4,7);
+
+	//front
+	myBody->getTriangles()[0] = Triangle(2,1,5);
+	myBody->getTriangles()[0] = Triangle(2,5,6);
+
+	//back
+	myBody->getTriangles()[0] = Triangle(4,0,3);
+	myBody->getTriangles()[0] = Triangle(4,3,7);
+
+	//right
+	myBody->getTriangles()[0] = Triangle(1,0,4);
+	myBody->getTriangles()[0] = Triangle(1,4,5);
+
+	//left
+	myBody->getTriangles()[0] = Triangle(7,3,2);
+	myBody->getTriangles()[0] = Triangle(7,2,6);
+
+	//todo : sleep
+	addRigidBody(myBody);*/
+}
+
 void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 {
+    std::cout<<"houray"<<std::endl;
     PhysiK::PhysicObject *temp = body;
     physicObjecs.push_back(temp);
 
@@ -34,7 +92,6 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 			//default constraint
 			solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[j]], vec3(0.f, 0.f, 1.f), 0.f));
 		}
-
     }
 }
 

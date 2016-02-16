@@ -44,15 +44,34 @@ namespace PhysiK {
 			virtual ~Constraint(){}
 	};
 
-	// Concrete constraints (To put in separate files maybe)
 	class DistanceConstraint : public Constraint
 	{
 			float dst;
-			bool min;
 		public:
-			DistanceConstraint(Particle *pos1, Particle *pos2, float dst = 0);
+			DistanceConstraint(Particle *pos1, Particle *pos2);
 			float eval() const;
 	};
+
+	class MinDistanceConstraint : public Constraint
+	{
+			float dst;
+		public:
+			MinDistanceConstraint(Particle *pos1, Particle *pos2, float dst);
+			float eval() const;
+	};
+
+	class CollisionParticuleTriangleConstraint : public Constraint{
+			float size;
+		public:
+			/**
+			 * @brief construct a CollisionConstraint with a triangle.
+			 * the triangle is defined clock-wise (maybe) with tree vertices(pt1, pt2, pt3)
+			 */
+			CollisionParticuleTriangleConstraint(Particle *pos, Particle *pt1, Particle *pt2, Particle *pt3, float size=0);
+			float eval() const;
+	};
+
+
 
 	class CollisionConstraint : public Constraint{
 		private:
@@ -71,23 +90,17 @@ namespace PhysiK {
 			 * @brief construct a CollisionConstraint with the plan equation
 			 */
 			CollisionConstraint(Particle *pos, vec3 normal, float delta);
-			/**
-			 * @brief construct a CollisionConstraint with a triangle.
-			 * the triangle is defined clock-wise (maybe) with tree vertices(pt1, pt2, pt3)
-			 */
-			CollisionConstraint(Particle *pos, vec3 pt1, vec3 pt2, vec3 pt3);
 			float eval() const;
 	};
 
-	/*class VolumeConstraint : public Constraint{
+	class VolumeConstraint : public Constraint{
 		private:
-			float volume;
-			vec3 center;
+			float delta;
 		public:
-			VolumeConstraint(vec3 center);
-			float volume();
+			void addVolume(Particle * p1,Particle * p2,Particle * p3,Particle * p4);
+			float volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4);
 			float eval();
-	};*/
+	};
 
 
 }

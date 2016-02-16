@@ -29,6 +29,7 @@ public: // TODO : see if there is a way to set this protected
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> texCoords;
     std::vector<glm::vec3> instances_offsets;
+    glm::vec3 * instances_offsets_map = nullptr;
     std::vector<Tangents> tangents;
     std::vector<GLuint> indices;
 

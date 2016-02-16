@@ -30,30 +30,37 @@ float PhysiK::Constraint::lambda(){
 	return sum==0?0:res/sum;
 }
 
-PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2, float _dst):dst(_dst),min(_dst!=0){
-	if(!min)dst=(pos1->pos-pos2->pos).length();
-	positions.push_back(pos1);
-	positions.push_back(pos2);
+PhysiK::CollisionParticuleTriangleConstraint::CollisionParticuleTriangleConstraint(Particle *pos, Particle *pt1, Particle *pt2, Particle *pt3, float size):size(size){
+	positions.push_back(pos);
+	positions.push_back(pt1);
+	positions.push_back(pt2);
+	positions.push_back(pt3);
 }
 
-float PhysiK::DistanceConstraint::eval() const{
-	float curdst = (positions[0]->pos-positions[1]->pos).length()-dst;
-	return min?std::min(0.f,curdst):curdst;
+float PhysiK::CollisionParticuleTriangleConstraint::eval() const{
+	const vec3& pos = positions[0]->pos;
+
+	const vec3& pt1 = positions[1]->pos;
+	const vec3& pt2 = positions[2]->pos;
+	const vec3& pt3 = positions[3]->pos;
+
+	vec3 vec1 = pt2-pt1;
+	vec3 vec2 = pt3-pt1;
+	vec3 normal=vec1.cross(vec2);
+	float delta=
+			 normal.x*pt1.x
+			+normal.y*pt1.y
+			+normal.z*pt1.z + size;
+	return std::min(
+				0.f,
+				 normal.x*pos.x
+				+normal.y*pos.y
+				+normal.z*pos.z
+				-delta);
 }
 
 PhysiK::CollisionConstraint::CollisionConstraint(Particle *pos, vec3 normal, float delta):normal(normal),delta(delta){
 	positions.push_back(pos);
-}
-
-PhysiK::CollisionConstraint::CollisionConstraint(Particle *pos, vec3 pt1, vec3 pt2, vec3 pt3){
-	positions.push_back(pos);
-	vec3 vec1 = pt2-pt1;
-	vec3 vec2 = pt3-pt1;
-	normal=vec1.cross(vec2);
-	delta=
-			 normal.x*pt1.x
-			+normal.y*pt1.y
-			+normal.z*pt1.z;
 }
 
 float PhysiK::CollisionConstraint::eval() const{
@@ -66,25 +73,45 @@ float PhysiK::CollisionConstraint::eval() const{
 				-delta);
 }
 
-/*PhysiK::VolumeConstraint::VolumeConstraint(vec3 D){
-	center=D;
+PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2){
+	dst=(pos1->pos-pos2->pos).length();
+	positions.push_back(pos1);
+	positions.push_back(pos2);
 }
 
-Physik::VolumeConstraint::volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4){
+float PhysiK::DistanceConstraint::eval() const{
+	return (positions[0]->pos-positions[1]->pos).length()-dst;
+}
+
+PhysiK::MinDistanceConstraint::MinDistanceConstraint(Particle *pos1, Particle *pos2, float _dst):dst(_dst){
+	positions.push_back(pos1);
+	positions.push_back(pos2);
+}
+
+float PhysiK::MinDistanceConstraint::eval() const{
+	return std::min(0.f,(positions[0]->pos-positions[1]->pos).length()-dst);
+}
+
+
+void PhysiK::VolumeConstraint::addVolume(Particle *p1, Particle *p2, Particle *p3, Particle *p4){
+	positions.push_back(p1);
+	positions.push_back(p2);
+	positions.push_back(p3);
+	positions.push_back(p4);
+}
+
+float PhysiK::VolumeConstraint::volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4){
 
 	vec3 v1 = p1 - p2;
 	vec3 v2 = p1 - p3;
 	vec3 v3 = p1 - p4;
 
-	return v1.cross(v2).dot(v3)/6.f - volume;
-
-    // Autre implem qui à l'air de revenir au même en fait...
-    vec3 v1 = p2 - p1;
-    vec3 v2 = p3 - p1;
-    vec3 v3 = p4 - p1;
-
-    return fabs((v3).dot((v2).cross(v1)) / 6.0f);
+	return v1.cross(v2).dot(v3)/6.f;
 }
 
 float PhysiK::VolumeConstraint::eval(){
-}*/
+    float total = 0;
+    for(unsigned int i = 0 ; i < positions.size() ; i+=4)
+        total+=volume(positions[i]->pos,positions[i+1]->pos,positions[i+2]->pos,positions[i+3]->pos);
+    return total-delta;
+}

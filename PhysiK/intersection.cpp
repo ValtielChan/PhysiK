@@ -30,12 +30,20 @@ bool PhysiK::IntersectionParticleTriangle::intersect(vec3 oldPostion) const{
 	return a >= 0 && b >= 0 && a + b <= 1 && t < 1 && t>= 0;
 }
 
-PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint() const{
-	vec3 A[3];
+bool PhysiK::IntersectionParticleTriangle::intersect() const{
+	Particle * A[3];
 	for(int i = 0 ; i < 3 ; i++)
-		A[i] = colider->getPositions()[colider->getTriangles()[triangle][i]].pos;
+		A[i] = colider->getPositions()+colider->getTriangles()[triangle][i];
 
-	return new CollisionConstraint(particle,A[0],A[1],A[2]);
+	return CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[1]).eval()!=0;
+}
+
+PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint() const{
+	Particle * A[3];
+	for(int i = 0 ; i < 3 ; i++)
+		A[i] = colider->getPositions()+colider->getTriangles()[triangle][i];
+
+	return new CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[2]);
 }
 
 bool PhysiK::IntersectionParticleParticle::intersect() const{
@@ -47,7 +55,7 @@ PhysiK::vec3 PhysiK::IntersectionParticleParticle::intersectPos() const{
 }
 
 PhysiK::Constraint * PhysiK::IntersectionParticleParticle::getConstraint() const{
-	return new DistanceConstraint(getParticle1(), getParticle2(), particles1->radius+particles2->radius);
+	return new MinDistanceConstraint(getParticle1(), getParticle2(), particles1->radius+particles2->radius);
 }
 
 PhysiK::Particle * PhysiK::IntersectionParticleParticle::getParticle1() const{

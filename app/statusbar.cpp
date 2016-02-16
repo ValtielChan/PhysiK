@@ -13,6 +13,9 @@ StatusBar::StatusBar(QWidget* parent) :
     FPSLabel = new QLabel(this);
     physicsPerfLabel = new QLabel(this);
     renderingPerfLabel = new QLabel(this);
+    renderingTime=0;
+    nbRefreshes=0;
+    physicsTime=0;
 
     addPermanentWidget(physicsPerfLabel);
     addPermanentWidget(renderingPerfLabel);

@@ -21,8 +21,8 @@ void SparrowRenderer::initGL(int w, int h, bool forceCrappy)
         fprintf(stderr, "Warning: glewInit failed!\n");
     if (!forceCrappy &&
         GLEW_ARB_vertex_program   &&
-        GLEW_ARB_fragment_program &&
-        GLEW_ARB_texture_float    &&
+        //GLEW_ARB_fragment_program &&
+        //GLEW_ARB_texture_float    &&
         GLEW_ARB_draw_buffers     &&
         GLEW_ARB_framebuffer_object &&
         glewIsSupported("GL_VERSION_3_3") &&
@@ -84,6 +84,7 @@ void SparrowRenderer::renderGL()
             m.seconds = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - t).count();
         }
     }
+    glFinish();
 }
 
 bool SparrowRenderer::isModernOpenGLAvailable()

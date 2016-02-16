@@ -17,12 +17,20 @@ namespace PhysiK {
 
 		public:
 
+			Body(int nbParticles,int nbTriangles);
+
 			unsigned int nbTriangles;
 
 			/**
 			 * @brief return a pointer to the triangle for the user
 			 */
 			const Triangle * getTriangles() const;
+			/**
+			 * @brief return a pointer to the triangle for the user
+			 */
+			Triangle * getTriangles();
+
+			~Body();
 
 	};
 

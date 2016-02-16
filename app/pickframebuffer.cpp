@@ -21,7 +21,7 @@ void PickFramebuffer::resize(GLint qtFramebuffer, int width, int height)
         delete t;
     }
     textures.clear();
-    Texture* tex = new Texture(GL_RGB, GL_RGB32F, w, h, GL_FLOAT, GL_TEXTURE_RECTANGLE);
+    Texture* tex = new Texture(GL_RGBA, GL_RGBA32F, w, h, GL_FLOAT, GL_TEXTURE_RECTANGLE);
     addTexture(tex, GL_COLOR_ATTACHMENT1);
     initColorAttachments();
 }
@@ -31,10 +31,10 @@ glm::vec3 PickFramebuffer::getObjectId(int x, int y)
     bindFBO();
     Texture* tex = textures[0];
     tex->bind(0);
-    glm::vec3 *val = new glm::vec3[w*h];
-    glAssert(glGetTexImage(GL_TEXTURE_RECTANGLE, 0, GL_RGB, GL_FLOAT, val));
-    glm::vec3 ret = val[x + (h-y)*w];
+    glm::vec4 *val = new glm::vec4[w*h];
+    glAssert(glGetTexImage(GL_TEXTURE_RECTANGLE, 0, GL_RGBA, GL_FLOAT, val));
+    glm::vec4 ret = val[x + (h-y)*w];
     ret.z -= 1; // clearColor compensation
     delete[] val;
-    return ret;
+    return glm::vec3(ret);
 }

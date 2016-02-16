@@ -32,6 +32,11 @@ namespace PhysiK {
             Particle * getPositions() const;
 
             /**
+             * @brief return a pointer to the previous positions
+             */
+
+            vec3 * getOldPositions() const;
+            /**
              * @brief getDeltaP
              * @return
              */

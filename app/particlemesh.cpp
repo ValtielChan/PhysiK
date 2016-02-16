@@ -26,17 +26,19 @@ ParticleMesh::ParticleMesh(ParticleProperties properties, const glm::vec3* posit
 void ParticleMesh::updatePositions()
 {
     PhysiK::Particle *particles = group.getPositions();
+    glm::vec3 * data = instances_offsets_map ? instances_offsets_map : instances_offsets.data();
     for(std::size_t i=0; i<instances_offsets.size(); ++i)
     {
-        instances_offsets[i].x = particles[i].pos.x;
-        instances_offsets[i].y = particles[i].pos.y;
-        instances_offsets[i].z = particles[i].pos.z;
+        data[i].x = particles[i].pos.x;
+        data[i].y = particles[i].pos.y;
+        data[i].z = particles[i].pos.z;
     }
-    if(SparrowRenderer::isModernOpenGLAvailable())
+    /*if(SparrowRenderer::isModernOpenGLAvailable()&&instances_offsets_map)
     {
         glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
+        //it like doing a realloc in each frame...
         glAssert(glBufferData(GL_ARRAY_BUFFER, instances_offsets.size() * sizeof(glm::vec3), instances_offsets.data(), GL_DYNAMIC_DRAW));
-    }
+    }*/
 }
 
 PhysiK::ParticleGroup* ParticleMesh::getParticleGroup()
