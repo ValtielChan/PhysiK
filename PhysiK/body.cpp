@@ -1,11 +1,12 @@
 #include "body.h"
 #include "triangle.h"
 
-PhysiK::Body::Body(int nbParticles, int nbTriangles, bool kinematic) :
+PhysiK::Body::Body(int nbParticles, int nbTriangles, float myMass, bool kinematic) :
     PhysicObject(nbParticles),
-    nbTriangles(nbTriangles)
+    nbTriangles(nbTriangles),
+    mass(myMass)
 {
-    bool isKinematic = kinematic;
+    isKinematic = kinematic;
     triangles = new Triangle[nbTriangles]();
 }
 

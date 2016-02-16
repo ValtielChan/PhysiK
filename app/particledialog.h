@@ -8,6 +8,7 @@
 #include "scenemanager.h"
 
 class QSpinBox;
+class QLabel;
 
 class ColorButton : public QPushButton
 {
@@ -40,6 +41,7 @@ class ParticleDialog : public QDialog
         explicit ParticleDialog(QWidget *parent = 0);
 
         ParticleProperties getParticleProperties() {return property;}
+        void meshVersion();
 
     private:
         ParticleProperties property;
@@ -49,6 +51,8 @@ class ParticleDialog : public QDialog
         QDoubleSpinBox *spinBoxRadius;
         QCheckBox *checkBoxKinamatic;
         ColorButton *colorButton;
+        QLabel *labelAmount;
+        QLabel *labelKine;
 
     private slots:
         void saveProperties();

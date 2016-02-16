@@ -1,12 +1,28 @@
 #include "bodymesh.h"
 #include <SparrowRenderer/mesh.h>
 #include <SparrowRenderer/sparrowrenderer.h>
+#include <cstring>
 
 BodyMesh::BodyMesh(Mesh* myMesh, BodyProperties myProperties) :
     properties(myProperties),
-    body(myMesh->positions.size(), myMesh->indices.size(), myProperties.isKinematic)
+    body(myMesh->positions.size(), myMesh->indices.size(), myProperties.mass, myProperties.isKinematic)
 {
     mesh = myMesh;
+
+    PhysiK::vec3 *oldPos = body.getOldPositions();
+    std::memcpy(oldPos, mesh->positions.data(), sizeof(glm::vec3)*mesh->positions.size());
+    PhysiK::Triangle *tri = body.getTriangles();
+    std::memcpy(tri, mesh->indices.data(), sizeof(unsigned int)*mesh->indices.size());
+    PhysiK::Particle *pos = body.getPositions();
+    for(int i=0; i<mesh->positions.size(); ++i)
+    {
+        pos[i].pos.x = mesh->positions[i].x;
+        pos[i].pos.y = mesh->positions[i].y;
+        pos[i].pos.z = mesh->positions[i].z;
+    }
+
+    if(!properties.isKinematic && properties.isRigid)
+        body.computeBarycenter();
 }
 
 void BodyMesh::update()
@@ -22,7 +38,14 @@ void BodyMesh::update()
 
 void BodyMesh::updateTransform()
 {
-    // TODO compute modelMatrix from particle positions
+    PhysiK::vec3 center;
+    body.computeBarycenter();
+
+    PhysiK::vec3 translation = center - body.getBarycenter();
+
+    // TODO compute rotation
+
+    // TODO apply translation and rotation to modelMatrix
 }
 
 void BodyMesh::updatePositions()

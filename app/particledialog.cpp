@@ -48,11 +48,9 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox;
     QFormLayout *formLayout;
-    QLabel *labelAmount;
     QLabel *labelColor;
     QLabel *labelRadius;
     QLabel *labelMass;
-    QLabel *labelKine;
     QDialogButtonBox *buttonBox;
 
     resize(278, 225);
@@ -105,7 +103,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     labelColor->setText("Color");
     labelRadius->setText("Radius");
     labelMass->setText("Density");
-    labelKine->setText("is Kinematic");
+    labelKine->setText("Kinematic");
 
     QObject::connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProperties()));
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -123,4 +121,12 @@ void ParticleDialog::saveProperties()
     property.b = c.blueF();
     property.isKinematic = checkBoxKinamatic->isChecked();
     accept();
+}
+
+void ParticleDialog::meshVersion()
+{
+    labelAmount->hide();
+    spinBoxAmount->hide();
+    labelKine->hide();
+    checkBoxKinamatic->hide();
 }

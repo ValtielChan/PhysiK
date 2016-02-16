@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     particlemesh.cpp \
     pickmodule.cpp \
     statspbd.cpp \
-    bodymesh.cpp
+    bodymesh.cpp \
+    meshdialog.cpp
 
 HEADERS  += mainwindow.h \
     drawwidget.h \
@@ -49,7 +50,8 @@ HEADERS  += mainwindow.h \
     particlemesh.h \
     pickmodule.h \
     statspbd.h \
-    bodymesh.h
+    bodymesh.h \
+    meshdialog.h
 
 FORMS    += mainwindow.ui \
     statspbd.ui

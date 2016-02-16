@@ -1,5 +1,4 @@
 #include "scenemanager.h"
-#include "particlemesh.h"
 
 #include <SparrowRenderer/parametricmesh.h>
 #include <SparrowRenderer/phongmaterial.h>
@@ -53,8 +52,21 @@ void SceneManager::resetScene()
     scene.addMesh(node);
 
     particles.clear();
+    bodies.clear();
 
     physics.reset();
+}
+
+void SceneManager::addBody(Mesh* mesh, BodyProperties properties)
+{
+    mesh->initGL(!properties.isRigid);
+    BodyMesh *body = new BodyMesh(mesh, properties);
+    scene.addMesh(body);
+    bodies.push_back(body);
+    if(properties.isRigid)
+        physics.addRigidBody(body->getBody());
+    else
+        physics.addSoftBody(body->getBody());
 }
 
 void SceneManager::addParticleGroup(ParticleProperties properties, const glm::vec3 *positions)
@@ -110,5 +122,7 @@ double SceneManager::update(float dt)
     double timeElapsed = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - t).count();
     for(ParticleMesh *pm : particles)
         pm->updatePositions();
+    for(BodyMesh *bm : bodies)
+        bm->update();
     return timeElapsed;
 }

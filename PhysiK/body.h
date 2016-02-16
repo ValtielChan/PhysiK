@@ -18,10 +18,11 @@ namespace PhysiK {
 
 		public:
 
-            Body(int nbParticles, int nbTriangles, bool kinematic = true);
+            Body(int nbParticles, int nbTriangles, float mass, bool kinematic = true);
             ~Body();
 
 			unsigned int nbTriangles;
+            float mass;
 
 			/**
              * @brief return a pointer to the triangles for the user
@@ -34,6 +35,7 @@ namespace PhysiK {
 
             void computeBarycenter();
 
+            vec3 getBarycenter() {return barycenter;}
 	};
 
 	}

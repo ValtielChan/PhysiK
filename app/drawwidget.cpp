@@ -14,6 +14,8 @@
 #include <ctime>
 #include <glm/ext.hpp>
 
+#include "meshdialog.h"
+
 DrawWidget::DrawWidget(QWidget *parent) :
     OPENGL_WIDGET_NAME(parent),
     paused(false),
@@ -94,20 +96,56 @@ glm::vec3 DrawWidget::getRandomPos()
 
 void DrawWidget::addMesh()
 {
+    /*
     WavefrontMesh meshLoader;
     QString filename = QFileDialog::getOpenFileName(this, tr("Open Wavefront object"),
                                                     QCoreApplication::applicationDirPath().append("/../assets"),
                                                     tr("Wavefront Object (*.obj)"));
+
     std::vector<Mesh*> meshes = meshLoader.loadMesh(filename);
-    for(Mesh *m : meshes)
+    */
+    MeshDialog dialog;
+    if(dialog.exec() == QDialog::Accepted)
     {
-        GeometryNode* node = new GeometryNode();
-        node->mesh = m;
-        m->initGL();
-        sceneManager.addNode(node);
+        // add
+        std::vector<Mesh*> meshes = dialog.getMeshes();
+        BodyProperties bodyProperties = dialog.getBodyProperties();
+        if(dialog.isNoPhysics())
+        {
+            for(Mesh *m : meshes)
+            {
+                GeometryNode* node = new GeometryNode();
+                node->mesh = m;
+                m->initGL();
+                sceneManager.addNode(node);
+            }
+        }
+        else if(dialog.isToParticles())
+        {
+            // add particles
+            ParticleDialog dialog;
+            dialog.meshVersion();
+            if(dialog.exec() == QDialog::Accepted)
+            {
+                ParticleProperties particlesProperties = dialog.getParticleProperties();
+                particlesProperties.isKinematic = bodyProperties.isKinematic;
+                for(Mesh *m : meshes)
+                {
+                    particlesProperties.amount = m->positions.size();
+                    sceneManager.addParticleGroup(particlesProperties, m->positions.data());
+                    delete m;
+                }
+            }
+        }
+        else
+        {
+            // add rigidbody or softbody
+            for(Mesh *m : meshes)
+                sceneManager.addBody(m, bodyProperties);
+        }
+        if(renderer.isModernOpenGLAvailable())
+            forward->compileShaders(sceneManager.getScene());
     }
-    if(renderer.isModernOpenGLAvailable())
-        forward->compileShaders(sceneManager.getScene());
 }
 
 void DrawWidget::addParticles()
