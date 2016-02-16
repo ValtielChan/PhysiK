@@ -67,7 +67,7 @@ void Mesh::initGL(bool isDynamic)
         // init instances vbo
         glAssert(glBindBuffer(GL_ARRAY_BUFFER, vbo[INSTANCE_BUFFER]));
         glAssert(glBufferData(GL_ARRAY_BUFFER, instances_offsets.size() * sizeof(glm::vec3), instances_offsets.data(), GL_DYNAMIC_DRAW));
-        glAssert(instances_offsets_map=(glm::vec3 *)glMapBuffer(GL_ARRAY_BUFFER,GL_WRITE_ONLY));
+        //glAssert(instances_offsets_map=(glm::vec3 *)glMapBuffer(GL_ARRAY_BUFFER,GL_WRITE_ONLY));
     }
 
     // unbind vao

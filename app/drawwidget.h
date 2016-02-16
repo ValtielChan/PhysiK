@@ -4,16 +4,16 @@
 // this needs to be included first for GLEW to be working
 #include <SparrowRenderer/sparrowrenderer.h>
 
-#include <QGLWidget>
+#include <QOpenGLWidget>
 #include <QTimer>
 
 #include "mycamera.h"
 #include "scenemanager.h"
 
 class ForwardModule;
-class PickModule;
+class PickFramebuffer;
 
-class DrawWidget : public QGLWidget
+class DrawWidget : public QOpenGLWidget
 {
     private:
         Q_OBJECT
@@ -23,7 +23,7 @@ class DrawWidget : public QGLWidget
         QTimer glRefreshTimer;
         SceneManager sceneManager;
         ForwardModule *forward;
-        PickModule *pick;
+        PickFramebuffer *fbo;
 
         QPoint lastMousePos;
         glm::vec4 grabPos;
