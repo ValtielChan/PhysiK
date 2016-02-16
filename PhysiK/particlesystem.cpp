@@ -58,14 +58,14 @@ void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 
 }
 
-void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
+void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particleGroup)
 {
-    PhysiK::PhysicObject *temp = particle;
+    PhysiK::PhysicObject *temp = particleGroup;
     physicObjecs.push_back(temp);
 
     // Temporary plane constraint to keep the particles from falling
     // TODO generate them only when they collide with the plane
-    Particle* bodyParticles = particle->getPositions();
+    Particle* bodyParticles = particleGroup->getPositions();
 
 #if 0 //for rigid body
     for(unsigned int i = 0; i<particle->nbParticles;i++){
@@ -74,15 +74,19 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
         }
     }
 
-    for(unsigned int i = 0; i < particle->nbParticles; ++i){
-        float radius = particle->radius;
+    for(unsigned int i = 0; i < particleGroup->nbParticles; ++i){
+        float radius = particleGroup->radius;
         const float box_size = 20-(radius*2);
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f,  1.f, 0.f),  radius));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, -1.f, 0.f), -box_size));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f, -1.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f,  1.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 1.f, 0.f,  0.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(-1.f, 0.f,  0.f), -box_size/2.f));
+
+        if (!particleGroup->isKinematic) {
+
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f,  1.f, 0.f),  radius));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, -1.f, 0.f), -box_size));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f, -1.f), -box_size/2.f));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f,  1.f), -box_size/2.f));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 1.f, 0.f,  0.f), -box_size/2.f));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(-1.f, 0.f,  0.f), -box_size/2.f));
+        }
     }
 
 #endif

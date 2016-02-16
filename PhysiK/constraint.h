@@ -89,7 +89,7 @@ namespace PhysiK {
 			/**
 			 * @brief construct a CollisionConstraint with the plan equation
 			 */
-			CollisionConstraint(Particle *pos, vec3 normal, float delta);
+            CollisionConstraint(Particle *particle, vec3 normal, float delta);
 			float eval() const;
 	};
 

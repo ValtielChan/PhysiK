@@ -25,12 +25,11 @@ namespace PhysiK {
             Particle * particles;
 
             vec3 * oldPositions;
-            bool isKinematic;
 
 		public:
 
-			unsigned int nbParticles;
-			vec3 barycenter;
+            unsigned int nbParticles;
+            bool isKinematic;
 
             /**
              * @brief return a pointer to the positions of the vertices for the user
@@ -51,7 +50,7 @@ namespace PhysiK {
 			/**
 			 * @brief compute de barycenter of all particles *_*
 			 */
-			void computeBarycenter();
+			vec3 computeBarycenter();
 
 			/**
 			 * @brief preUpdate and postUpdate are two stages of one simulation step

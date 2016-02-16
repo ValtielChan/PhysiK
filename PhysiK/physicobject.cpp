@@ -7,7 +7,7 @@ PhysiK::PhysicObject::PhysicObject(int nbPosition, bool isKinematic):
 	oldPositions = new vec3[nbPosition]();
 }
 
-void PhysiK::PhysicObject::computeBarycenter()
+PhysiK::vec3 PhysiK::PhysicObject::computeBarycenter()
 {
 
     float xSum = 0.f, ySum = 0.f, zSum = 0.f;
@@ -22,7 +22,7 @@ void PhysiK::PhysicObject::computeBarycenter()
     ySum /= nbParticles;
     zSum /= nbParticles;
 
-	barycenter = vec3(xSum, ySum, zSum);
+    return vec3(xSum, ySum, zSum);
 }
 
 PhysiK::Particle *PhysiK::PhysicObject::getPositions()const
