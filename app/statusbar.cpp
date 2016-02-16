@@ -4,7 +4,10 @@
 #include <QTimer>
 
 StatusBar::StatusBar(QWidget* parent) :
-    QStatusBar(parent)
+    QStatusBar(parent),
+    nbRefreshes(0),
+    renderingTime(0),
+    physicsTime(0)
 {
     refreshFPSTimer = new QTimer(this);
 

@@ -51,11 +51,7 @@ namespace PhysiK {
 
 		public:
 
-			ParticleSystem() :
-				gravity(DEFAULT_GRAVITY),
-				damping(DEFAULT_DAMPING),
-				nbIterations(DEFAULT_NB_ITERATIONS)
-			{}
+			ParticleSystem();
 
 			/**
 			 * @brief add a body and generate the constraint to make a rigid body

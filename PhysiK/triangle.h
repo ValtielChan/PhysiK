@@ -15,7 +15,7 @@ namespace PhysiK {
 
 		public:
 
-			Triangle(const unsigned int fst, const unsigned int snd, const unsigned int thr);
+			Triangle(const unsigned int fst = 0 , const unsigned int snd = 0, const unsigned int thr = 0);
 
 			const unsigned int& operator[](const unsigned int offset) const;
 
