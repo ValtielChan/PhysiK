@@ -65,6 +65,10 @@ namespace PhysiK {
 			 */
 			void addSoftBody(Body * body);
 
+			void addUnmovableObject(Body * body);
+
+			void addCube();
+
 			/**
 			 * @brief add a particle group
 			 */

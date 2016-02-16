@@ -87,7 +87,7 @@ void PhysiK::VolumeConstraint::addVolume(Particle *p1, Particle *p2, Particle *p
 	positions.push_back(p4);
 }
 
-float PhysiK::VolumeConstraint::volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4){
+float PhysiK::VolumeConstraint::volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4) const{
 
 	vec3 v1 = p1 - p2;
 	vec3 v2 = p1 - p3;
@@ -96,7 +96,7 @@ float PhysiK::VolumeConstraint::volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4){
 	return v1.cross(v2).dot(v3)/6.f;
 }
 
-float PhysiK::VolumeConstraint::eval(){
+float PhysiK::VolumeConstraint::eval() const{
     float total = 0;
     for(unsigned int i = 0 ; i < positions.size() ; i+=4)
         total+=volume(positions[i]->pos,positions[i+1]->pos,positions[i+2]->pos,positions[i+3]->pos);

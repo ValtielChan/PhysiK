@@ -14,65 +14,47 @@ PhysiK::ParticleSystem::ParticleSystem() :
 	reset();
 }
 
+void PhysiK::ParticleSystem::addUnmovableObject(PhysiK::Body * body){
+	for(unsigned int i = 0 ; i < body->nbParticles ; i++){
+		body->getPositions()[i].omega=0;
+		body->getOldPositions()[i]=body->getPositions()[i].pos;
+	}
+	physicObjecs.push_back(body);
+}
+
 void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 {
-    std::cout<<"houray"<<std::endl;
-    PhysiK::PhysicObject *temp = body;
-    physicObjecs.push_back(body);
-    return;
+	physicObjecs.push_back(body);
 
-    // Constraint building
-
-    // Temp
-    // On pourrait le faire directement dans le constructeur des PhysicObject
-    body->computeBarycenter();
-
-    // Add distance constraint between each triangles vertex and barycenter
-    Particle* bodyParticles = body->getPositions();
-    const Triangle* bodyTriangles = body->getTriangles();
-    int nbTriangles = body->nbTriangles;
-
-    for(int i = 0; i < nbTriangles; ++i){
-
-        Triangle cur = bodyTriangles[i];
-
-		for(int j=0 ;  j<3 ; j++){
-			//piramide constraint
-			solver.pushConstraint(new DistanceConstraint (&bodyParticles[cur[j]], &bodyParticles[0]));
-			//trianlge constraint
-			solver.pushConstraint(new DistanceConstraint (&bodyParticles[cur[j]], &bodyParticles[cur[(j+1)%3]]));
-			//default constraint
-			solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[j]], vec3(0.f, 0.f, 1.f), 0.f));
+	for(unsigned int i = 0; i<body->nbParticles;i++){
+		for(unsigned int j = 0; j<body->nbParticles;j++){
+			solver.pushConstraint(new DistanceConstraint(body->getPositions()+i,body->getPositions()+j));
 		}
-    }
+	}
 }
 
 void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 {
-    PhysiK::PhysicObject *temp = body;
-	physicObjecs.push_back(temp);
+	physicObjecs.push_back(body);
 
-	body->computeBarycenter();
-    // Wait for soft constraints
-    //solver.pushConstraint(new VolumeConstraint (body->barycenter));
+	VolumeConstraint * volume = new VolumeConstraint();
+
+	for(unsigned int i = 0; i<body->nbTriangles;i++){
+		volume->addVolume(
+				body->getPositions(),
+				body->getPositions()+body->getTriangles()[i][0],
+				body->getPositions()+body->getTriangles()[i][1],
+				body->getPositions()+body->getTriangles()[i][2]
+		);
+	}
 
 }
 
 void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particleGroup)
 {
-    PhysiK::PhysicObject *temp = particleGroup;
-    physicObjecs.push_back(temp);
+	physicObjecs.push_back(particleGroup);
 
-    // Temporary plane constraint to keep the particles from falling
-    // TODO generate them only when they collide with the plane
-    Particle* bodyParticles = particleGroup->getPositions();
-
-#if 0 //for rigid body
-    for(unsigned int i = 0; i<particle->nbParticles;i++){
-        for(unsigned int j = 0; j<particle->nbParticles;j++){
-            solver.pushConstraint(new DistanceConstraint(&bodyParticles[i],&bodyParticles[j]));
-        }
-    }
+#if 0 //obsolete
 
     for(unsigned int i = 0; i < particleGroup->nbParticles; ++i){
         float radius = particleGroup->radius;
@@ -159,20 +141,11 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 
 }
 
-void PhysiK::ParticleSystem::reset()
-{
-    solver.clearConstraints();
-    solver.clearTemporaryConstraint();
+void PhysiK::ParticleSystem::addCube(){
 
-    physicObjecs.clear();
+	Body * myBody = new Body(8, 12, true);
 
-    for(PhysicObject * to_clear : physicObjecs)
-        delete to_clear;
-    ptpIntersections.clear();
-
-    Body * myBody = new Body(8, 12, true);
-
-    //reversed inside out cube
+	//reversed inside out cube
 
 	myBody->getPositions()[0].pos = vec3( 10, 0, 10);
 	myBody->getPositions()[1].pos = vec3( 10, 0,-10);
@@ -184,11 +157,7 @@ void PhysiK::ParticleSystem::reset()
 	myBody->getPositions()[6].pos = vec3(-10,20,-10);
 	myBody->getPositions()[7].pos = vec3(-10,20, 10);
 
-    for(int i = 0; i < 8 ; i++){
-        myBody->getPositions()[i].omega=0;
-        myBody->getOldPositions()[i]=myBody->getPositions()[i].pos;
-    }
-    //		   7-------4
+	//		   7-------4
 	//		  /|      /|
 	//		 / |     / |
 	//		6--|----5  |
@@ -221,8 +190,20 @@ void PhysiK::ParticleSystem::reset()
 	myBody->getTriangles()[10] = Triangle(7,3,2);
 	myBody->getTriangles()[11] = Triangle(7,2,6);
 
-	//todo : sleep
-	addRigidBody(myBody);
+	addUnmovableObject(myBody);
+
+}
+
+void PhysiK::ParticleSystem::reset()
+{
+    solver.clearConstraints();
+    solver.clearTemporaryConstraint();
+
+	physicObjecs.clear();
+
+	for(PhysicObject * to_clear : physicObjecs)
+		delete to_clear;
+	ptpIntersections.clear();
 
 
     THT.clear();

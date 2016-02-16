@@ -12,14 +12,14 @@ bool PhysiK::IntersectionParticleTriangle::intersect(vec3 oldPostion) const{
 	vec3 p = particle->pos;
 	vec3 d = oldPostion-p;
 
-	vec3 A[3];
-	for(int i = 0 ; i < 3 ; i++)
-		A[i] = colider->getOldPositions()[colider->getTriangles()[triangle][i]];
+	vec3 p1 = colider->getOldPositions()[colider->getTriangles()[triangle][0]];
+	vec3 p2 = colider->getOldPositions()[colider->getTriangles()[triangle][1]];
+	vec3 p3 = colider->getOldPositions()[colider->getTriangles()[triangle][2]];
 
-	vec3 u = A[0] - A[1];
-	vec3 v = A[0] - A[2];
+	vec3 u = p2 - p1;
+	vec3 v = p3 - p1;
 
-	vec3 w = p - A[0];
+	vec3 w = p - p1;
 
 	float D = -u.cross(v).dot(d);
 
@@ -57,8 +57,6 @@ bool PhysiK::IntersectionParticleTriangle::intersect() const{
 			&&CollisionConstraint(particle,     t2,     t2.dot(p2)-size).eval()==0
 			&&CollisionConstraint(particle,     t3,     t3.dot(p3)-size).eval()==0;
 
-	//test if the particle is inside each plan
-	return CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[2],size).eval()!=0;
 }
 
 PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint(){
