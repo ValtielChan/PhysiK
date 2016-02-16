@@ -89,17 +89,17 @@ namespace PhysiK {
 			/**
 			 * @brief construct a CollisionConstraint with the plan equation
 			 */
-			CollisionConstraint(Particle *pos, vec3 normal, float delta);
+			CollisionConstraint(Particle *particle, vec3 normal, float delta);
 			float eval() const;
 	};
 
 	class VolumeConstraint : public Constraint{
 		private:
-			float delta;
+			float delta = 0;
 		public:
 			void addVolume(Particle * p1,Particle * p2,Particle * p3,Particle * p4);
-			float volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4);
-			float eval();
+			float volume(vec3 p1, vec3 p2, vec3 p3, vec3 p4) const;
+			float eval() const;
 	};
 
 

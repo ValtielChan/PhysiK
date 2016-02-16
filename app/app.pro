@@ -10,7 +10,7 @@ TARGET = PhysiKSandbox
 TEMPLATE = app
 CONFIG += c++11
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++11 -fopenmp
 QMAKE_CXXFLAGS += -Wno-comment #to much warning... unreadable console
 
 #QMAKE_LFLAGS += -static-libgcc -static-libstdc++ -static -lpthread

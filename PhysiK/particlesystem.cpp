@@ -11,8 +11,139 @@ PhysiK::ParticleSystem::ParticleSystem() :
 	damping(DEFAULT_DAMPING),
 	nbIterations(DEFAULT_NB_ITERATIONS){
 
-	/*
-	Body * myBody = new Body(8, 12);
+	reset();
+}
+
+void PhysiK::ParticleSystem::addUnmovableObject(PhysiK::Body * body){
+	for(unsigned int i = 0 ; i < body->nbParticles ; i++){
+		body->getPositions()[i].omega=0;
+		body->getOldPositions()[i]=body->getPositions()[i].pos;
+	}
+	physicObjecs.push_back(body);
+}
+
+void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
+{
+	physicObjecs.push_back(body);
+
+	for(unsigned int i = 0; i<body->nbParticles;i++){
+		for(unsigned int j = 0; j<body->nbParticles;j++){
+			solver.pushConstraint(new DistanceConstraint(body->getPositions()+i,body->getPositions()+j));
+		}
+	}
+}
+
+void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
+{
+	physicObjecs.push_back(body);
+
+	VolumeConstraint * volume = new VolumeConstraint();
+
+	for(unsigned int i = 0; i<body->nbTriangles;i++){
+		volume->addVolume(
+				body->getPositions(),
+				body->getPositions()+body->getTriangles()[i][0],
+				body->getPositions()+body->getTriangles()[i][1],
+				body->getPositions()+body->getTriangles()[i][2]
+		);
+	}
+
+}
+
+void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particleGroup)
+{
+	physicObjecs.push_back(particleGroup);
+
+#if 0 //obsolete
+
+    for(unsigned int i = 0; i < particleGroup->nbParticles; ++i){
+        float radius = particleGroup->radius;
+        const float box_size = 20-(radius*2);
+
+        if (!particleGroup->isKinematic) {
+
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f,  1.f, 0.f),  radius));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, -1.f, 0.f), -box_size));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f, -1.f), -box_size/2.f));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f,  1.f), -box_size/2.f));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 1.f, 0.f,  0.f), -box_size/2.f));
+            solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(-1.f, 0.f,  0.f), -box_size/2.f));
+        }
+    }
+
+#endif
+}
+
+void PhysiK::ParticleSystem::genIntersectionConstraints()
+{
+
+	PHT.clear();
+	for(PhysicObject * object : physicObjecs)
+		if(ParticleGroup * particles = dynamic_cast<ParticleGroup *>(object))
+			PHT.addObject(particles);
+
+    // find particle to particle intersections
+    // Need to store intersection for velocityUpdate
+    ptpIntersections.clear();
+    PHT.generateIntersection(ptpIntersections);
+
+	for(IntersectionParticleParticle& intersection : ptpIntersections)
+		solver.pushTemporaryConstraint(intersection.getConstraint());
+
+
+	THT.clear();
+	for(PhysicObject * object : physicObjecs)
+		if(Body * body = dynamic_cast<Body *>(object))
+			THT.addObject(body);
+
+	pttIntersections.clear();
+	PHT.generateIntersectionWithTriangles(pttIntersections,THT);
+
+	for(IntersectionParticleTriangle& intersection : pttIntersections)
+		solver.pushTemporaryConstraint(intersection.getConstraint());
+
+}
+
+void PhysiK::ParticleSystem::velocityUpdate(float deltaT)
+{
+    // for each intersection, generate a collision impulse
+    // glm::vec3 v2 = -2 * glm::dot(v1, n) * n + v1;
+
+    for (IntersectionParticleParticle& inter : ptpIntersections) {
+
+        // To change later (no wanted behaviour)
+        inter.getParticle1()->impulsion += inter.getWorks2(deltaT);
+        inter.getParticle2()->impulsion += inter.getWorks1(deltaT);
+    }
+
+}
+
+void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
+{
+    // integrator
+
+    for(PhysicObject* po : physicObjecs) {
+        //po->getPositions()[0].velocity.print();
+        po->preUpdate(deltaT, gravity, damping);
+    }
+
+    genIntersectionConstraints();
+
+    solver.solve(nbIterations);
+
+    solver.clearTemporaryConstraint();
+
+    velocityUpdate(deltaT);
+
+    for(PhysicObject* po : physicObjecs)
+        po->postUpdate(deltaT);
+
+
+}
+
+void PhysiK::ParticleSystem::addCube(){
+
+	Body * myBody = new Body(8, 12, true);
 
 	//reversed inside out cube
 
@@ -35,184 +166,31 @@ PhysiK::ParticleSystem::ParticleSystem() :
 	//		| /     |/
 	//		2-------1
 
-	//top
-	myBody->getTriangles()[0] = Triangle(0,1,2);
-	myBody->getTriangles()[0] = Triangle(0,2,3);
-
 	//bottom
-	myBody->getTriangles()[0] = Triangle(6,5,4);
-	myBody->getTriangles()[0] = Triangle(6,4,7);
+	myBody->getTriangles()[0] = Triangle(0,1,2);
+	myBody->getTriangles()[1] = Triangle(0,2,3);
+
+	//top
+	myBody->getTriangles()[2] = Triangle(6,5,4);
+	myBody->getTriangles()[3] = Triangle(6,4,7);
 
 	//front
-	myBody->getTriangles()[0] = Triangle(2,1,5);
-	myBody->getTriangles()[0] = Triangle(2,5,6);
+	myBody->getTriangles()[4] = Triangle(2,1,5);
+	myBody->getTriangles()[5] = Triangle(2,5,6);
 
 	//back
-	myBody->getTriangles()[0] = Triangle(4,0,3);
-	myBody->getTriangles()[0] = Triangle(4,3,7);
+	myBody->getTriangles()[6] = Triangle(4,0,3);
+	myBody->getTriangles()[7] = Triangle(4,3,7);
 
 	//right
-	myBody->getTriangles()[0] = Triangle(1,0,4);
-	myBody->getTriangles()[0] = Triangle(1,4,5);
+	myBody->getTriangles()[8] = Triangle(1,0,4);
+	myBody->getTriangles()[9] = Triangle(1,4,5);
 
 	//left
-	myBody->getTriangles()[0] = Triangle(7,3,2);
-	myBody->getTriangles()[0] = Triangle(7,2,6);
+	myBody->getTriangles()[10] = Triangle(7,3,2);
+	myBody->getTriangles()[11] = Triangle(7,2,6);
 
-	//todo : sleep
-	addRigidBody(myBody);*/
-}
-
-void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
-{
-    std::cout<<"houray"<<std::endl;
-    PhysiK::PhysicObject *temp = body;
-    physicObjecs.push_back(temp);
-
-    // Constraint building
-
-    // Temp
-    // On pourrait le faire directement dans le constructeur des PhysicObject
-    body->computeBarycenter();
-
-    // Add distance constraint between each triangles vertex and barycenter
-    Particle* bodyParticles = body->getPositions();
-    const Triangle* bodyTriangles = body->getTriangles();
-    int nbTriangles = body->nbTriangles;
-
-    // First 3 constraints
-    Triangle ft = bodyTriangles[0];
-    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[0]], &bodyParticles[ft[1]]));
-    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[1]], &bodyParticles[ft[2]]));
-    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[2]], &bodyParticles[ft[3]]));
-
-    for(int i = 0; i < body->nbParticles; ++i){
-
-        // constraints between the 3 first vertex and all others
-        for(int k = 0; k < 3; k++)
-            solver.pushConstraint(new DistanceConstraint (&bodyParticles[i], &bodyParticles[ft[k]]));
-
-        //default constraint
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f, 1.f), 0.f));
-    }
-
-    /*
-    for(int i = 0; i < nbTriangles; ++i){
-
-        Triangle cur = bodyTriangles[i];
-
-		for(int j=0 ;  j<3 ; j++){
-			//piramide constraint
-			solver.pushConstraint(new DistanceConstraint (&bodyParticles[cur[j]], &bodyParticles[0]));
-			//trianlge constraint
-			solver.pushConstraint(new DistanceConstraint (&bodyParticles[cur[j]], &bodyParticles[cur[(j+1)%3]]));
-			//default constraint
-			solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[j]], vec3(0.f, 0.f, 1.f), 0.f));
-		}
-    }*/
-}
-
-void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
-{
-    PhysiK::PhysicObject *temp = body;
-	physicObjecs.push_back(temp);
-
-	body->computeBarycenter();
-    // Wait for soft constraints
-    //solver.pushConstraint(new VolumeConstraint (body->barycenter));
-
-}
-
-void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
-{
-    PhysiK::PhysicObject *temp = particle;
-    physicObjecs.push_back(temp);
-
-    // Temporary plane constraint to keep the particles from falling
-    // TODO generate them only when they collide with the plane
-    Particle* bodyParticles = particle->getPositions();
-
-#if 0 //for rigid body
-    for(unsigned int i = 0; i<particle->nbParticles;i++){
-        for(unsigned int j = 0; j<particle->nbParticles;j++){
-            solver.pushConstraint(new DistanceConstraint(&bodyParticles[i],&bodyParticles[j]));
-        }
-    }
-#endif
-
-    for(unsigned int i = 0; i < particle->nbParticles; ++i){
-        float radius = particle->radius;
-        const float box_size = 20-(radius*2);
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f,  1.f, 0.f),  radius));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, -1.f, 0.f), -box_size));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f, -1.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 0.f, 0.f,  1.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3( 1.f, 0.f,  0.f), -box_size/2.f));
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(-1.f, 0.f,  0.f), -box_size/2.f));
-    }
-
-}
-
-void PhysiK::ParticleSystem::genIntersectionConstraints()
-{
-
-	PHT.clear();
-	for(PhysicObject * object : physicObjecs)
-		if(ParticleGroup * particles = dynamic_cast<ParticleGroup *>(object))
-			PHT.addObject(particles);
-
-    // find particle to particle intersections
-
-    // Need to store intersection for velocityUpdate
-    ptpIntersections.clear();
-    PHT.generateIntersection(ptpIntersections);
-
-	for(IntersectionParticleParticle& intersection : ptpIntersections)
-		solver.pushTemporaryConstraint(intersection.getConstraint());
-
-    // find particle to plane intersections
-
-
-
-    // MILESTONE 2 : find particle to triangle intersections
-
-	/*for(PhysicObject * object : physicObjecs)
-		if(Body * body = dynamic_cast<Body *>(object))
-			THT.addObject(body);*/
-}
-
-void PhysiK::ParticleSystem::velocityUpdate(float deltaT)
-{
-    // for each intersection, generate a collision impulse
-    // glm::vec3 v2 = -2 * glm::dot(v1, n) * n + v1;
-
-    for (IntersectionParticleParticle& inter : ptpIntersections) {
-
-        // To change later (no wanted behaviour)
-        inter.getParticle1()->impulsion += inter.getWorks2(deltaT);
-        inter.getParticle2()->impulsion += inter.getWorks1(deltaT);
-    }
-
-}
-
-void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
-{
-    // integrator
-
-    for(PhysicObject* po : physicObjecs)
-        po->preUpdate(deltaT, gravity, damping);
-
-    genIntersectionConstraints();
-
-    solver.solve(nbIterations);
-
-    solver.clearTemporaryConstraint();
-
-    velocityUpdate(deltaT);
-
-    for(PhysicObject* po : physicObjecs)
-        po->postUpdate(deltaT);
-
+	addUnmovableObject(myBody);
 
 }
 
@@ -221,8 +199,12 @@ void PhysiK::ParticleSystem::reset()
     solver.clearConstraints();
     solver.clearTemporaryConstraint();
 
-    physicObjecs.clear();
-    ptpIntersections.clear();
+	physicObjecs.clear();
+
+	for(PhysicObject * to_clear : physicObjecs)
+		delete to_clear;
+	ptpIntersections.clear();
+
 
     THT.clear();
     PHT.clear();

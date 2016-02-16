@@ -28,7 +28,11 @@ namespace PhysiK {
 
 			vec3 operator*(const float value) const;
 
+            vec3 &operator*=(const float value);
+
 			vec3 operator+(const vec3 value) const;
+
+			vec3 operator+(const float value) const;
 
 			vec3& operator+=(const vec3 value);
 
@@ -36,9 +40,9 @@ namespace PhysiK {
 
 			vec3 operator/(const float value) const;
 
-			vec3 operator-(const vec3 value) const;
+            vec3 &operator/=(const float value);
 
-			vec3 &operator*=(const float value);
+            vec3 operator-(const vec3 value) const;
 
 			bool operator ==(const vec3 value) const;
 
@@ -54,7 +58,11 @@ namespace PhysiK {
 
 			float dot(vec3 value) const;
 
-			vec3 toVoxel(unsigned int level=1);
+			vec3 toVoxel() const;
+
+			vec3 toWorld() const;
+
+			vec3 center() const;
 
             void print();
 

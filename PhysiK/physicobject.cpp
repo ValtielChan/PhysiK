@@ -1,6 +1,8 @@
 #include "physicobject.h"
 
-PhysiK::PhysicObject::PhysicObject(int nbPosition){
+PhysiK::PhysicObject::PhysicObject(int nbPosition, bool isKinematic):
+    nbParticles(nbPosition),
+    isKinematic(isKinematic){
     particles = new Particle[nbPosition]();
 	oldPositions = new vec3[nbPosition]();
 }
@@ -23,28 +25,26 @@ PhysiK::vec3 PhysiK::PhysicObject::getDeltaP(unsigned int offset)const
 
 void PhysiK::PhysicObject::preUpdate(float dt, float gravity, float damping)
 {
-    if(!isKinematic){
-        for(unsigned int i=0; i<nbParticles; ++i){
-            particles[i].velocity.y += particles[i].omega == 0 ? 0 : gravity * dt;
-            particles[i].velocity *= damping;
-            particles[i] = particles[i].pos + particles[i].velocity*dt;
-        }
+    for(unsigned int i=0; i<nbParticles; ++i)
+    {
+        particles[i].velocity.y += particles[i].omega == 0 ? 0 : gravity * dt;
+        particles[i].velocity *= damping;
+        particles[i].pos = particles[i].pos + particles[i].velocity*dt;
     }
 }
 
 void PhysiK::PhysicObject::postUpdate(float dt)
 {
-    if(!isKinematic){
-        for(unsigned int i=0; i<nbParticles; ++i){
-            particles[i].velocity = (particles[i].pos - oldPositions[i])/dt;
-            particles[i].velocity+=particles[i].impulsion*particles[i].omega;
-            particles[i].impulsion+=vec3();
-            oldPositions[i]=particles[i].pos;
-        }
+    for(unsigned int i=0; i<nbParticles; ++i)
+    {
+        particles[i].velocity = (particles[i].pos - oldPositions[i])/dt;
+        //particles[i].velocity+=particles[i].impulsion*particles[i].omega;
+        //particles[i].impulsion+=vec3();
+        oldPositions[i]=particles[i].pos;
     }
 }
 
 PhysiK::PhysicObject::~PhysicObject(){
-    delete particles;
-	delete oldPositions;
+	delete[] particles;
+	delete[] oldPositions;
 }

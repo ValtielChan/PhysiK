@@ -12,14 +12,14 @@ bool PhysiK::IntersectionParticleTriangle::intersect(vec3 oldPostion) const{
 	vec3 p = particle->pos;
 	vec3 d = oldPostion-p;
 
-	vec3 A[3];
-	for(int i = 0 ; i < 3 ; i++)
-		A[i] = colider->getPositions()[colider->getTriangles()[triangle][i]].pos;
+	vec3 p1 = colider->getOldPositions()[colider->getTriangles()[triangle][0]];
+	vec3 p2 = colider->getOldPositions()[colider->getTriangles()[triangle][1]];
+	vec3 p3 = colider->getOldPositions()[colider->getTriangles()[triangle][2]];
 
-	vec3 u = A[0] - A[1];
-	vec3 v = A[0] - A[2];
+	vec3 u = p2 - p1;
+	vec3 v = p3 - p1;
 
-	vec3 w = p - A[0];
+	vec3 w = p - p1;
 
 	float D = -u.cross(v).dot(d);
 
@@ -35,15 +35,36 @@ bool PhysiK::IntersectionParticleTriangle::intersect() const{
 	for(int i = 0 ; i < 3 ; i++)
 		A[i] = colider->getPositions()+colider->getTriangles()[triangle][i];
 
-	return CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[1]).eval()!=0;
+	//build five plan
+	vec3 p1 = A[0]->pos;
+	vec3 p2 = A[1]->pos;
+	vec3 p3 = A[2]->pos;
+
+	vec3 u = p2-p1;
+	vec3 v = p3-p2;
+	vec3 w = p1-p3;
+
+	vec3 normal = w.cross(u).normalize();
+
+	vec3 t1 = normal.cross(u).normalize();
+	vec3 t2 = normal.cross(v).normalize();
+	vec3 t3 = normal.cross(w).normalize();
+
+	return
+			  CollisionConstraint(particle, normal, normal.dot(p1)-size).eval()==0
+			&&CollisionConstraint(particle,-normal,-normal.dot(p1)-size).eval()==0
+			&&CollisionConstraint(particle,     t1,     t1.dot(p1)-size).eval()==0
+			&&CollisionConstraint(particle,     t2,     t2.dot(p2)-size).eval()==0
+			&&CollisionConstraint(particle,     t3,     t3.dot(p3)-size).eval()==0;
+
 }
 
-PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint() const{
+PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint(){
 	Particle * A[3];
 	for(int i = 0 ; i < 3 ; i++)
 		A[i] = colider->getPositions()+colider->getTriangles()[triangle][i];
 
-	return new CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[2]);
+	return new CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[2],size);
 }
 
 bool PhysiK::IntersectionParticleParticle::intersect() const{

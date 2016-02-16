@@ -40,6 +40,13 @@ PhysiK::vec3 PhysiK::vec3::operator+(const vec3 value) const{
     return to_return;
 }
 
+PhysiK::vec3 PhysiK::vec3::operator+(const float value) const{
+	vec3 to_return = *this;
+	for(int i = 0 ; i < 3 ; i++)
+		to_return[i]+=value;
+	return to_return;
+}
+
 PhysiK::vec3& PhysiK::vec3::operator+=(const PhysiK::vec3 value)
 {
     for(int i = 0 ; i < 3 ; i++)
@@ -61,6 +68,13 @@ PhysiK::vec3 PhysiK::vec3::operator/(const float value) const{
 	return to_return;
 }
 
+PhysiK::vec3 &PhysiK::vec3::operator/=(const float value){
+    x /= value;
+    y /= value;
+    z /= value;
+    return *this;
+}
+
 PhysiK::vec3 PhysiK::vec3::operator-(const vec3 value) const{
 	vec3 to_return = *this;
 	for(int i = 0 ; i < 3 ; i++)
@@ -74,7 +88,7 @@ bool PhysiK::vec3::operator==(const vec3 value) const{
 
 PhysiK::vec3 PhysiK::vec3::operator-() const
 {
-    return vec3(-this->x, -this->y, -this->z);
+    return *this*-1;
 }
 
 
@@ -88,8 +102,7 @@ float PhysiK::vec3::lengthSquared() const{
 
 PhysiK::vec3 PhysiK::vec3::normalize() const
 {
-    float len = length();
-    return vec3(this->x / len, this->y / len, this->y / len);
+	return *this/length();
 }
 
 PhysiK::vec3 PhysiK::vec3::cross(vec3 snd) const{
@@ -107,8 +120,17 @@ float PhysiK::vec3::dot(vec3 snd) const{
 			+this->z*snd.z;
 }
 
-PhysiK::vec3 PhysiK::vec3::toVoxel(unsigned int level){
-    return vec3(int(x/vec3::voxelSize),int(y/vec3::voxelSize),int(z/vec3::voxelSize));
+PhysiK::vec3 PhysiK::vec3::toVoxel() const{
+	return vec3(floor(x/vec3::voxelSize),floor(y/vec3::voxelSize),floor(z/vec3::voxelSize));
+}
+
+PhysiK::vec3 PhysiK::vec3::toWorld() const{
+	return *this*voxelSize;
+}
+
+
+PhysiK::vec3 PhysiK::vec3::center() const{
+	return *this + 0.5;
 }
 
 void PhysiK::vec3::print()
