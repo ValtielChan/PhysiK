@@ -72,7 +72,7 @@ namespace PhysiK {
 			/**
 			 * @brief add a particle group
 			 */
-            void addParticleGroup(ParticleGroup * particleGroup);
+			void addParticleGroup(ParticleGroup * particleGroup);
 
 			/**
 			 * @brief execute the next iteration of the loop

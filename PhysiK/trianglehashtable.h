@@ -28,16 +28,16 @@ namespace PhysiK {
 
 		public:
 
-            void clear(){
-                voxelGrid.clear();
-                voxelGrid.rehash(0);
-            }
-    };
+			void clear(){
+				voxelGrid.clear();
+				voxelGrid.rehash(0);
+			}
+	};
 
 	class TriangleHashTable : public HashTable<Body>{
 			friend class ParticleHashTable;
 		public:
-			void generateIntersection(std::vector<IntersectionParticleTriangle> &intersections);
+			//void generateIntersection(std::vector<IntersectionParticleTriangle> &intersections);
 			void addObject(Body * body);
 	};
 

@@ -205,7 +205,8 @@ void PhysiK::ParticleSystem::reset()
 		delete to_clear;
 	ptpIntersections.clear();
 
+	addCube();
 
-    THT.clear();
+	THT.clear();
     PHT.clear();
 }
