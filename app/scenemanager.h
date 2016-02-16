@@ -28,6 +28,8 @@ public:
     Scene* getScene() {return &scene;}
 
     double update(float dt);
+
+    void setNbIterations(int nb) {physics.setNbIterations(nb);}
 };
 
 #endif // SCENEMANAGER_H

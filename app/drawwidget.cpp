@@ -15,7 +15,7 @@
 #include <glm/ext.hpp>
 
 DrawWidget::DrawWidget(QWidget *parent) :
-    WIDGET_NAME(parent),
+    OPENGL_WIDGET_NAME(parent),
     paused(false),
     timeRate(1),
     forward(NULL),
@@ -29,7 +29,7 @@ DrawWidget::DrawWidget(QWidget *parent) :
     renderer.setClearColor(glm::vec3(0.1804f, 0.1647f, 0.1490f)*0.5f);
     renderer.setCamera(&camera);
     renderer.setScene(sceneManager.getScene());
-    connect(&glRefreshTimer, SIGNAL(timeout()), this, SLOT(update()));
+    connect(&glRefreshTimer, SIGNAL(timeout()), this, SLOT(updateScene()));
     glRefreshTimer.start(16);
     std::srand(std::time(NULL));
 }
@@ -40,7 +40,6 @@ void DrawWidget::initializeGL()
     resizeGL(width(), height());
     initPipeline();
     resetScene();
-    setFocus(); // enables keyboard events
 }
 
 void DrawWidget::paintGL()
@@ -139,42 +138,14 @@ void DrawWidget::resetScene()
         forward->compileShaders(sceneManager.getScene());
 }
 
-void DrawWidget::update()
+void DrawWidget::updateScene()
 {
     double physicsTime = 0;
     if(!paused)
         physicsTime = sceneManager.update(0.025f*timeRate);
     camera.update();
-    repaint();
+    update();
     emit updateFPS(physicsTime, 1./renderer.getFPS());
-}
-
-void DrawWidget::keyPressEvent(QKeyEvent *event)
-{
-    switch(event->key())
-    {
-        case Qt::Key_A :
-            addParticles();
-        break;
-        case Qt::Key_Z :
-            addMesh();
-        break;
-        case Qt::Key_E :
-            resetScene();
-        break;
-        case Qt::Key_R :
-            resetCamera();
-        break;
-        case Qt::Key_Space :
-            emit pauseEvent();
-        break;
-        case Qt::Key_S:
-            timeRate /= 2;
-        break;
-        case Qt::Key_D:
-            timeRate *= 2;
-        break;
-    }
 }
 
 void DrawWidget::mouseMoveEvent(QMouseEvent *event)

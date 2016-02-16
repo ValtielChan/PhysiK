@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>677</width>
-    <height>512</height>
+    <width>842</width>
+    <height>548</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,6 +80,40 @@
    <addaction name="actionReset_Scene"/>
    <addaction name="separator"/>
    <addaction name="actionReset_Camera"/>
+   <addaction name="actionToggleStats"/>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Position Based Dynamics</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockContentWidget">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="StatsPBD" name="statsWidget" native="true"/>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <action name="actionParticles">
    <property name="icon">
@@ -129,6 +163,17 @@
     <string>Reset Camera</string>
    </property>
   </action>
+  <action name="actionToggleStats">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Toggle Stats</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -138,11 +183,25 @@
    <header>drawwidget.h</header>
    <slots>
     <signal>pauseEvent()</signal>
+    <signal>updateFPS(double,double)</signal>
     <slot>addParticles()</slot>
     <slot>addMesh()</slot>
     <slot>resetScene()</slot>
     <slot>setPaused(bool)</slot>
     <slot>resetCamera()</slot>
+    <slot>setTimeRate(int)</slot>
+    <slot>setNbIterations(int)</slot>
+   </slots>
+  </customwidget>
+  <customwidget>
+   <class>StatsPBD</class>
+   <extends>QWidget</extends>
+   <header>statspbd.h</header>
+   <container>1</container>
+   <slots>
+    <signal>changedTimeRate(int)</signal>
+    <signal>changedSolverIterations(int)</signal>
+    <slot>updateSpeed(double,double)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -243,6 +302,86 @@
     <hint type="destinationlabel">
      <x>-1</x>
      <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionToggleStats</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dockWidget</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>737</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dockWidget</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionToggleStats</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>737</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>drawWidget</sender>
+   <signal>updateFPS(double,double)</signal>
+   <receiver>statsWidget</receiver>
+   <slot>updateSpeed(double,double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>297</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>812</x>
+     <y>306</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>statsWidget</sender>
+   <signal>changedTimeRate(int)</signal>
+   <receiver>drawWidget</receiver>
+   <slot>setTimeRate(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>812</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>391</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>statsWidget</sender>
+   <signal>changedSolverIterations(int)</signal>
+   <receiver>drawWidget</receiver>
+   <slot>setNbIterations(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>812</x>
+     <y>306</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>391</x>
+     <y>297</y>
     </hint>
    </hints>
   </connection>

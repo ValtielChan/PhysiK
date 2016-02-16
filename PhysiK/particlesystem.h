@@ -77,6 +77,7 @@ namespace PhysiK {
 
             void reset();
 
+            void setNbIterations(int nb) {if(nb > 0) nbIterations = nb;}
 	};
 
 	}

@@ -35,8 +35,8 @@ SOURCES += main.cpp\
     scenemanager.cpp \
     particledialog.cpp \
     particlemesh.cpp \
-    statusbar.cpp \
-    pickmodule.cpp
+    pickmodule.cpp \
+    statspbd.cpp
 
 HEADERS  += mainwindow.h \
     drawwidget.h \
@@ -46,9 +46,10 @@ HEADERS  += mainwindow.h \
     scenemanager.h \
     particledialog.h \
     particlemesh.h \
-    statusbar.h \
-    pickmodule.h
+    pickmodule.h \
+    statspbd.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    statspbd.ui
 
 RESOURCES += resources.qrc

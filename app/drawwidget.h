@@ -53,7 +53,6 @@ class DrawWidget : public OPENGL_WIDGET_NAME
         virtual void resizeGL(int w, int h);
 
         // Input
-        void keyPressEvent(QKeyEvent *event);
         void mouseMoveEvent(QMouseEvent *event);
         void mousePressEvent(QMouseEvent *event);
         void mouseDoubleClickEvent(QMouseEvent * event);
@@ -69,13 +68,14 @@ class DrawWidget : public OPENGL_WIDGET_NAME
         void resetScene();
         void resetCamera() {camera.reset();}
         void setPaused(bool isPaused) {paused = isPaused;}
+        void setTimeRate(int percent) {timeRate = percent/100.f;}
+        void setNbIterations(int nb) {sceneManager.setNbIterations(nb);}
 
     private slots:
-        void update();
+        void updateScene();
 
     signals:
         void updateFPS(double, double);
-        void pauseEvent();
 };
 
 #endif // DRAWWIDGET_H
