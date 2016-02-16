@@ -118,7 +118,7 @@ void PhysiK::ParticleHashTable::generateIntersectionWithTriangles(std::vector<In
 				TriangleHashTable::m_vector& triangles = second_iterator->second;
 				for(TriangleHashTable::m_pair& pair2 : triangles){
 					IntersectionParticleTriangle to_test(pair2.first,pair2.second,particle,pair1.first->radius);
-					if(to_test.intersect()||to_test.intersect(pair1.first->getOldPositions()[pair1.second])){
+					if(to_test.intersect()){
 						intersections.push_back(to_test);
 					}
 				}

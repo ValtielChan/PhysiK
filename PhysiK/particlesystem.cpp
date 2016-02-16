@@ -165,6 +165,9 @@ void PhysiK::ParticleSystem::reset()
     solver.clearTemporaryConstraint();
 
     physicObjecs.clear();
+
+    for(PhysicObject * to_clear : physicObjecs)
+        delete to_clear;
     ptpIntersections.clear();
 
     Body * myBody = new Body(8, 12, true);
@@ -194,11 +197,11 @@ void PhysiK::ParticleSystem::reset()
 	//		| /     |/
 	//		2-------1
 
-	//top
+	//bottom
 	myBody->getTriangles()[0] = Triangle(0,1,2);
 	myBody->getTriangles()[1] = Triangle(0,2,3);
 
-	//bottom
+	//top
 	myBody->getTriangles()[2] = Triangle(6,5,4);
 	myBody->getTriangles()[3] = Triangle(6,4,7);
 

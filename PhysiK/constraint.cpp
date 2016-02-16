@@ -46,12 +46,9 @@ float PhysiK::CollisionParticuleTriangleConstraint::eval() const{
 
 	vec3 vec1 = pt2-pt1;
 	vec3 vec2 = pt3-pt1;
-	vec3 normal=vec1.cross(vec2);
-	float delta=
-			 normal.x*pt1.x
-			+normal.y*pt1.y
-			+normal.z*pt1.z;
-	return std::min(0.f,(normal.dot(pos)-delta)/normal.length()-size);
+	vec3 normal=vec1.cross(vec2).normalize();
+	float delta=normal.dot(pt1);
+	return std::min(0.f,(normal.dot(pos)-delta)-size);
 }
 
 PhysiK::CollisionConstraint::CollisionConstraint(Particle *particle, vec3 normal, float delta):normal(normal),delta(delta){
@@ -60,12 +57,7 @@ PhysiK::CollisionConstraint::CollisionConstraint(Particle *particle, vec3 normal
 
 float PhysiK::CollisionConstraint::eval() const{
 	const Particle * pos = positions[0];
-	return std::min(
-				0.f,
-				 normal.x*pos->pos.x
-				+normal.y*pos->pos.y
-				+normal.z*pos->pos.z
-				-delta);
+	return std::min(0.f,normal.dot(pos->pos)-delta);
 }
 
 PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2){
