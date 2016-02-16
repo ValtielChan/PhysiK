@@ -21,8 +21,7 @@ Mesh::~Mesh()
 
 void Mesh::initGL(bool isDynamic)
 {
-    if(vao != 0)
-        destroyGL();
+    destroyGL();
 
     GLenum buffer_type = isDynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
 
@@ -141,7 +140,6 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
 		glAssert(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[INDICES_BUFFER]));
 		glAssert(glDrawElements(primitive_type, indices.size(), GL_UNSIGNED_INT, NULL));
 	}
-	glAssert(glBindVertexArray(0));
 	if(crappy)
     {
         glAssert(glDisableClientState(GL_VERTEX_ARRAY));
@@ -150,14 +148,15 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
         if(hasTexCoords() && drawTexCoord)
             glAssert(glDisableClientState(GL_TEXTURE_COORD_ARRAY));
     }
+    glAssert(glBindVertexArray(0));
 }
 
 void Mesh::destroyGL()
 {
     if(vao != 0)
     {
-        glAssert(glDeleteVertexArrays(1, &vao));
         glAssert(glDeleteBuffers(NB_BUFFERS, vbo));
+        glAssert(glDeleteVertexArrays(1, &vao));
         vao = 0;
     }
 }

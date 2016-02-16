@@ -74,11 +74,13 @@ void SparrowRenderer::renderGL()
     {
         if(m.isEnabled)
         {
+            glFinish();
             std::chrono::high_resolution_clock::time_point t = std::chrono::high_resolution_clock::now();
             m.module->renderGL(getCamera(), scene);
             m.seconds = std::chrono::duration_cast<std::chrono::duration<double>>(std::chrono::high_resolution_clock::now() - t).count();
         }
     }
+    glFinish();
 }
 
 bool SparrowRenderer::isModernOpenGLAvailable()

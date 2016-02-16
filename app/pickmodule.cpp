@@ -107,7 +107,6 @@ void PickModule::resize(int width, int height)
 
 glm::vec3 PickModule::getObjectInfo(int x, int y)
 {
-    fbo->bindFBO();
     fbo->getTexture(1)->bind(0);
     glm::vec4 *val = new glm::vec4[w*h];
     glAssert(glGetTexImage(GL_TEXTURE_RECTANGLE, 0, GL_RGBA, GL_FLOAT, val));
