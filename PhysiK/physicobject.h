@@ -13,19 +13,24 @@ namespace PhysiK {
 	 */
 	class PhysicObject
 	{
+
+			PhysicObject(const PhysicObject&)=delete;
+			PhysicObject(PhysicObject&&)=delete;
+			PhysicObject& operator =(const PhysicObject&)=delete;
+
 		protected:
 
-			PhysicObject(int nbPosition);
+			PhysicObject(int nbPosition, bool isKinematic);
 
             Particle * particles;
 
             vec3 * oldPositions;
-
             bool isKinematic;
 
 		public:
 
-            unsigned int nbParticles;
+			unsigned int nbParticles;
+			vec3 barycenter;
 
             /**
              * @brief return a pointer to the positions of the vertices for the user

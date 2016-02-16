@@ -32,12 +32,13 @@ namespace PhysiK {
 			ParticleHashTable PHT;
 
 			std::vector<IntersectionParticleParticle> ptpIntersections;
+			std::vector<IntersectionParticleTriangle> pttIntersections;
 
 			Solver solver;
 
 			float gravity;
 			float damping;
-			int nbIterations;
+			unsigned int nbIterations;
 
 			/**
 			 * @brief generate intersections for the next iteration of the loop
@@ -75,9 +76,13 @@ namespace PhysiK {
 			 */
 			void nextSimulationStep(float deltaT);
 
+			void setNbIterations(unsigned int _nbIterations){
+				nbIterations=_nbIterations;
+			}
+
+
             void reset();
 
-            void setNbIterations(int nb) {if(nb > 0) nbIterations = nb;}
 	};
 
 	}

@@ -34,16 +34,15 @@ bool PhysiK::IntersectionParticleTriangle::intersect() const{
 	Particle * A[3];
 	for(int i = 0 ; i < 3 ; i++)
 		A[i] = colider->getPositions()+colider->getTriangles()[triangle][i];
-
-	return CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[1]).eval()!=0;
+	return CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[2],size).eval()!=0;
 }
 
-PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint() const{
+PhysiK::Constraint * PhysiK::IntersectionParticleTriangle::getConstraint(){
 	Particle * A[3];
 	for(int i = 0 ; i < 3 ; i++)
 		A[i] = colider->getPositions()+colider->getTriangles()[triangle][i];
 
-	return new CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[2]);
+	return new CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[2],size);
 }
 
 bool PhysiK::IntersectionParticleParticle::intersect() const{

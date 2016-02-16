@@ -11,63 +11,15 @@ PhysiK::ParticleSystem::ParticleSystem() :
 	damping(DEFAULT_DAMPING),
 	nbIterations(DEFAULT_NB_ITERATIONS){
 
-	/*
-	Body * myBody = new Body(8, 12);
-
-	//reversed inside out cube
-
-	myBody->getPositions()[0].pos = vec3( 10, 0, 10);
-	myBody->getPositions()[1].pos = vec3( 10, 0,-10);
-	myBody->getPositions()[2].pos = vec3(-10, 0,-10);
-	myBody->getPositions()[3].pos = vec3(-10, 0, 10);
-
-	myBody->getPositions()[4].pos = vec3( 10,20, 10);
-	myBody->getPositions()[5].pos = vec3( 10,20,-10);
-	myBody->getPositions()[6].pos = vec3(-10,20,-10);
-	myBody->getPositions()[7].pos = vec3(-10,20, 10);
-
-	//		   7-------4
-	//		  /|      /|
-	//		 / |     / |
-	//		6--|----5  |
-	//		|  3----|--0
-	//		|  /    | /
-	//		| /     |/
-	//		2-------1
-
-	//top
-	myBody->getTriangles()[0] = Triangle(0,1,2);
-	myBody->getTriangles()[0] = Triangle(0,2,3);
-
-	//bottom
-	myBody->getTriangles()[0] = Triangle(6,5,4);
-	myBody->getTriangles()[0] = Triangle(6,4,7);
-
-	//front
-	myBody->getTriangles()[0] = Triangle(2,1,5);
-	myBody->getTriangles()[0] = Triangle(2,5,6);
-
-	//back
-	myBody->getTriangles()[0] = Triangle(4,0,3);
-	myBody->getTriangles()[0] = Triangle(4,3,7);
-
-	//right
-	myBody->getTriangles()[0] = Triangle(1,0,4);
-	myBody->getTriangles()[0] = Triangle(1,4,5);
-
-	//left
-	myBody->getTriangles()[0] = Triangle(7,3,2);
-	myBody->getTriangles()[0] = Triangle(7,2,6);
-
-	//todo : sleep
-	addRigidBody(myBody);*/
+	reset();
 }
 
 void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 {
     std::cout<<"houray"<<std::endl;
     PhysiK::PhysicObject *temp = body;
-    physicObjecs.push_back(temp);
+    physicObjecs.push_back(body);
+    return;
 
     // Constraint building
 
@@ -80,23 +32,6 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
     const Triangle* bodyTriangles = body->getTriangles();
     int nbTriangles = body->nbTriangles;
 
-    // First 3 constraints
-    Triangle ft = bodyTriangles[0];
-    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[0]], &bodyParticles[ft[1]]));
-    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[1]], &bodyParticles[ft[2]]));
-    solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[2]], &bodyParticles[ft[3]]));
-
-    for(int i = 0; i < body->nbParticles; ++i){
-
-        // constraints between the 3 first vertex and all others
-        for(int k = 0; k < 3; k++)
-            solver.pushConstraint(new DistanceConstraint (&bodyParticles[i], &bodyParticles[ft[k]]));
-
-        //default constraint
-        solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(0.f, 0.f, 1.f), 0.f));
-    }
-
-    /*
     for(int i = 0; i < nbTriangles; ++i){
 
         Triangle cur = bodyTriangles[i];
@@ -109,7 +44,7 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 			//default constraint
 			solver.pushConstraint(new CollisionConstraint(&bodyParticles[cur[j]], vec3(0.f, 0.f, 1.f), 0.f));
 		}
-    }*/
+    }
 }
 
 void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
@@ -138,7 +73,6 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
             solver.pushConstraint(new DistanceConstraint(&bodyParticles[i],&bodyParticles[j]));
         }
     }
-#endif
 
     for(unsigned int i = 0; i < particle->nbParticles; ++i){
         float radius = particle->radius;
@@ -151,6 +85,7 @@ void PhysiK::ParticleSystem::addParticleGroup(PhysiK::ParticleGroup *particle)
         solver.pushConstraint(new CollisionConstraint(&bodyParticles[i], vec3(-1.f, 0.f,  0.f), -box_size/2.f));
     }
 
+#endif
 }
 
 void PhysiK::ParticleSystem::genIntersectionConstraints()
@@ -162,7 +97,6 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 			PHT.addObject(particles);
 
     // find particle to particle intersections
-
     // Need to store intersection for velocityUpdate
     ptpIntersections.clear();
     PHT.generateIntersection(ptpIntersections);
@@ -170,15 +104,18 @@ void PhysiK::ParticleSystem::genIntersectionConstraints()
 	for(IntersectionParticleParticle& intersection : ptpIntersections)
 		solver.pushTemporaryConstraint(intersection.getConstraint());
 
-    // find particle to plane intersections
 
-
-
-    // MILESTONE 2 : find particle to triangle intersections
-
-	/*for(PhysicObject * object : physicObjecs)
+	THT.clear();
+	for(PhysicObject * object : physicObjecs)
 		if(Body * body = dynamic_cast<Body *>(object))
-			THT.addObject(body);*/
+			THT.addObject(body);
+
+	pttIntersections.clear();
+	PHT.generateIntersectionWithTriangles(pttIntersections,THT);
+
+	for(IntersectionParticleTriangle& intersection : pttIntersections)
+		solver.pushTemporaryConstraint(intersection.getConstraint());
+
 }
 
 void PhysiK::ParticleSystem::velocityUpdate(float deltaT)
@@ -199,8 +136,10 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 {
     // integrator
 
-    for(PhysicObject* po : physicObjecs)
+    for(PhysicObject* po : physicObjecs) {
+        //po->getPositions()[0].velocity.print();
         po->preUpdate(deltaT, gravity, damping);
+    }
 
     genIntersectionConstraints();
 
@@ -223,6 +162,61 @@ void PhysiK::ParticleSystem::reset()
 
     physicObjecs.clear();
     ptpIntersections.clear();
+
+    Body * myBody = new Body(8, 12, true);
+
+    //reversed inside out cube
+
+	myBody->getPositions()[0].pos = vec3( 10, 0, 10);
+	myBody->getPositions()[1].pos = vec3( 10, 0,-10);
+	myBody->getPositions()[2].pos = vec3(-10, 0,-10);
+	myBody->getPositions()[3].pos = vec3(-10, 0, 10);
+
+	myBody->getPositions()[4].pos = vec3( 10,20, 10);
+	myBody->getPositions()[5].pos = vec3( 10,20,-10);
+	myBody->getPositions()[6].pos = vec3(-10,20,-10);
+	myBody->getPositions()[7].pos = vec3(-10,20, 10);
+
+    for(int i = 0; i < 8 ; i++){
+        myBody->getPositions()[i].omega=0;
+        myBody->getOldPositions()[i]=myBody->getPositions()[i].pos;
+    }
+    //		   7-------4
+	//		  /|      /|
+	//		 / |     / |
+	//		6--|----5  |
+	//		|  3----|--0
+	//		|  /    | /
+	//		| /     |/
+	//		2-------1
+
+	//top
+	myBody->getTriangles()[0] = Triangle(0,1,2);
+	myBody->getTriangles()[1] = Triangle(0,2,3);
+
+	//bottom
+	myBody->getTriangles()[2] = Triangle(6,5,4);
+	myBody->getTriangles()[3] = Triangle(6,4,7);
+
+	//front
+	myBody->getTriangles()[4] = Triangle(2,1,5);
+	myBody->getTriangles()[5] = Triangle(2,5,6);
+
+	//back
+	myBody->getTriangles()[6] = Triangle(4,0,3);
+	myBody->getTriangles()[7] = Triangle(4,3,7);
+
+	//right
+	myBody->getTriangles()[8] = Triangle(1,0,4);
+	myBody->getTriangles()[9] = Triangle(1,4,5);
+
+	//left
+	myBody->getTriangles()[10] = Triangle(7,3,2);
+	myBody->getTriangles()[11] = Triangle(7,2,6);
+
+	//todo : sleep
+	addRigidBody(myBody);
+
 
     THT.clear();
     PHT.clear();

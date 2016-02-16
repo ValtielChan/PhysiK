@@ -50,13 +50,8 @@ float PhysiK::CollisionParticuleTriangleConstraint::eval() const{
 	float delta=
 			 normal.x*pt1.x
 			+normal.y*pt1.y
-			+normal.z*pt1.z + size;
-	return std::min(
-				0.f,
-				 normal.x*pos.x
-				+normal.y*pos.y
-				+normal.z*pos.z
-				-delta);
+			+normal.z*pt1.z;
+	return std::min(0.f,(normal.dot(pos)-delta)/normal.length()-size);
 }
 
 PhysiK::CollisionConstraint::CollisionConstraint(Particle *pos, vec3 normal, float delta):normal(normal),delta(delta){

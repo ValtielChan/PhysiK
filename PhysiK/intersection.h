@@ -16,16 +16,17 @@ namespace PhysiK {
 			Body *colider;
 			unsigned int triangle;
 			Particle * particle;
+			float size;
 
 		public:
 
-			IntersectionParticleTriangle(Body * colider, unsigned int triangle, Particle * particle)
-				:colider(colider),triangle(triangle),particle(particle){}
+			IntersectionParticleTriangle(Body * colider, unsigned int triangle, Particle * particle,float size=0)
+				:colider(colider),triangle(triangle),particle(particle),size(size){}
 
 			bool intersect(vec3 oldPostion) const;
 			bool intersect() const;
 
-			Constraint * getConstraint() const;
+			Constraint * getConstraint();
 
 	};
 
