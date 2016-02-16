@@ -118,6 +118,10 @@ PhysiK::vec3 PhysiK::vec3::toVoxel() const{
 	return vec3(floor(x/vec3::voxelSize),floor(y/vec3::voxelSize),floor(z/vec3::voxelSize));
 }
 
+PhysiK::vec3 PhysiK::vec3::toWorld() const{
+	return *this*voxelSize;
+}
+
 
 PhysiK::vec3 PhysiK::vec3::center() const{
 	return *this + 0.5;

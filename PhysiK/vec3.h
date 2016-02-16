@@ -58,6 +58,8 @@ namespace PhysiK {
 
 			vec3 toVoxel() const;
 
+			vec3 toWorld() const;
+
 			vec3 center() const;
 
             void print();

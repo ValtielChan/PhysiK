@@ -4,7 +4,7 @@
 // this needs to be included first for GLEW to be working
 #include <SparrowRenderer/sparrowrenderer.h>
 
-#if 0
+#if 1
 #define QOpenGLWidget QGLWidget
 #define defaultFramebufferObject() 0
 #include <QGLWidget>

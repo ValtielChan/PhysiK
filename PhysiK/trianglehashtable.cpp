@@ -68,7 +68,7 @@ void PhysiK::TriangleHashTable::addObject(Body *body){
 			for(float y = min_voxel.y ; y < max_voxel.y ; y++){
 				for(float z = min_voxel.z ; z < max_voxel.z ; z++){
 					vec3 voxel(x,y,z);
-					Particle par(voxel.center()*vec3::voxelSize);
+					Particle par(voxel.center().toWorld());
 					//aproximate the cube with a particule
 					CollisionParticuleTriangleConstraint to_test(
 								&par,
@@ -113,15 +113,13 @@ void PhysiK::ParticleHashTable::generateIntersectionWithTriangles(std::vector<In
 		const vec3& voxel = iterator.first;
 		for(const m_pair& pair1 : test){
 			Particle * particle = pair1.first->getPositions()+pair1.second;
-			if(particle->pos.toVoxel()==voxel){
-				auto second_iterator = particlesHashtable.voxelGrid.find(voxel);
-				if(second_iterator!=particlesHashtable.voxelGrid.end()){
-					TriangleHashTable::m_vector& triangles = second_iterator->second;
-					for(TriangleHashTable::m_pair& pair2 : triangles){
-						IntersectionParticleTriangle to_test(pair2.first,pair2.second,particle,pair1.first->radius);
-						if(to_test.intersect()||to_test.intersect(pair1.first->getOldPositions()[pair1.second])){
-							intersections.push_back(to_test);
-						}
+			auto second_iterator = particlesHashtable.voxelGrid.find(voxel);
+			if(second_iterator!=particlesHashtable.voxelGrid.end()){
+				TriangleHashTable::m_vector& triangles = second_iterator->second;
+				for(TriangleHashTable::m_pair& pair2 : triangles){
+					IntersectionParticleTriangle to_test(pair2.first,pair2.second,particle,pair1.first->radius);
+					if(to_test.intersect()||to_test.intersect(pair1.first->getOldPositions()[pair1.second])){
+						intersections.push_back(to_test);
 					}
 				}
 			}

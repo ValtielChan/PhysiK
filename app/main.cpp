@@ -6,11 +6,11 @@
 int main(int argc, char *argv[])
 {
 
-    /*QSurfaceFormat format;
+    QSurfaceFormat format;
     format.setMinorVersion(3);
     format.setMajorVersion(3);
     format.setProfile(QSurfaceFormat::CoreProfile);
-    QSurfaceFormat::setDefaultFormat(format);*/
+    QSurfaceFormat::setDefaultFormat(format);
     QApplication a(argc, argv);
 
     MainWindow w;
