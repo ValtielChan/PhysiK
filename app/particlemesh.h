@@ -8,6 +8,7 @@
 struct ParticleProperties
 {
     unsigned int amount;
+    bool isKinematic;
     float radius;
     float mass;
     float r;

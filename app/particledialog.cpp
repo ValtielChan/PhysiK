@@ -52,6 +52,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     QLabel *labelColor;
     QLabel *labelRadius;
     QLabel *labelMass;
+    QLabel *labelKine;
     QDialogButtonBox *buttonBox;
 
     resize(278, 225);
@@ -67,6 +68,9 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     formLayout->setWidget(2, QFormLayout::LabelRole, labelRadius);
     labelMass = new QLabel(groupBox);
     formLayout->setWidget(3, QFormLayout::LabelRole, labelMass);
+    labelKine = new QLabel(groupBox);
+    formLayout->setWidget(4, QFormLayout::LabelRole, labelKine);
+
     spinBoxDensity = new QDoubleSpinBox(groupBox);
     spinBoxDensity->setMinimum(0.01);
     spinBoxDensity->setMaximum(100);
@@ -85,6 +89,8 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     colorButton = new ColorButton(groupBox);
     formLayout->setWidget(1, QFormLayout::FieldRole, colorButton);
     colorButton->setColor(QColor(59, 128, 64));
+    checkBoxKinamatic = new QCheckBox(groupBox);
+    formLayout->setWidget(4, QFormLayout::FieldRole, checkBoxKinamatic);
 
     verticalLayout = new QVBoxLayout(this);
     verticalLayout->addWidget(groupBox);
@@ -99,6 +105,7 @@ ParticleDialog::ParticleDialog(QWidget *parent) :
     labelColor->setText("Color");
     labelRadius->setText("Radius");
     labelMass->setText("Density");
+    labelKine->setText("is Kinematic");
 
     QObject::connect(buttonBox, SIGNAL(accepted()), this, SLOT(saveProperties()));
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
@@ -114,5 +121,6 @@ void ParticleDialog::saveProperties()
     property.r = c.redF();
     property.g = c.greenF();
     property.b = c.blueF();
+    property.isKinematic = checkBoxKinamatic->isChecked();
     accept();
 }

@@ -199,10 +199,8 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 {
     // integrator
 
-    for(PhysicObject* po : physicObjecs) {
-        //po->getPositions()[0].velocity.print();
+    for(PhysicObject* po : physicObjecs)
         po->preUpdate(deltaT, gravity, damping);
-    }
 
     genIntersectionConstraints();
 

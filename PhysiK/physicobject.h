@@ -21,6 +21,8 @@ namespace PhysiK {
 
             vec3 * oldPositions;
 
+            bool isKinematic;
+
 		public:
 
             unsigned int nbParticles;
