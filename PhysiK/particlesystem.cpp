@@ -86,7 +86,7 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
     solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[1]], &bodyParticles[ft[2]]));
     solver.pushConstraint(new DistanceConstraint(&bodyParticles[ft[2]], &bodyParticles[ft[3]]));
 
-    for(int i = 0; i < bodyParticles; ++i){
+    for(int i = 0; i < body->nbParticles; ++i){
 
         // constraints between the 3 first vertex and all others
         for(int k = 0; k < 3; k++) {
