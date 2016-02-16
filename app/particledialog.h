@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QSpinBox>
+#include <QCheckBox>
 #include "scenemanager.h"
 
 class QSpinBox;
@@ -46,6 +47,7 @@ class ParticleDialog : public QDialog
         QDoubleSpinBox *spinBoxDensity;
         QSpinBox *spinBoxAmount;
         QDoubleSpinBox *spinBoxRadius;
+        QCheckBox *checkBoxKinamatic;
         ColorButton *colorButton;
 
     private slots:
