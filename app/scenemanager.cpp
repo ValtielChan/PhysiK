@@ -55,6 +55,7 @@ void SceneManager::resetScene()
     bodies.clear();
 
     physics.reset();
+    //physics.addCube();
 }
 
 void SceneManager::addBody(Mesh* mesh, BodyProperties properties)
