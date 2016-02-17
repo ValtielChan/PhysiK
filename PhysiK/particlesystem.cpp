@@ -25,7 +25,7 @@ void PhysiK::ParticleSystem::addUnmovableObject(PhysiK::Body * body){
 void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 {
 	std::cout<<body->mass<<std::endl;
-	toPaticles(body);
+	toParticles(body);
 	physicObjecs.push_back(body);
 
 	for(unsigned int i = 0 ; i<body->nbParticles ; i++){
@@ -35,7 +35,7 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 	}
 }
 
-void PhysiK::ParticleSystem::addTissue(Body *body){
+void PhysiK::ParticleSystem::addCloth(Body *body){
 	physicObjecs.push_back(body);
 	for(unsigned int i = 0; i<body->nbTriangles;i++){
 		Particle * p1 = body->getPositions()+body->getTriangles()[i][0];
@@ -47,15 +47,15 @@ void PhysiK::ParticleSystem::addTissue(Body *body){
 	}
 }
 
-void PhysiK::ParticleSystem::toPaticles(Body *body){
+void PhysiK::ParticleSystem::toParticles(Body *body){
 	addParticleGroup(body->getParticlesGroup());
 }
 
 void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 {
 
-	addTissue(body);
-	toPaticles(body);
+	addCloth(body);
+	toParticles(body);
 	physicObjecs.push_back(body);
 
 	VolumeConstraint * volume = new VolumeConstraint();
@@ -227,8 +227,6 @@ void PhysiK::ParticleSystem::reset()
 	for(PhysicObject * to_clear : physicObjecs)
 		delete to_clear;
 	ptpIntersections.clear();
-
-	addCube();
 
 	THT.clear();
     PHT.clear();
