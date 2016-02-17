@@ -35,30 +35,7 @@ bool PhysiK::IntersectionParticleTriangle::intersect() const{
 	for(int i = 0 ; i < 3 ; i++)
 		A[i] = colider->getPositions()+colider->getTriangles()[triangle][i];
 
-	//build five plan
-	vec3 p1 = A[0]->pos;
-	vec3 p2 = A[1]->pos;
-	vec3 p3 = A[2]->pos;
-
-	vec3 u = p2-p1;
-	vec3 v = p3-p2;
-	vec3 w = p1-p3;
-
-	vec3 normal = w.cross(u).normalize();
-	float delta=normal.dot(p1);
-	float res = CollisionConstraint::quickEval(particle,normal,delta+size);
-
-	vec3 t1 = normal.cross(u).normalize();
-	vec3 t2 = normal.cross(v).normalize();
-	vec3 t3 = normal.cross(w).normalize();
-
-
-	float dst1 = CollisionConstraint::quickEval(particle,     t1,     t1.dot(p1)-size);
-	float dst2 = CollisionConstraint::quickEval(particle,     t2,     t2.dot(p2)-size);
-	float dst3 = CollisionConstraint::quickEval(particle,     t3,     t3.dot(p3)-size);
-	float dst4 = CollisionConstraint::quickEval(particle,-normal,-normal.dot(p1)-size);
-
-	return res<=0 && dst1<=0 && dst2<=0 && dst3<=0 && dst4<=0;
+	return CollisionParticuleTriangleConstraint(particle,A[0],A[1],A[2],size).eval()<0;
 
 }
 

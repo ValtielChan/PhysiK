@@ -45,31 +45,41 @@ float PhysiK::CollisionParticuleTriangleConstraint::eval() const{
 	const vec3& p2 = positions[2]->pos;
 	const vec3& p3 = positions[3]->pos;
 
+	//just a shema
+	//  t3
+	//   \    p1
+	//    \  / \  n   t1
+	//     \/   \/   /
+	//   w /    /\ u/
+	//    /    /  \/
+	//   /         \
+	// p3___________p2
+	//     | v
+	//     |
+	//     |
+	//     t2
 
 	vec3 u = p2-p1;
 	vec3 v = p3-p2;
 	vec3 w = p1-p3;
 
-	vec3 normal = w.cross(u).normalize();
+	vec3 normal = u.cross(v).normalize();
 
 	float delta=normal.dot(p1);
 	float res = CollisionConstraint::quickEval(particle,normal,delta+size);
 
-#if 1
-	vec3 t1 = normal.cross(u).normalize();
-	vec3 t2 = normal.cross(v).normalize();
-	vec3 t3 = normal.cross(w).normalize();
+#if 1 //stable version
+	vec3 t1 = -normal.cross(u).normalize();
+	vec3 t2 = -normal.cross(v).normalize();
+	vec3 t3 = -normal.cross(w).normalize();
 
-	float dst1 = CollisionConstraint::quickEval(particle,     t1,     t1.dot(p1)-size);
-	float dst2 = CollisionConstraint::quickEval(particle,     t2,     t2.dot(p2)-size);
-	float dst3 = CollisionConstraint::quickEval(particle,     t3,     t3.dot(p3)-size);
-	float dst4 = CollisionConstraint::quickEval(particle,-normal,-normal.dot(p1)-size);
+	float dst1 = CollisionConstraint::quickEval(particle,     t1,     t1.dot(p1)+size);
+	float dst2 = CollisionConstraint::quickEval(particle,     t2,     t2.dot(p2)+size);
+	float dst3 = CollisionConstraint::quickEval(particle,     t3,     t3.dot(p3)+size);
+	//float dst4 = CollisionConstraint::quickEval(particle,-normal,-normal.dot(p1)-size);
 
-	if(dst1<=0 && dst2 <=0 && dst3 <=0)
-		return std::min(std::min(std::min(res,-dst1),-dst1),-dst3);
-	else
-		return 0;
-#else
+	return std::max(std::max(std::max(res,dst1),dst2),dst3);
+#else //unstable version
 	return std::min(0.f,res);
 #endif
 }
