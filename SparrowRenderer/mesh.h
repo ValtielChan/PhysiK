@@ -22,6 +22,7 @@ public: // TODO : see if there is a way to set this protected
 
 
     Material* material;
+    bool isDoubleSided;
 
     std::vector<glm::vec3> positions;
     std::vector<glm::vec3> normals;

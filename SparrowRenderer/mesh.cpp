@@ -9,6 +9,7 @@
 
 Mesh::Mesh() :
     material(NULL),
+    isDoubleSided(false),
     vao(0),
     nb_buffers(0),
     primitive_type(GL_TRIANGLES)
@@ -76,6 +77,10 @@ void Mesh::initGL(bool isDynamic)
 
 void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTangents)
 {
+    if(isDoubleSided)
+    {
+        glAssert(glDisable(GL_CULL_FACE));
+    }
     bool crappy = (shader == NULL);
     material->bindAttributes(shader);
     glAssert(glBindVertexArray(vao));
@@ -149,6 +154,10 @@ void Mesh::draw(Shader* shader, bool drawNormals, bool drawTexCoord, bool drawTa
             glAssert(glDisableClientState(GL_TEXTURE_COORD_ARRAY));
     }
     glAssert(glBindVertexArray(0));
+    if(isDoubleSided)
+    {
+        glAssert(glEnable(GL_CULL_FACE));
+    }
 }
 
 void Mesh::destroyGL()

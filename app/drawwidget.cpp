@@ -96,14 +96,6 @@ glm::vec3 DrawWidget::getRandomPos()
 
 void DrawWidget::addMesh()
 {
-    /*
-    WavefrontMesh meshLoader;
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open Wavefront object"),
-                                                    QCoreApplication::applicationDirPath().append("/../assets"),
-                                                    tr("Wavefront Object (*.obj)"));
-
-    std::vector<Mesh*> meshes = meshLoader.loadMesh(filename);
-    */
     MeshDialog dialog;
     if(dialog.exec() == QDialog::Accepted)
     {
@@ -141,7 +133,11 @@ void DrawWidget::addMesh()
         {
             // add rigidbody or softbody
             for(Mesh *m : meshes)
+            {
+                if(!bodyProperties.isRigid)
+                    m->isDoubleSided = true;
                 sceneManager.addBody(m, bodyProperties);
+            }
         }
         if(renderer.isModernOpenGLAvailable())
             forward->compileShaders(sceneManager.getScene());
