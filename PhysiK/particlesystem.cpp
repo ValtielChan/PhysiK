@@ -26,7 +26,7 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
     }
     else
     {
-        std::cout<<body->mass<<std::endl;
+        std::cout << "added new object of mass : " << body->mass << std::endl;
         toParticles(body);
 
         for(unsigned int i = 0 ; i<body->nbParticles ; i++){
@@ -55,7 +55,6 @@ void PhysiK::ParticleSystem::toParticles(Body *body){
 
 void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 {
-
     addCloth(body);
     toParticles(body);
 	physicObjecs.push_back(body);
