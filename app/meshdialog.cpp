@@ -25,6 +25,8 @@ void MeshDialog::setupUI()
     properties.isRigid = true;
     toParticles = false;
     noPhysics = false;
+    properties.isKinematic = true;
+    properties.mass = 2;
 
     QVBoxLayout *verticalLayout;
     QGroupBox *groupBox_2;

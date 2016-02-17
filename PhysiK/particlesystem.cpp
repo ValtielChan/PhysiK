@@ -19,6 +19,7 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
     physicObjecs.push_back(body);
     if(body->isKinematic)
     {
+        std::cout << "added new kinematic object" << std::endl;
         for(unsigned int i = 0 ; i < body->nbParticles ; i++){
             body->getPositions()[i].omega=0;
             body->getOldPositions()[i]=body->getPositions()[i].pos;
