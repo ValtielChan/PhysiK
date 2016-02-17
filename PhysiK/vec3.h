@@ -64,10 +64,10 @@ namespace PhysiK {
 
 			vec3 center() const;
 
-            void print();
+			void print();
 
 			//these value should affect performance
-			static float voxelSize;//un truc très grand pour commencer
+			static const float voxelSize;//un truc très grand pour commencer
 
 	};
 

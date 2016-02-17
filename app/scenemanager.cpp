@@ -62,7 +62,7 @@ void SceneManager::addBody(Mesh* mesh, BodyProperties properties)
     mesh->initGL(!properties.isRigid);
     BodyMesh *body = new BodyMesh(mesh, properties);
     scene.addMesh(body);
-    bodies.push_back(body);
+	bodies.push_back(body);
     if(properties.isRigid)
         physics.addRigidBody(body->getBody());
     else

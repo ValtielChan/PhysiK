@@ -8,7 +8,7 @@ PhysiK::ParticleGroup::ParticleGroup(int particleAmount, float* dataPtr, int dat
 	radius(particleRadius)
 {
 	nbParticles = particleAmount;
-    float omega = isKinematic ? 0 : 1/mass;
+	float omega = isKinematic || mass==0 ? 0 : 1/mass;
 	for(unsigned int i=0; i<nbParticles; ++i)
 	{
 		PhysiK::vec3 pos(dataPtr[0], dataPtr[1], dataPtr[2]);

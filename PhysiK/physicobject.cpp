@@ -1,6 +1,7 @@
 #include "physicobject.h"
 
 PhysiK::PhysicObject::PhysicObject(int nbPosition, bool isKinematic):
+	hasBeenAllocated(true),
     nbParticles(nbPosition),
     isKinematic(isKinematic){
     particles = new Particle[nbPosition]();
@@ -45,6 +46,8 @@ void PhysiK::PhysicObject::postUpdate(float dt)
 }
 
 PhysiK::PhysicObject::~PhysicObject(){
-	delete[] particles;
-	delete[] oldPositions;
+	if(hasBeenAllocated){
+		delete[] particles;
+		delete[] oldPositions;
+	}
 }

@@ -41,6 +41,7 @@ namespace PhysiK {
 			 * @warning there is a second definition of lambda with a sigma on the paper
 			 */
 			virtual float lambda();
+			virtual void update(){}
 			virtual ~Constraint(){}
 	};
 
@@ -91,6 +92,7 @@ namespace PhysiK {
 			 */
 			CollisionConstraint(Particle *particle, vec3 normal, float delta);
 			float eval() const;
+			static float quickEval(const Particle * particle, vec3 normal, float delta);
 	};
 
 	class VolumeConstraint : public Constraint{

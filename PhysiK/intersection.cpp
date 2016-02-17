@@ -45,17 +45,20 @@ bool PhysiK::IntersectionParticleTriangle::intersect() const{
 	vec3 w = p1-p3;
 
 	vec3 normal = w.cross(u).normalize();
+	float delta=normal.dot(p1);
+	float res = CollisionConstraint::quickEval(particle,normal,delta+size);
 
 	vec3 t1 = normal.cross(u).normalize();
 	vec3 t2 = normal.cross(v).normalize();
 	vec3 t3 = normal.cross(w).normalize();
 
-	return
-			  CollisionConstraint(particle, normal, normal.dot(p1)-size).eval()==0
-			&&CollisionConstraint(particle,-normal,-normal.dot(p1)-size).eval()==0
-			&&CollisionConstraint(particle,     t1,     t1.dot(p1)-size).eval()==0
-			&&CollisionConstraint(particle,     t2,     t2.dot(p2)-size).eval()==0
-			&&CollisionConstraint(particle,     t3,     t3.dot(p3)-size).eval()==0;
+
+	float dst1 = CollisionConstraint::quickEval(particle,     t1,     t1.dot(p1)-size);
+	float dst2 = CollisionConstraint::quickEval(particle,     t2,     t2.dot(p2)-size);
+	float dst3 = CollisionConstraint::quickEval(particle,     t3,     t3.dot(p3)-size);
+	float dst4 = CollisionConstraint::quickEval(particle,-normal,-normal.dot(p1)-size);
+
+	return res<=0 && dst1<=0 && dst2<=0 && dst3<=0 && dst4<=0;
 
 }
 

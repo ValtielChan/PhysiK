@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <limits.h>
 
-float PhysiK::vec3::voxelSize = 2;
+const float PhysiK::vec3::voxelSize = 2;
 
 PhysiK::vec3::vec3(const float fst, const float snd, const float thr):
 	x(fst),y(snd),z(thr){

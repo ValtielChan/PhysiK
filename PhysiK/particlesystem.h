@@ -65,6 +65,10 @@ namespace PhysiK {
 			 */
 			void addSoftBody(Body * body);
 
+			void addTissue(Body * body);
+
+			void toPaticles(Body * body);
+
 			void addUnmovableObject(Body * body);
 
 			void addCube();

@@ -5,6 +5,7 @@
 namespace PhysiK {
 
 	class Triangle;
+	class ParticleGroup;
 
 	/**
 	 * @brief Add topological information to a body
@@ -35,6 +36,8 @@ namespace PhysiK {
 			Triangle * getTriangles();
 
             void computeBarycenter();
+
+			ParticleGroup * getParticlesGroup();
 
             vec3 getBarycenter() {return barycenter;}
 	};

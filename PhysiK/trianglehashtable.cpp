@@ -46,8 +46,6 @@ void PhysiK::ParticleHashTable::generateIntersection(std::vector<IntersectionPar
 }
 
 void PhysiK::TriangleHashTable::addObject(Body *body){
-	voxelGrid.clear();
-	voxelGrid.rehash(0);
 	for(unsigned int triangleOffset = 0 ; triangleOffset<body->nbTriangles ; triangleOffset++){
 		Particle * particules[3];
 		for(int j = 0 ; j < 3 ; j++)
@@ -84,28 +82,6 @@ void PhysiK::TriangleHashTable::addObject(Body *body){
 		}
 	}
 }
-/*
-void PhysiK::TriangleHashTable::generateIntersection(std::vector<IntersectionParticleTriangle> &intersections){
-	for(auto& iterator : voxelGrid){
-		m_vector& test = iterator.second;
-		const vec3& voxel = iterator.first;
-		for(unsigned int i = 0 ; i < test.size();i++){
-			m_pair& pair1= test[i];
-			for(unsigned int j = 0 ; j < test.size();j++){
-				m_pair& pair2= test[j];
-				for(int vertexOffset = 0 ; vertexOffset < 3 ; vertexOffset++){
-					int particuleOffset = pair2.first->getTriangles()[pair2.second][vertexOffset];
-					Particle * particle = pair2.first->getPositions()+particuleOffset;
-					//warning : consider triangle only in clock wise order
-					IntersectionParticleTriangle to_test(pair1.first,pair1.second,particle);
-					vec3 oldPosition = pair2.first->getOldPositions()[particuleOffset];
-					if(to_test.intersect(particle->pos.toVoxel()==voxel)&&to_test.intersect(oldPosition))
-						intersections.push_back(to_test);
-				}
-			}
-		}
-	}
-}*/
 
 void PhysiK::ParticleHashTable::generateIntersectionWithTriangles(std::vector<IntersectionParticleTriangle> &intersections, TriangleHashTable &particlesHashtable){
 	for(auto& iterator : voxelGrid){

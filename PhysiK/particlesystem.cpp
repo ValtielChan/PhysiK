@@ -24,17 +24,38 @@ void PhysiK::ParticleSystem::addUnmovableObject(PhysiK::Body * body){
 
 void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 {
+	std::cout<<body->mass<<std::endl;
+	toPaticles(body);
 	physicObjecs.push_back(body);
 
-	for(unsigned int i = 0; i<body->nbParticles;i++){
-		for(unsigned int j = 0; j<body->nbParticles;j++){
+	for(unsigned int i = 0 ; i<body->nbParticles ; i++){
+		for(unsigned int j = i+1 ; j < body->nbParticles ; j++){
 			solver.pushConstraint(new DistanceConstraint(body->getPositions()+i,body->getPositions()+j));
 		}
 	}
 }
 
+void PhysiK::ParticleSystem::addTissue(Body *body){
+	physicObjecs.push_back(body);
+	for(unsigned int i = 0; i<body->nbTriangles;i++){
+		Particle * p1 = body->getPositions()+body->getTriangles()[i][0];
+		Particle * p2 = body->getPositions()+body->getTriangles()[i][1];
+		Particle * p3 = body->getPositions()+body->getTriangles()[i][2];
+		solver.pushConstraint(new DistanceConstraint(p1,p2));
+		solver.pushConstraint(new DistanceConstraint(p2,p3));
+		solver.pushConstraint(new DistanceConstraint(p3,p1));
+	}
+}
+
+void PhysiK::ParticleSystem::toPaticles(Body *body){
+	addParticleGroup(body->getParticlesGroup());
+}
+
 void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 {
+
+	addTissue(body);
+	toPaticles(body);
 	physicObjecs.push_back(body);
 
 	VolumeConstraint * volume = new VolumeConstraint();
@@ -47,6 +68,8 @@ void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 				body->getPositions()+body->getTriangles()[i][2]
 		);
 	}
+
+	solver.pushConstraint(volume);
 
 }
 
@@ -122,10 +145,9 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 {
     // integrator
 
-    for(PhysicObject* po : physicObjecs) {
-        //po->getPositions()[0].velocity.print();
-        po->preUpdate(deltaT, gravity, damping);
-    }
+	for(PhysicObject* po : physicObjecs)
+		if(ParticleGroup * particles = dynamic_cast<ParticleGroup *>(po))
+			particles->preUpdate(deltaT, gravity, damping);
 
     genIntersectionConstraints();
 
@@ -135,8 +157,9 @@ void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)
 
     velocityUpdate(deltaT);
 
-    for(PhysicObject* po : physicObjecs)
-        po->postUpdate(deltaT);
+	for(PhysicObject* po : physicObjecs)
+		if(ParticleGroup * particles = dynamic_cast<ParticleGroup *>(po))
+			particles->postUpdate(deltaT);
 
 
 }

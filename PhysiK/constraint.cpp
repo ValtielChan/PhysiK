@@ -38,17 +38,40 @@ PhysiK::CollisionParticuleTriangleConstraint::CollisionParticuleTriangleConstrai
 }
 
 float PhysiK::CollisionParticuleTriangleConstraint::eval() const{
-	const vec3& pos = positions[0]->pos;
+	Particle * particle = positions[0];
 
-	const vec3& pt1 = positions[1]->pos;
-	const vec3& pt2 = positions[2]->pos;
-	const vec3& pt3 = positions[3]->pos;
+	//build five plan
+	const vec3& p1 = positions[1]->pos;
+	const vec3& p2 = positions[2]->pos;
+	const vec3& p3 = positions[3]->pos;
 
-	vec3 vec1 = pt2-pt1;
-	vec3 vec2 = pt3-pt1;
-	vec3 normal=vec1.cross(vec2).normalize();
-	float delta=normal.dot(pt1);
-	return std::min(0.f,(normal.dot(pos)-delta)-size);
+
+	vec3 u = p2-p1;
+	vec3 v = p3-p2;
+	vec3 w = p1-p3;
+
+	vec3 normal = w.cross(u).normalize();
+
+	float delta=normal.dot(p1);
+	float res = CollisionConstraint::quickEval(particle,normal,delta+size);
+
+#if 1
+	vec3 t1 = normal.cross(u).normalize();
+	vec3 t2 = normal.cross(v).normalize();
+	vec3 t3 = normal.cross(w).normalize();
+
+	float dst1 = CollisionConstraint::quickEval(particle,     t1,     t1.dot(p1)-size);
+	float dst2 = CollisionConstraint::quickEval(particle,     t2,     t2.dot(p2)-size);
+	float dst3 = CollisionConstraint::quickEval(particle,     t3,     t3.dot(p3)-size);
+	float dst4 = CollisionConstraint::quickEval(particle,-normal,-normal.dot(p1)-size);
+
+	if(dst1<=0 && dst2 <=0 && dst3 <=0)
+		return std::min(std::min(std::min(res,-dst1),-dst1),-dst3);
+	else
+		return 0;
+#else
+	return std::min(0.f,res);
+#endif
 }
 
 PhysiK::CollisionConstraint::CollisionConstraint(Particle *particle, vec3 normal, float delta):normal(normal),delta(delta){
@@ -56,8 +79,11 @@ PhysiK::CollisionConstraint::CollisionConstraint(Particle *particle, vec3 normal
 }
 
 float PhysiK::CollisionConstraint::eval() const{
-	const Particle * pos = positions[0];
-	return std::min(0.f,normal.dot(pos->pos)-delta);
+	return std::min(0.f,quickEval(positions[0],normal,delta));
+}
+
+float PhysiK::CollisionConstraint::quickEval(const Particle * particle, vec3 normal, float delta) {
+	return std::min(0.f,normal.dot(particle->pos)-delta);
 }
 
 PhysiK::DistanceConstraint::DistanceConstraint(Particle *pos1, Particle *pos2){

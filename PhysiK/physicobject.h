@@ -22,8 +22,9 @@ namespace PhysiK {
 
 			PhysicObject(int nbPosition, bool isKinematic);
 
+			PhysicObject():hasBeenAllocated(false){}
+			bool hasBeenAllocated;
             Particle * particles;
-
             vec3 * oldPositions;
 
 		public:

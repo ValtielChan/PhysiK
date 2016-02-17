@@ -11,6 +11,12 @@ namespace PhysiK {
 	class ParticleGroup : public PhysicObject
 	{
 
+			friend class Body;
+
+		private:
+
+			ParticleGroup(){}
+
 		public:
 
 			float mass;
