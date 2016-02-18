@@ -8,23 +8,23 @@ namespace PhysiK {
 	class ParticleGroup;
 
 	/**
-	 * @brief Add topological information to a body
+	 * @brief Add topological informations to a body
 	 */
 	class Body : public PhysicObject
 	{
 		private:
 
-            vec3 barycenter;
+			vec3 barycenter;
 			Triangle * triangles;
 
 		public:
 
-            Body(unsigned int nbParticles,unsigned int nbTriangles, float myMass, bool isKinematic = false);
+			Body(unsigned int nbParticles,unsigned int nbTriangles, float myMass, bool isKinematic = false);
 
-            ~Body();
+			~Body();
 
 			unsigned int nbTriangles;
-            float mass;
+			float mass;
 
 			/**
 			 * @brief return a pointer to the triangle for the user
@@ -35,11 +35,11 @@ namespace PhysiK {
 			 */
 			Triangle * getTriangles();
 
-            void computeBarycenter();
+			void computeBarycenter();
 
 			ParticleGroup * getParticlesGroup();
 
-            vec3 getBarycenter() {return barycenter;}
+			vec3 getBarycenter() {return barycenter;}
 	};
 
 	}

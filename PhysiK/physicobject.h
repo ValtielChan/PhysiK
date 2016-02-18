@@ -24,38 +24,41 @@ namespace PhysiK {
 
 			PhysicObject():hasBeenAllocated(false){}
 			bool hasBeenAllocated;
-            Particle * particles;
-            vec3 * oldPositions;
+			Particle * particles;
+			vec3 * oldPositions;
 
 		public:
 
-            unsigned int nbParticles;
-            bool isKinematic;
+			unsigned int nbParticles;
+			bool isKinematic;
 
-            /**
-             * @brief return a pointer to the positions of the vertices for the user
-             */
-            Particle * getPositions() const;
+			/**
+			 * @brief return a pointer to the positions of the vertices for the user
+			 */
+			Particle * getPositions() const;
 
-            /**
-             * @brief return a pointer to the previous positions
-             */
+			/**
+			 * @brief return a pointer to the previous positions
+			 */
 
-            vec3 * getOldPositions() const;
-            /**
-             * @brief getDeltaP
-             * @return
-             */
-            vec3 getDeltaP(unsigned int offset) const;
-
+			vec3 * getOldPositions() const;
+			/**
+			 * @brief getDeltaP
+			 * @return
+			 */
+			vec3 getDeltaP(unsigned int offset) const;
 			/**
 			 * @brief preUpdate and postUpdate are two stages of one simulation step
 			 * the first is called at the beginning of the integrator loop, and the second
 			 * just after solving the constraints system.
 			 */
 			void preUpdate(float dt, float gravity, float damping);
+			/**
+			 * @brief preUpdate and postUpdate are two stages of one simulation step
+			 * the first is called at the beginning of the integrator loop, and the second
+			 * just after solving the constraints system.
+			 */
 			void postUpdate(float dt);
-
 			/**
 			 * @brief make it virtual
 			 * (won't compile if the polymorphism is not respected)

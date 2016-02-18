@@ -80,7 +80,7 @@ namespace PhysiK {
 	};
 
 	/**
-	 * @brief prevent a triangle and a particles from collision.
+	 * @brief prevent a triangle and a particle from collision.
 	 * If the particle size is zero, eval() is equal to zero only above the triangle
 	 */
 	class CollisionParticuleTriangleConstraint : public Constraint{

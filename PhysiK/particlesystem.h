@@ -49,13 +49,19 @@ namespace PhysiK {
 			 * @brief velocityUpdate generates impultions for each collision
 			 */
 			void velocityUpdate(float deltaT);
+			/**
+			 * @brief add a Body as a particle system for the physic
+			 */
+			void toParticles(Body * body);
 
+			/**
+			 * @brief add a minimum distance contraint to all edge of the body mesh.
+			 * is used by the addSoftBody and addCloth methods
+			 */
 			void addClothConstraint(Body *body);
 
 		public:
-
 			ParticleSystem();
-
 			/**
 			 * @brief add a body and generate the constraint to make a rigid body
 			 * @param body the body to add
@@ -66,30 +72,33 @@ namespace PhysiK {
 			 * @brief add a body and generate the constraint to make a soft body
 			 */
 			void addSoftBody(Body * body);
-
-            void addCloth(Body * body);
-
-            void toParticles(Body * body);
-
+			/**
+			 * @brief add a body and generate the constraint to make it look like a cloth
+			 */
+			void addCloth(Body * body);
+			/**
+			 * @brief add an invisble scene to the scene for tests (deprecated)
+			 */
 			void addCube();
-
 			/**
 			 * @brief add a particle group
 			 */
 			void addParticleGroup(ParticleGroup * particleGroup);
-
 			/**
 			 * @brief execute the next iteration of the loop
 			 * @param deltaT the time enlapsed since the last iteration
 			 */
 			void nextSimulationStep(float deltaT);
-
+			/**
+			 * @brief set the nomber of iteration the solver should perform
+			 */
 			void setNbIterations(unsigned int _nbIterations){
 				nbIterations=_nbIterations;
 			}
-
-
-            void reset();
+			/**
+			 * @brief clear the scene
+			 */
+			void reset();
 
 	};
 
