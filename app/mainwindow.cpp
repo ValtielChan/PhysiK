@@ -24,7 +24,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             ui->actionParticles->trigger();
         break;
         case Qt::Key_Z :
-            ui->actionRigidBody->trigger();
+            ui->actionMesh->trigger();
         break;
         case Qt::Key_E :
             ui->actionReset_Scene->trigger();

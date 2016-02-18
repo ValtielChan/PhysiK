@@ -74,7 +74,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionParticles"/>
-   <addaction name="actionRigidBody"/>
+   <addaction name="actionMesh"/>
    <addaction name="separator"/>
    <addaction name="actionPause"/>
    <addaction name="actionReset_Scene"/>
@@ -125,14 +125,17 @@
     <string>Add Particles</string>
    </property>
   </action>
-  <action name="actionRigidBody">
+  <action name="actionMesh">
    <property name="icon">
     <iconset>
      <normalon>:/qss_icons/rc/add_mesh_64.png</normalon>
     </iconset>
    </property>
    <property name="text">
-    <string>Add RigidBody</string>
+    <string>Add Mesh</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Mesh</string>
    </property>
   </action>
   <action name="actionReset_Scene">
@@ -226,7 +229,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionRigidBody</sender>
+   <sender>actionMesh</sender>
    <signal>triggered()</signal>
    <receiver>drawWidget</receiver>
    <slot>addMesh()</slot>
