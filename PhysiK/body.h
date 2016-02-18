@@ -27,11 +27,11 @@ namespace PhysiK {
 			float mass;
 
 			/**
-			 * @brief return a pointer to the triangle for the user
+			 * @brief return a pointer to the triangles table for the user
 			 */
 			const Triangle * getTriangles() const;
 			/**
-			 * @brief return a pointer to the triangle for the user
+			 * @brief return a pointer to the triangles table for the user
 			 */
 			Triangle * getTriangles();
 
