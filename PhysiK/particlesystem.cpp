@@ -141,9 +141,9 @@ void PhysiK::ParticleSystem::addClothConstraint(Body *body){
 		Particle * p1 = body->getPositions()+body->getTriangles()[i][0];
 		Particle * p2 = body->getPositions()+body->getTriangles()[i][1];
 		Particle * p3 = body->getPositions()+body->getTriangles()[i][2];
-		solver.pushConstraint(new DistanceConstraint(p1,p2));
-		solver.pushConstraint(new DistanceConstraint(p2,p3));
-		solver.pushConstraint(new DistanceConstraint(p3,p1));
+		solver.pushConstraint(new MaxDistanceConstraint(p1,p2, (p1->pos-p2->pos).length()));
+		solver.pushConstraint(new MaxDistanceConstraint(p2,p3, (p2->pos-p3->pos).length()));
+		solver.pushConstraint(new MaxDistanceConstraint(p3,p1, (p3->pos-p1->pos).length()));
 	}
 }
 
