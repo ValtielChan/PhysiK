@@ -91,6 +91,7 @@ void MeshDialog::setupUI()
     QObject::connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     setWindowTitle("Load Mesh");
+    setWindowIcon(QIcon(":qss_icons/rc/add_mesh_64"));
     groupBox_2->setTitle("Mesh file");
     lineEdit->setText(QString());
     pushButton->setText("Pick File");
