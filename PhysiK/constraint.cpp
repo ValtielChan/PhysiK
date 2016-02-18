@@ -77,7 +77,8 @@ float PhysiK::CollisionParticuleTriangleConstraint::eval() const{
 	float dst3 = CollisionConstraint::quickEval(particle,     t3,     t3.dot(p3)+size);
 	float dst4 = CollisionConstraint::quickEval(particle,-normal,-normal.dot(p1)+size);
 
-	return std::max(std::max(std::max(std::max(res,dst1),dst2),dst3),dst4);
+	float col = std::max(std::max(std::max(res,dst1),dst2),dst3);
+	return size>0?std::max(col,dst4):col;
 #else //unstable version
 	return std::min(0.f,res);
 #endif
