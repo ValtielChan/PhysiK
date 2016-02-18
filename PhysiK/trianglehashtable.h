@@ -38,7 +38,7 @@ namespace PhysiK {
 	};
 
 	/**
-	 * @brief A TriangleHash for triangles
+	 * @brief A HashTable for triangles
 	 */
 	class TriangleHashTable : public HashTable<Body>{
 			friend class ParticleHashTable;
@@ -50,7 +50,7 @@ namespace PhysiK {
 	};
 
 	/**
-	 * @brief A TriangleHash for triangles
+	 * @brief A HashTable for particles
 	 */
 	class ParticleHashTable : public HashTable<ParticleGroup>{
 		public:

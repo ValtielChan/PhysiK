@@ -44,7 +44,7 @@ namespace PhysiK {
 	};
 
 	/**
-	 * @brief enforce two particle to stay at the same distance.
+	 * @brief enforce two particles to stay at the same distance.
 	 * eval() is equal to zero only when the two particles are at the same distance
 	 */
 	class DistanceConstraint : public Constraint

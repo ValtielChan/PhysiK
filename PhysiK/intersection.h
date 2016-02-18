@@ -10,7 +10,7 @@ namespace PhysiK {
 	class ParticleGroup;
 
 	/**
-	 * @brief represent an intersection between a particles and a trianlge
+	 * @brief represent an intersection between a particle and a trianlge
 	 */
 	class IntersectionParticleTriangle
 	{

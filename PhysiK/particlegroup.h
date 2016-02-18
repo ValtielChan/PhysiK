@@ -5,8 +5,7 @@
 namespace PhysiK {
 
 	/**
-	 * @brief Represents a set of particle
-	 * that share the same baic attributes (radius and mass)
+	 * @brief Represents a set of particles that share the same attributes (radius and mass)
 	 */
 	class ParticleGroup : public PhysicObject
 	{
