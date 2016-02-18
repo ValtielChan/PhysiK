@@ -6,7 +6,14 @@
 
 struct BodyProperties
 {
-    bool isRigid;
+    enum BodyType
+    {
+        RIGID,
+        SOFT,
+        CLOTH
+    };
+
+    BodyType type;
     bool isKinematic;
     float mass; // 0 if kinematic
 };

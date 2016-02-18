@@ -20,16 +20,13 @@ BodyMesh::BodyMesh(Mesh* myMesh, BodyProperties myProperties) :
         pos[i].pos.y = mesh->positions[i].y;
         pos[i].pos.z = mesh->positions[i].z;
     }
-
-    if(!properties.isKinematic && properties.isRigid)
-        body.computeBarycenter();
 }
 
 void BodyMesh::update()
 {
     if(!properties.isKinematic)
     {
-        if(properties.isRigid)
+        if(properties.type == BodyProperties::RIGID)
             updateTransform();
         else
             updatePositions();

@@ -134,7 +134,7 @@ void DrawWidget::addMesh()
             // add rigidbody or softbody
             for(Mesh *m : meshes)
             {
-                if(!bodyProperties.isRigid)
+                if(bodyProperties.type == BodyProperties::CLOTH)
                     m->isDoubleSided = true;
                 sceneManager.addBody(m, bodyProperties);
             }

@@ -60,14 +60,22 @@ void SceneManager::resetScene()
 
 void SceneManager::addBody(Mesh* mesh, BodyProperties properties)
 {
-    mesh->initGL(!properties.isRigid);
+    mesh->initGL(properties.type != BodyProperties::RIGID);
     BodyMesh *body = new BodyMesh(mesh, properties);
     scene.addMesh(body);
 	bodies.push_back(body);
-    if(properties.isRigid)
+    switch(properties.type)
+    {
+        case BodyProperties::RIGID:
         physics.addRigidBody(body->getBody());
-    else
+        break;
+        case BodyProperties::SOFT:
         physics.addSoftBody(body->getBody());
+        break;
+        case BodyProperties::CLOTH:
+        physics.addCloth(body->getBody());
+        break;
+    }
 }
 
 void SceneManager::addParticleGroup(ParticleProperties properties, const glm::vec3 *positions)

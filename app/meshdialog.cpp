@@ -22,7 +22,7 @@ MeshDialog::MeshDialog(QWidget *parent) :
 
 void MeshDialog::setupUI()
 {
-    properties.isRigid = true;
+    properties.type = BodyProperties::RIGID;
     toParticles = false;
     noPhysics = false;
     properties.isKinematic = true;
@@ -100,7 +100,7 @@ void MeshDialog::setupUI()
     label_2->setText("Type");
     label_3->setText("Mass");
     comboBox->clear();
-    comboBox->insertItems(0, QStringList() << "RigidBody" << "Particle Group" << "SoftBody" << "No physics");
+    comboBox->insertItems(0, QStringList() << "RigidBody" << "Particle Group" << "SoftBody" << "Cloth" << "No physics");
 
     connect(pushButton, SIGNAL(pressed()), this, SLOT(pickFile()));
     connect(checkBox, SIGNAL(toggled(bool)), this, SLOT(setKinematic(bool)));
@@ -141,21 +141,24 @@ void MeshDialog::setMass(double mass)
 
 void MeshDialog::setType(int type)
 {
-    properties.isRigid = true;
     toParticles = false;
     noPhysics = false;
 
     switch(type)
     {
     case 0 : // RigidBody
+        properties.type = BodyProperties::RIGID;
     break;
     case 1 : // Particles
         toParticles = true;
     break;
     case 2 : // SoftBody
-        properties.isRigid = false;
+        properties.type = BodyProperties::SOFT;
     break;
     case 3 : // Background model
+        properties.type = BodyProperties::CLOTH;
+    break;
+    case 4 : // Background model
         noPhysics = true;
     break;
     }
