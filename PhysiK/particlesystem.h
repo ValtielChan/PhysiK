@@ -50,6 +50,8 @@ namespace PhysiK {
 			 */
 			void velocityUpdate(float deltaT);
 
+			void addClothConstraint(Body *body);
+
 		public:
 
 			ParticleSystem();

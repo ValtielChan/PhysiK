@@ -2,6 +2,7 @@
 #include <SparrowRenderer/mesh.h>
 #include <SparrowRenderer/sparrowrenderer.h>
 #include <cstring>
+#include <eigen3/Eigen/Eigen>
 
 BodyMesh::BodyMesh(Mesh* myMesh, BodyProperties myProperties) :
     properties(myProperties),
@@ -45,7 +46,21 @@ void BodyMesh::updateTransform()
 
     // TODO compute rotation
 
-    // TODO apply translation and rotation to modelMatrix
+	//Eigen::Dynamic
+	Eigen::Matrix<float,16,16> A;
+	Eigen::Matrix<float,16,1> X;
+	Eigen::Matrix<float,16,1> B;
+
+	PhysiK::vec3 points[4];
+
+	for(int i = 0 ; i < 4 ; i++){
+		for(int j = 0 ; j < 4 ; j++){
+			for(int k = 0 ; k < 4 ; k++){
+				//A(j*4+k,1)=points[i+j];
+			}
+		}
+	}
+	// TODO apply translation and rotation to modelMatrix
 }
 
 void BodyMesh::updatePositions()

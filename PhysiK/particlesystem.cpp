@@ -39,15 +39,9 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
 }
 
 void PhysiK::ParticleSystem::addCloth(Body *body){
+	toParticles(body);
 	physicObjecs.push_back(body);
-	for(unsigned int i = 0; i<body->nbTriangles;i++){
-		Particle * p1 = body->getPositions()+body->getTriangles()[i][0];
-		Particle * p2 = body->getPositions()+body->getTriangles()[i][1];
-		Particle * p3 = body->getPositions()+body->getTriangles()[i][2];
-		solver.pushConstraint(new DistanceConstraint(p1,p2));
-		solver.pushConstraint(new DistanceConstraint(p2,p3));
-		solver.pushConstraint(new DistanceConstraint(p3,p1));
-	}
+	addClothConstraint(body);
 }
 
 void PhysiK::ParticleSystem::toParticles(Body *body){
@@ -56,8 +50,7 @@ void PhysiK::ParticleSystem::toParticles(Body *body){
 
 void PhysiK::ParticleSystem::addSoftBody(PhysiK::Body *body)
 {
-    addCloth(body);
-    toParticles(body);
+	addClothConstraint(body);
 	physicObjecs.push_back(body);
 
 	VolumeConstraint * volume = new VolumeConstraint();
@@ -141,6 +134,17 @@ void PhysiK::ParticleSystem::velocityUpdate(float deltaT)
         inter.getParticle2()->impulsion += inter.getWorks1(deltaT);
     }
 
+}
+
+void PhysiK::ParticleSystem::addClothConstraint(Body *body){
+	for(unsigned int i = 0; i<body->nbTriangles;i++){
+		Particle * p1 = body->getPositions()+body->getTriangles()[i][0];
+		Particle * p2 = body->getPositions()+body->getTriangles()[i][1];
+		Particle * p3 = body->getPositions()+body->getTriangles()[i][2];
+		solver.pushConstraint(new DistanceConstraint(p1,p2));
+		solver.pushConstraint(new DistanceConstraint(p2,p3));
+		solver.pushConstraint(new DistanceConstraint(p3,p1));
+	}
 }
 
 void PhysiK::ParticleSystem::nextSimulationStep(float deltaT)

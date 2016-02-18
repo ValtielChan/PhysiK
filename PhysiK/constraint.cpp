@@ -36,7 +36,6 @@ PhysiK::CollisionParticuleTriangleConstraint::CollisionParticuleTriangleConstrai
 	positions.push_back(pt2);
 	positions.push_back(pt3);
 }
-
 float PhysiK::CollisionParticuleTriangleConstraint::eval() const{
 	Particle * particle = positions[0];
 
@@ -76,9 +75,9 @@ float PhysiK::CollisionParticuleTriangleConstraint::eval() const{
 	float dst1 = CollisionConstraint::quickEval(particle,     t1,     t1.dot(p1)+size);
 	float dst2 = CollisionConstraint::quickEval(particle,     t2,     t2.dot(p2)+size);
 	float dst3 = CollisionConstraint::quickEval(particle,     t3,     t3.dot(p3)+size);
-	//float dst4 = CollisionConstraint::quickEval(particle,-normal,-normal.dot(p1)-size);
+	float dst4 = CollisionConstraint::quickEval(particle,-normal,-normal.dot(p1)+size);
 
-	return std::max(std::max(std::max(res,dst1),dst2),dst3);
+	return std::max(std::max(std::max(std::max(res,dst1),dst2),dst3),dst4);
 #else //unstable version
 	return std::min(0.f,res);
 #endif
