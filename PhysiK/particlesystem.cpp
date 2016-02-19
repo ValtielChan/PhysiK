@@ -30,8 +30,8 @@ void PhysiK::ParticleSystem::addRigidBody(PhysiK::Body *body)
         std::cout << "added new object of mass : " << body->mass << std::endl;
         toParticles(body);
 
-        for(unsigned int i = 0 ; i<body->nbParticles ; i++){
-            for(unsigned int j = i+1 ; j < body->nbParticles ; j++){
+		for(unsigned int i = 0 ; i<body->nbParticles ; i++){
+			for(unsigned int j = 0 ; j < body->nbParticles ; j++){//doesn't seem to like  j = i+1 optimisation
                 solver.pushConstraint(new DistanceConstraint(body->getPositions()+i,body->getPositions()+j));
             }
         }

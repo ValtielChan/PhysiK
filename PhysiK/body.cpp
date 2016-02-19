@@ -21,12 +21,13 @@ PhysiK::Body::~Body(){
     delete[] triangles;
 }
 
-void PhysiK::Body::computeBarycenter()
+PhysiK::vec3 PhysiK::Body::computeBarycenter()
 {
-    barycenter = vec3(0);
+	barycenter = vec3(0);
     for(unsigned int i = 0; i < nbParticles; ++i)
         barycenter += particles[i].pos;
     barycenter /= nbParticles;
+	return barycenter;
 }
 
 PhysiK::ParticleGroup * PhysiK::Body::getParticlesGroup(){

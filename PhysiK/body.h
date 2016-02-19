@@ -14,10 +14,11 @@ namespace PhysiK {
 	{
 		private:
 
-			vec3 barycenter;
 			Triangle * triangles;
 
 		public:
+
+			vec3 barycenter;
 
 			Body(unsigned int nbParticles,unsigned int nbTriangles, float myMass, bool isKinematic = false);
 
@@ -35,7 +36,7 @@ namespace PhysiK {
 			 */
 			Triangle * getTriangles();
 
-			void computeBarycenter();
+			vec3 computeBarycenter();
 
 			ParticleGroup * getParticlesGroup();
 
