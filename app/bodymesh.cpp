@@ -3,7 +3,7 @@
 #include <SparrowRenderer/mesh.h>
 #include <SparrowRenderer/sparrowrenderer.h>
 #include <cstring>
-#include <eigen3/Eigen/Eigen>
+#include <Eigen/Eigen>
 #include <glm/detail/func_matrix.hpp>
 
 BodyMesh::BodyMesh(Mesh* myMesh, BodyProperties myProperties) :
