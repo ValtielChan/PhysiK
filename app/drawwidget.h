@@ -34,6 +34,7 @@ class DrawWidget : public OPENGL_WIDGET_NAME
 
         QPoint lastMousePos;
         glm::vec4 grabPos;
+        int grabbedObject;
         bool grabbedRotateCamera;
         bool grabbedMoveCamera;
         bool grabbedRotateObject;

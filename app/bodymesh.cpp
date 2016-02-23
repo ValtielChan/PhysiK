@@ -82,3 +82,19 @@ PhysiK::Body* BodyMesh::getBody()
 {
     return &body;
 }
+
+void BodyMesh::applyOffset(glm::vec3 moveVec)
+{
+    PhysiK::Particle *particles = body.getPositions();
+    PhysiK::vec3 *oldPos = body.getOldPositions();
+#pragma omp parallel for
+    for(std::size_t i=0; i<mesh->positions.size(); ++i)
+    {
+        particles[i].pos.x += moveVec.x;
+        particles[i].pos.y += moveVec.y;
+        particles[i].pos.z += moveVec.z;
+        oldPos[i].x += moveVec.x;
+        oldPos[i].y += moveVec.y;
+        oldPos[i].z += moveVec.z;
+    }
+}

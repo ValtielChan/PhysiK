@@ -34,6 +34,8 @@ public:
 
     double update(float dt);
 
+    void moveObject(int id, glm::vec3 moveVec);
+
     void setNbIterations(int nb) {physics.setNbIterations(nb);}
 };
 

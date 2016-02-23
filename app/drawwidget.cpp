@@ -184,31 +184,34 @@ void DrawWidget::updateScene()
 
 void DrawWidget::mouseMoveEvent(QMouseEvent *event)
 {
+    glm::vec4 diff;
     if(grabbedRotateCamera)
         camera.rotateCamera(event->globalX() - lastMousePos.x(), event->globalY() - lastMousePos.y());
-    if(grabbedMoveCamera)
+    if(grabbedMoveCamera || grabbedMoveObject)
     {
         float x = float(event->x())*2/width() - 1.f;
         float y = float(height() - event->y())*2/height() - 1.f;
         glm::vec4 pos(x*grabPos.w, y*grabPos.w, grabPos.z, grabPos.w);
         glm::mat4 inverseMVP = glm::inverse(camera.getProjectionMatrix() * camera.getViewMatrix());
-        glm::vec4 diff = (inverseMVP * grabPos) - (inverseMVP * pos);
+        diff = (inverseMVP * grabPos) - (inverseMVP * pos);
         grabPos = pos;
-        camera.moveCenter(glm::vec3(diff.x, diff.y, diff.z));
     }
+    if(grabbedMoveCamera)
+        camera.moveCenter(glm::vec3(diff.x, diff.y, diff.z));
+    if(grabbedMoveObject);
+        sceneManager.moveObject(grabbedObject, glm::vec3(diff.x, diff.y, diff.z));
     lastMousePos = event->globalPos();
 }
 
 void DrawWidget::mousePressEvent(QMouseEvent* event)
 {
-    int id = 0;
     glm::vec3 pxInfo;
     if(renderer.isModernOpenGLAvailable())
     {
         pxInfo = pick->getObjectInfo(event->x(), event->y());
-        id = int(pxInfo.z);
+        grabbedObject = int(pxInfo.z);
     }
-    if(id == 0)
+    if(grabbedObject == 0)
         pxInfo = camera.getDefaultPxInfo();
     // opengl frustum has boundaries of [-1, 1]
     glm::vec4 pos(float(event->x())*2/width() - 1.f, float(height() - event->y())*2/height() - 1.f, pxInfo.x*2 - 1, 1);

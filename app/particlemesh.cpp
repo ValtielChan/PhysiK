@@ -56,3 +56,15 @@ PhysiK::ParticleGroup* ParticleMesh::getParticleGroup()
 {
     return &group;
 }
+
+void ParticleMesh::applyOffset(int particleId, glm::vec3 moveVec)
+{
+    PhysiK::Particle *particles = group.getPositions();
+    particles[particleId].pos.x += moveVec.x;
+    particles[particleId].pos.y += moveVec.y;
+    particles[particleId].pos.z += moveVec.z;
+    PhysiK::vec3 *oldPos = group.getOldPositions();
+    oldPos[particleId].x += moveVec.x;
+    oldPos[particleId].y += moveVec.y;
+    oldPos[particleId].z += moveVec.z;
+}

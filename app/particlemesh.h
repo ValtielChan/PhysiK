@@ -26,6 +26,8 @@ public:
     void updatePositions();
 
     PhysiK::ParticleGroup* getParticleGroup();
+
+    void applyOffset(int particleId, glm::vec3 moveVec);
 };
 
 #endif // PARTICLEMESH_H

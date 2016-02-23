@@ -124,6 +124,48 @@ Mesh* SceneManager::createGrid(int n, float size)
     return grid;
 }
 
+void SceneManager::moveObject(int id, glm::vec3 moveVec)
+{
+    if(id > 0)
+    {
+        int currentId = 0;
+        GeometryNode *node;
+        for(SceneIterator<GeometryNode*>* geometryIt = scene.getGeometry();
+            geometryIt->isValid(); geometryIt->next())
+        {
+            node = geometryIt->getItem();
+            if(node->mesh->hasInstances())
+                currentId += node->mesh->instances_offsets.size();
+            else
+                ++currentId;
+            if(currentId > id)
+                break;
+        }
+        if(node->mesh->hasInstances())
+        {
+            for(ParticleMesh *m : particles)
+            {
+                if(node->mesh == m)
+                {
+                    m->applyOffset(id + currentId - node->mesh->instances_offsets.size(), moveVec);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            for(BodyMesh *n : bodies)
+            {
+                if(n == node)
+                {
+                    n->applyOffset(moveVec);
+                    break;
+                }
+            }
+        }
+    }
+}
+
 double SceneManager::update(float dt)
 {
     std::chrono::high_resolution_clock::time_point t = std::chrono::high_resolution_clock::now();

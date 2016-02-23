@@ -32,6 +32,8 @@ public:
     void update();
 
     PhysiK::Body* getBody();
+
+    void applyOffset(glm::vec3 moveVec);
 };
 
 #endif // BODYMESH_H
