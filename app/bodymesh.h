@@ -25,6 +25,7 @@ class BodyMesh : public GeometryNode
 
     void updateTransform();
     void updatePositions();
+	glm::vec3 iniPos[4];
 
 public:
     BodyMesh(Mesh* myMesh, BodyProperties myProperties);

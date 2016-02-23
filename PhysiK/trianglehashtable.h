@@ -28,23 +28,46 @@ namespace PhysiK {
 
 		public:
 
+			/**
+			 * @brief clear and free the hastable
+			 */
 			void clear(){
 				voxelGrid.clear();
 				voxelGrid.rehash(0);
 			}
 	};
 
+	/**
+	 * @brief A HashTable for triangles
+	 */
 	class TriangleHashTable : public HashTable<Body>{
 			friend class ParticleHashTable;
 		public:
+			/**
+			 * @brief add all the triangles of the body object to the triangle hashtable
+			 */
 			void addObject(Body * body);
 	};
 
+	/**
+	 * @brief A HashTable for particles
+	 */
 	class ParticleHashTable : public HashTable<ParticleGroup>{
 		public:
-			void generateIntersectionWithTriangles(std::vector<IntersectionParticleTriangle> &intersections, TriangleHashTable &particlesHashtable);
+			/**
+			 * @brief add all the triangles of the particles objects to the particles hashtable
+			 */
+			void addObject(ParticleGroup* particles);
+			/**
+			 * @brief find all the intersection between the particles of the hastable/
+			 * @param intersections For every intersection found, an IntersectionParticleTriangle object that represent the intersection is added the the vector
+			 */
 			void generateIntersection(std::vector<IntersectionParticleParticle> &intersections);
-			void addObject(ParticleGroup* body);
+			/**
+			 * @brief find all the intersection between a particles in the hastable and a triangle in the intersections object
+			 * @param intersections For every intersection found, an IntersectionParticleTriangle object that represent the intersection is added the the vector
+			 */
+			void generateIntersectionWithTriangles(std::vector<IntersectionParticleTriangle> &intersections, TriangleHashTable &particlesHashtable);
 	};
 
 

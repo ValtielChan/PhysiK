@@ -1,8 +1,10 @@
 #include "bodymesh.h"
+#include "PhysiK/triangle.h"
 #include <SparrowRenderer/mesh.h>
 #include <SparrowRenderer/sparrowrenderer.h>
 #include <cstring>
-//#include <eigen3/Eigen/Eigen>
+#include <eigen3/Eigen/Eigen>
+#include <glm/detail/func_matrix.hpp>
 
 BodyMesh::BodyMesh(Mesh* myMesh, BodyProperties myProperties) :
     properties(myProperties),
@@ -21,6 +23,14 @@ BodyMesh::BodyMesh(Mesh* myMesh, BodyProperties myProperties) :
         pos[i].pos.y = mesh->positions[i].y;
         pos[i].pos.z = mesh->positions[i].z;
     }
+	body.computeBarycenter();
+	for(int i = 0 ; i < 3 ; i++){
+		iniPos[0][i]=body.barycenter[i];
+		for(int j = 0 ; j < 3 ; j++){
+			int offset = body.getTriangles()[0][i];
+			iniPos[i+1][j]=body.getPositions()[offset].pos[j];
+		}
+	}
 }
 
 void BodyMesh::update()
@@ -36,28 +46,71 @@ void BodyMesh::update()
 
 void BodyMesh::updateTransform()
 {
-    PhysiK::vec3 center;
-    body.computeBarycenter();
-
-    PhysiK::vec3 translation = center - body.getBarycenter();
-
-    // TODO compute rotation
 
     //Eigen::Dynamic
-    /*Eigen::Matrix<float,16,16> A;
-    Eigen::Matrix<float,16,1> X;
-    Eigen::Matrix<float,16,1> B;
+	Eigen::Matrix<float,16,16> A;
+	Eigen::Matrix<float,16,1> X;
+	Eigen::Matrix<float,16,1> B;
 
-    PhysiK::vec3 points[4];
+	for(int i = 0 ; i < 16 ; i++){
+		for(int j = 0 ; j < 16 ; j++)
+			A(i,j)=0;
+		B(i,0)=0;
+	}
 
-    for(int i = 0 ; i < 4 ; i++){
-        for(int j = 0 ; j < 4 ; j++){
-            for(int k = 0 ; k < 4 ; k++){
-                //A(j*4+k,1)=points[i+j];
-            }
-        }
-    }*/
-    // TODO apply translation and rotation to modelMatrix
+	//maybe use more vertex.
+
+	PhysiK::vec3 points[4] = {body.barycenter};
+	PhysiK::vec3 res[4]={body.computeBarycenter()};
+
+	for(int i = 0 ; i < 3 ; i++){
+		for(int j = 0 ; j < 3 ; j++){
+			int offset = body.getTriangles()[0][i];
+			res[i+1][j]=body.getOldPositions()[offset][j];
+			//points[i+1][j]=body.getPositions()[offset].pos[j];
+		}
+	}
+
+	for(int i = 0 ; i < 4 ; i++){
+		for(int j = 0 ; j < 3 ; j++){
+			points[i][j]=iniPos[i][j];
+		}
+	}
+
+	for(int i = 0 ; i < 4 ; i++)
+		for(int j = 0 ; j < 4 ; j++){
+			for(int k = 0 ; k < 4 ; k++)
+				A(i*4+j,j*4+k)=k==3?1:points[i][k];
+			B(i*4+j,0)=j==3?1:res[i][j];
+		}
+
+
+	X = A.fullPivHouseholderQr().solve(B);
+	for(int i = 0 ; i < 4 ; i++)
+		for(int j = 0 ; j < 4 ; j++)
+			X(j+i*4);
+
+	glm::mat4x4 transformationMatrix;
+	for(int i = 0 ; i < 4 ; i++)
+		for(int j = 0 ; j < 4 ; j++)
+			transformationMatrix[i][j]=X(i*4+j,0);
+	//because glsl use transposed matrices...
+	modelMatrix=/*modelMatrix*/transpose(transformationMatrix);
+
+#if 0
+	std::cout<<"matrice A"<<std::endl;
+	std::cout<<A<<std::endl;
+	std::cout<<"matrice B"<<std::endl;
+	std::cout<<B<<std::endl;
+
+	std::cout<<"before"<<std::endl;
+	points[0].print();
+	std::cout<<"after"<<std::endl;
+	res[0].print();
+	std::cout<<"expected"<<std::endl;
+	glm::vec4 resi = glm::vec4(points[0].x,points[0].y,points[0].z,1)*modelMatrix;
+	std::cout<<resi.x<<" "<<resi.y<<" "<<resi.z<<" "<<resi.w<<std::endl;
+#endif
 }
 
 void BodyMesh::updatePositions()

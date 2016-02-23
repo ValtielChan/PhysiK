@@ -115,6 +115,15 @@ float PhysiK::MinDistanceConstraint::eval() const{
 	return std::min(0.f,(positions[0]->pos-positions[1]->pos).length()-dst);
 }
 
+PhysiK::MaxDistanceConstraint::MaxDistanceConstraint(Particle *pos1, Particle *pos2, float _dst):dst(_dst){
+	positions.push_back(pos1);
+	positions.push_back(pos2);
+}
+
+float PhysiK::MaxDistanceConstraint::eval() const{
+	return std::max(0.f,(positions[0]->pos-positions[1]->pos).length()-dst);
+}
+
 
 void PhysiK::VolumeConstraint::addVolume(Particle *p1, Particle *p2, Particle *p3, Particle *p4){
 	positions.push_back(p1);
